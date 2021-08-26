@@ -1,8 +1,13 @@
-import React from "react";
 import Proptypes from "prop-types";
 import { Badge } from "./styles/elements";
 
-function Skill({ title, votes }) {
+export interface ISkill {
+  title: string;
+  votes: number;
+  _id?: string;
+}
+
+function Skill({ title, votes }: ISkill) {
   return (
     <li>
       {title}

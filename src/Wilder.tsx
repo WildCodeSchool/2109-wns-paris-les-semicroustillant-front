@@ -1,9 +1,16 @@
-import React from "react";
 import blank_profile from "./blank-profile-picture-female.png";
 import Skill from "./Skill";
 import { Card, List } from "./styles/elements";
+import { ISkill } from "./Skill";
 
-function Wilder({ city, name, skills }) {
+export interface IWilderProps {
+  _id?: string;
+  city: string;
+  name: string;
+  skills: ISkill[];
+}
+
+function Wilder({ city, name, skills }: IWilderProps) {
   return (
     <Card>
       <img src={blank_profile} alt={`${name} Profile`} />

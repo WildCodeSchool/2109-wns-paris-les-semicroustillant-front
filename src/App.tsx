@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 import { CardRow, Container, Footer, Header } from "./styles/elements";
-import Wilder from "./Wilder";
+import Wilder, { IWilderProps } from "./Wilder";
 import AddWilder from "./AddWilder";
 
 function App() {
-  const [wilders, setWilders] = useState([]);
+  const [wilders, setWilders] = useState<IWilderProps[]>([]);
 
   useEffect(() => {
     const fetchWilders = async () => {

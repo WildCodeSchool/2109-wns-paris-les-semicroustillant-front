@@ -8,7 +8,7 @@ function AddWilder() {
   const [error, setError] = useState("");
   return (
     <Form
-      onSubmit={async (e) => {
+      onSubmit={async (e: React.SyntheticEvent) => {
         e.preventDefault();
         try {
           const result = await axios.post("http://localhost:5000/api/wilders", {
@@ -34,7 +34,9 @@ function AddWilder() {
         type="text"
         placeholder="Type the name"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setName(e.target.value)
+        }
       />
       <Label htmlFor="city-input">City :</Label>
       <Input
@@ -42,7 +44,9 @@ function AddWilder() {
         type="text"
         placeholder="Type the city"
         value={city}
-        onChange={(e) => setCity(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setCity(e.target.value)
+        }
       />
       {error !== "" && <Error>{error}</Error>}
       <Button>Add</Button>
