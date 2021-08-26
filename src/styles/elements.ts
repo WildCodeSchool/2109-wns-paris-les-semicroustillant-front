@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { colors } from "./globals";
+import styled from 'styled-components';
+import colors from './globals';
 
 export const Header = styled.header`
   background-color: ${colors.primary};
@@ -69,7 +69,11 @@ export const List = styled.ul`
   }
 `;
 
-export const Badge = styled.span`
+interface IBadge {
+  votes: number;
+}
+
+export const Badge = styled.span<IBadge>`
   /* Center the content */
   align-items: center;
   display: flex;
@@ -77,7 +81,7 @@ export const Badge = styled.span`
 
   /* Colors */
   background-color: ${({ votes }) =>
-    votes > 9 ? "rgba(0, 100, 0, 0.3)" : "rgba(0, 0, 0, 0.3)"};
+    votes > 9 ? 'rgba(0, 100, 0, 0.3)' : 'rgba(0, 0, 0, 0.3)'};
   color: #fff;
 
   /* Rounded border */

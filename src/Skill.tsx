@@ -1,5 +1,6 @@
-import Proptypes from "prop-types";
-import { Badge } from "./styles/elements";
+import React from 'react';
+import Proptypes from 'prop-types';
+import { Badge } from './styles/elements';
 
 export interface ISkill {
   title: string;
@@ -7,7 +8,7 @@ export interface ISkill {
   _id?: string;
 }
 
-function Skill({ title, votes }: ISkill) {
+function Skill({ title, votes }: ISkill): JSX.Element {
   return (
     <li>
       {title}

@@ -1,7 +1,7 @@
-import blank_profile from "./blank-profile-picture-female.png";
-import Skill from "./Skill";
-import { Card, List } from "./styles/elements";
-import { ISkill } from "./Skill";
+import React from 'react';
+import blank_profile from './blank-profile-picture-female.png';
+import Skill, { ISkill } from './Skill';
+import { Card, List } from './styles/elements';
 
 export interface IWilderProps {
   _id?: string;
@@ -10,7 +10,7 @@ export interface IWilderProps {
   skills: ISkill[];
 }
 
-function Wilder({ city, name, skills }: IWilderProps) {
+function Wilder({ city, name, skills }: IWilderProps): JSX.Element {
   return (
     <Card>
       <img src={blank_profile} alt={`${name} Profile`} />
@@ -20,7 +20,7 @@ function Wilder({ city, name, skills }: IWilderProps) {
       <h4>Wild Skills</h4>
       <List>
         {skills.map((skill) => (
-          <Skill key={skill._id} {...skill} />
+          <Skill key={skill._id} title={skill.title} votes={skill.votes} />
         ))}
       </List>
     </Card>

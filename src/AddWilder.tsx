@@ -1,29 +1,29 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Button, Error, Form, Input, Label } from "./styles/form-elements";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Button, Error, Form, Input, Label } from './styles/form-elements';
 
-function AddWilder() {
-  const [name, setName] = useState("");
-  const [city, setCity] = useState("");
-  const [error, setError] = useState("");
+function AddWilder(): JSX.Element {
+  const [name, setName] = useState('');
+  const [city, setCity] = useState('');
+  const [error, setError] = useState('');
   return (
     <Form
       onSubmit={async (e: React.SyntheticEvent) => {
         e.preventDefault();
         try {
-          const result = await axios.post("http://localhost:5000/api/wilders", {
+          const result = await axios.post('http://localhost:5000/api/wilders', {
             name,
             city,
           });
-          console.log(result);
+          console.log(result); // eslint-disable-line no-console
           if (result.data.success) {
-            setError("");
+            setError('');
           }
-        } catch (error) {
-          if (error.response) {
-            setError(error.response.data.message);
+        } catch (fetchError) {
+          if (fetchError.response) {
+            setError(fetchError.response.data.message);
           } else {
-            setError(error.message);
+            setError(fetchError.message);
           }
         }
       }}
@@ -48,7 +48,7 @@ function AddWilder() {
           setCity(e.target.value)
         }
       />
-      {error !== "" && <Error>{error}</Error>}
+      {error !== '' && <Error>{error}</Error>}
       <Button>Add</Button>
     </Form>
   );

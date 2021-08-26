@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { colors } from "./globals";
+import styled from 'styled-components';
+import colors from './globals';
 
 export const Form = styled.form`
   display: grid;
