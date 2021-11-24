@@ -1,10 +1,9 @@
 import React from 'react';
 import './App.css';
-import { useQuery, gql } from '@apollo/client';
-import { getUsers } from './schemaTypes';
 
 import AllUsers from './components/AllUsers';
-import DeleteUser from './components/DeleteUser';
+import DeleteUserX from './components/DeleteUserX';
+import AddUserX from './components/AddUserX';
 
 function App(): JSX.Element {
   return (
@@ -12,7 +11,8 @@ function App(): JSX.Element {
       Hello world
       <div>
         <AllUsers />
-        <DeleteUser />
+        <DeleteUserX />
+        <AddUserX />
       </div>
     </div>
   );
