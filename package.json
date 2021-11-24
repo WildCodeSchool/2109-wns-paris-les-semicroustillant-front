@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.5.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -10,6 +11,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "apollo": "^2.33.9",
     "axios": "^0.21.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
@@ -23,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate-gql-types": "apollo client:codegen --watch --includes='src/**/*.tsx' --endpoint=http://localhost:4000/graphql --target typescript --outputFlat src/schemaTypes.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -43,6 +46,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://localhost:4000",
   "devDependencies": {
     "@types/styled-components": "^5.1.13",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
