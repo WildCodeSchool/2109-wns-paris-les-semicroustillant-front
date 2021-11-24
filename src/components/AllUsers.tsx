@@ -18,7 +18,12 @@ const AllUsers = (): JSX.Element => {
   console.log('data : ', data);
 
   console.log('hello');
-  return <div>here</div>;
+  return (
+    <div>
+      here
+      {data && data.allUsers.map((user) => <div>{user.firstname}</div>)}
+    </div>
+  );
 };
 
 export default AllUsers;
