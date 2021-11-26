@@ -9,7 +9,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { getUsers, DeleteUser } from '../schemaTypes';
-import DeleteUsers from './DeleteUser';
 
 const AllUsers = (): JSX.Element => {
   const GET_USERS = gql`
