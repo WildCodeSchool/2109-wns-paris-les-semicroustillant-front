@@ -36,10 +36,11 @@ export interface MutationVariables {
 // ====================================================
 
 export interface getUsers_allUsers {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   firstname: string;
   lastname: string;
+  role: string;
 }
 
 export interface getUsers {
