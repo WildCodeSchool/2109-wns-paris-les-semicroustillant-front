@@ -28,7 +28,8 @@ const AddUserX = (): JSX.Element => {
   const [addUserFunction, { data, loading, error }] =
     useMutation<Mutation_addUser>(ADD_USER);
 
-  console.log('hello');
+  console.log(error);
+
   return (
     <div>
       <form
