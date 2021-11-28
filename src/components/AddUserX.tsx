@@ -1,6 +1,9 @@
+/* eslint-disable */
+/* tslint:disable */
 import React, { useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
-import { Mutation_addUser } from '../schemaTypes';
+import { useMutation, gql, useQuery } from '@apollo/client';
+import { Mutation_addUser, getUsers } from '../schemaTypes';
+import AllUsers from './AllUsers';
 
 const AddUserX = (): JSX.Element => {
   const [firstname, setFirstname] = useState('');
@@ -25,10 +28,39 @@ const AddUserX = (): JSX.Element => {
       }
     }
   `;
+
+  const GET_USERS = gql`
+    query getUsers {
+      allUsers {
+        email
+      }
+    }
+  `;
+
   const [addUserFunction, { data, loading, error }] =
     useMutation<Mutation_addUser>(ADD_USER);
-
-  console.log(error);
+  //get All usser
+  const users = useQuery<getUsers>(GET_USERS).data?.allUsers;
+  //check if email isset in database and stop the submit of the form
+  let inputEmail = document.getElementById('checkEmail') as HTMLInputElement;
+  let inputEmailValue = '';
+  if (inputEmail != null) {
+    inputEmailValue = inputEmail.value;
+  }
+  let emailIsset = false;
+  users?.forEach((element) => {
+    if (element.email == inputEmailValue) {
+      emailIsset = true;
+      alert('plop');
+    }
+  });
+  // refactor for verification on click buton
+  function submit(e: any) {
+    if (emailIsset === true) {
+      e.preventDefault();
+      console.log(emailIsset);
+    }
+  }
 
   return (
     <div>
@@ -72,6 +104,7 @@ const AddUserX = (): JSX.Element => {
           }}
         />
         <input
+          id="checkEmail"
           placeholder="Email"
           ref={(node) => {
             input = node;
@@ -111,7 +144,14 @@ const AddUserX = (): JSX.Element => {
             setPosition(e.target.value);
           }}
         />
-        <button type="submit">Add user</button>
+        <button
+          onClick={(e) => {
+            submit(e);
+          }}
+          type="submit"
+        >
+          Add user
+        </button>
       </form>
     </div>
   );

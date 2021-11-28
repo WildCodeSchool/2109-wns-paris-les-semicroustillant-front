@@ -26,6 +26,8 @@ const AllUsers = (): JSX.Element => {
 
   const [deleteId, setDeleteId] = useState('');
 
+
+
   let input: any;
 
   const DELETE_USER = gql`

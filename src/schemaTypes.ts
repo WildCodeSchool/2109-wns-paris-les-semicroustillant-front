@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface Mutation_addUser {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   firstname: string;
   lastname: string;
@@ -40,6 +40,7 @@ export interface getUsers_allUsers {
   _id: string;
   firstname: string;
   lastname: string;
+  email: string;
   role: string;
 }
 
