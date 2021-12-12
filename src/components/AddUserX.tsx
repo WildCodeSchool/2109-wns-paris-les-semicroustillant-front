@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useMutation, gql, useQuery } from '@apollo/client';
 import { Mutation_addUser, getUsers } from '../schemaTypes';
+import AlertTitle from '@mui/material/AlertTitle';
 import AllUsers from './AllUsers';
 
 const AddUserX = (): JSX.Element => {
@@ -64,6 +65,7 @@ const AddUserX = (): JSX.Element => {
 
   return (
     <div>
+      <AlertTitle>This is an error alert — check it out!</AlertTitle>
       <form
         onSubmit={(e) => {
           e.preventDefault();

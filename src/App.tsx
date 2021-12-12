@@ -23,7 +23,7 @@ function App(): JSX.Element {
           <Route path="/ticket" element={<Ticket />} />
           <Route path="/all-project" element={<AllProject />} />
           <Route path="/project" element={<Project />} />
-          <Route path="/add" element={<AddUserX />} />
+          <Route path="/add-user" element={<AddUserX />} />
         </Routes>
       </Router>
     </div>
