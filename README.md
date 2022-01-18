@@ -17,4 +17,4 @@ Build command line must be executed in back repository.
 docker-compose -f docker-compose.dev.yml up --build
 ```
 
-It can take up to 5 minutes to have everything built, so go and take a cup of coffee
+It can take up to 5 minutes to have everything built, so go grab a cup of coffee :coffee:
