@@ -1,4 +1,6 @@
-import * as React from 'react';
+/* eslint-disable */
+// @ts-nocheck
+import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -10,11 +12,11 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Drawer from '@mui/material/Drawer';
+import '../styles/Navbar.css';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -78,6 +80,18 @@ export default function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const [open, setState] = useState(false);
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setState(open);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -156,6 +170,7 @@ export default function PrimarySearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
@@ -188,6 +203,38 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
+              <Drawer
+                anchor="left" //from which side the drawer slides in
+                variant="temporary" //if and how easily the drawer can be closed
+                open={open} //if open is true, drawer is shown
+                onClose={toggleDrawer(false)} //function that is called when the drawer should close
+                onOpen={toggleDrawer(true)} //function that is called when the drawer should open
+              >
+                <Box>
+                  <ul className="ul_nav">
+                    <li className="li_nav">
+                      <a className="link_nav" href="/all-users">
+                        Géstion des utilisateurs
+                      </a>
+                    </li>
+                    <li className="li_nav">
+                      <a className="link_nav" href="/task-list">
+                        Liste des taches
+                      </a>
+                    </li>
+                    <li className="li_nav">
+                      <a className="link_nav" href="/ticket">
+                        Tickets
+                      </a>
+                    </li>
+                    <li className="li_nav">
+                      <a className="link_nav" href="/all-project">
+                        Projets
+                      </a>
+                    </li>
+                  </ul>
+                </Box>
+              </Drawer>
               <AccountCircle />
             </IconButton>
           </Box>

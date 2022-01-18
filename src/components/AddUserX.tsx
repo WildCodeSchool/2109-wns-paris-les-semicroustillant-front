@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import { useMutation, gql, useQuery } from '@apollo/client';
 import { Mutation_addUser, getUsers } from '../schemaTypes';
-import AlertTitle from '@mui/material/AlertTitle';
 import AllUsers from './AllUsers';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 
 const AddUserX = (): JSX.Element => {
   const [firstname, setFirstname] = useState('');
@@ -64,98 +65,125 @@ const AddUserX = (): JSX.Element => {
   }
 
   return (
-    <div>
-      <AlertTitle>This is an error alert — check it out!</AlertTitle>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          addUserFunction({
-            variables: {
-              userInput: {
-                firstname,
-                lastname,
-                email,
-                hash,
-                role,
-                position,
-              },
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        addUserFunction({
+          variables: {
+            userInput: {
+              firstname,
+              lastname,
+              email,
+              hash,
+              role,
+              position,
             },
-          });
-          input.value = '';
+          },
+        });
+        input.value = '';
+      }}
+    >
+      <Box
+        sx={{
+          border: 'solid red',
+          display: 'flex',
+          justifyContent: 'center',
+          height: 800,
+          flexGrow: 1,
         }}
       >
-        <div>Add users :</div>
-        <input
-          placeholder="Firstname"
-          ref={(node) => {
-            input = node;
-          }}
-          value={firstname}
-          onChange={(e) => {
-            setFirstname(e.target.value);
-          }}
-        />
-        <input
-          placeholder="Lastname"
-          ref={(node) => {
-            input = node;
-          }}
-          value={lastname}
-          onChange={(e) => {
-            setLastname(e.target.value);
-          }}
-        />
-        <input
-          id="checkEmail"
-          placeholder="Email"
-          ref={(node) => {
-            input = node;
-          }}
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <input
-          placeholder="Hash"
-          ref={(node) => {
-            input = node;
-          }}
-          value={hash}
-          onChange={(e) => {
-            setHash(e.target.value);
-          }}
-        />
-        <input
-          placeholder="Role"
-          ref={(node) => {
-            input = node;
-          }}
-          value={role}
-          onChange={(e) => {
-            setRole(e.target.value);
-          }}
-        />
-        <input
-          placeholder="Position"
-          ref={(node) => {
-            input = node;
-          }}
-          value={position}
-          onChange={(e) => {
-            setPosition(e.target.value);
-          }}
-        />
-        <button
-          onClick={(e) => {
-            submit(e);
-          }}
-          type="submit"
-        >
-          Add user
-        </button>
-      </form>
-    </div>
+        <Box sx={{ width: 600, border: 'solid black' }}>
+          <div>Ajouter un utilisateur :</div>
+          <Grid container spacing={0}>
+            <Grid item xs={6}>
+              <div>
+                <input
+                  placeholder="Firstname"
+                  ref={(node) => {
+                    input = node;
+                  }}
+                  value={firstname}
+                  onChange={(e) => {
+                    setFirstname(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <input
+                  id="checkEmail"
+                  placeholder="Email"
+                  ref={(node) => {
+                    input = node;
+                  }}
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <input
+                  placeholder="Lastname"
+                  ref={(node) => {
+                    input = node;
+                  }}
+                  value={lastname}
+                  onChange={(e) => {
+                    setLastname(e.target.value);
+                  }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <div>
+                <input
+                  placeholder="Hash"
+                  ref={(node) => {
+                    input = node;
+                  }}
+                  value={hash}
+                  onChange={(e) => {
+                    setHash(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <input
+                  placeholder="Role"
+                  ref={(node) => {
+                    input = node;
+                  }}
+                  value={role}
+                  onChange={(e) => {
+                    setRole(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <input
+                  placeholder="Position"
+                  ref={(node) => {
+                    input = node;
+                  }}
+                  value={position}
+                  onChange={(e) => {
+                    setPosition(e.target.value);
+                  }}
+                />
+              </div>
+            </Grid>
+          </Grid>
+          <button
+            onClick={(e) => {
+              submit(e);
+            }}
+            type="submit"
+          >
+            Add user
+          </button>
+        </Box>
+      </Box>
+    </form>
   );
 };
 
