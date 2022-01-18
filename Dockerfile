@@ -7,5 +7,5 @@ RUN npm i
 COPY src src
 COPY public public
 
-ENV WDS_SOCKET_PORT=0 
+RUN WDS_SOCKET_PORT=0
 CMD npm start
