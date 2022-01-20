@@ -1,11 +1,8 @@
-/* eslint-disable */
-/* tslint:disable */
 import React, { useState } from 'react';
-import { useMutation, gql, useQuery } from '@apollo/client';
-import { Mutation_addUser, getUsers } from '../schemaTypes';
-import AllUsers from './AllUsers';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import { useMutation, gql, useQuery } from '@apollo/client';
+import { Mutation_addUser, getUsers } from '../schemaTypes';
 
 const AddUserX = (): JSX.Element => {
   const [firstname, setFirstname] = useState('');
@@ -41,17 +38,17 @@ const AddUserX = (): JSX.Element => {
 
   const [addUserFunction, { data, loading, error }] =
     useMutation<Mutation_addUser>(ADD_USER);
-  //get All usser
+  // get All usser
   const users = useQuery<getUsers>(GET_USERS).data?.allUsers;
-  //check if email isset in database and stop the submit of the form
-  let inputEmail = document.getElementById('checkEmail') as HTMLInputElement;
+  // check if email isset in database and stop the submit of the form
+  const inputEmail = document.getElementById('checkEmail') as HTMLInputElement;
   let inputEmailValue = '';
   if (inputEmail != null) {
     inputEmailValue = inputEmail.value;
   }
   let emailIsset = false;
   users?.forEach((element) => {
-    if (element.email == inputEmailValue) {
+    if (element.email === inputEmailValue) {
       emailIsset = true;
       alert('plop');
     }
@@ -94,7 +91,7 @@ const AddUserX = (): JSX.Element => {
       >
         <Box sx={{ width: 600, border: 'solid black' }}>
           <div>Ajouter un utilisateur :</div>
-          <Grid container spacing={0}>
+          <Grid className="containerAddUser" container spacing={0}>
             <Grid item xs={6}>
               <div>
                 <input

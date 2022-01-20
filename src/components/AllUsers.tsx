@@ -1,7 +1,10 @@
-/* eslint-disable */
-// @ts-nocheck
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faTrash,
+  faEdit,
+  faPlusCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,6 +15,11 @@ import Paper from '@mui/material/Paper';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { getUsers, DeleteUser } from '../schemaTypes';
 import '../styles/AllUsers.css';
+
+// icone fontAwesome
+const iconTrash = <FontAwesomeIcon icon={faTrash} />;
+const iconEdit = <FontAwesomeIcon icon={faEdit} />;
+const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
 
 const AllUsers = (): JSX.Element => {
   const GET_USERS = gql`
@@ -89,7 +97,7 @@ const AllUsers = (): JSX.Element => {
                   <TableCell align="right">{user.role}</TableCell>
                   <TableCell align="right">
                     <button className="edit" type="submit">
-                      <i class="fas fa-edit"></i> Modifier
+                      {iconEdit} Modifier
                     </button>
                     <button
                       className="delete"
@@ -101,7 +109,7 @@ const AllUsers = (): JSX.Element => {
                       }}
                       type="submit"
                     >
-                      <i class="fas fa-trash-alt"></i> supprimer
+                      {iconTrash} supprimer
                     </button>
                   </TableCell>
                 </TableRow>
@@ -112,7 +120,7 @@ const AllUsers = (): JSX.Element => {
       <div className="containerAddUser">
         <button id="addUser" type="submit">
           <a id="linkAddUser" href="/add-user">
-            <i className="fas fa-plus-circle"></i> Ajouter un utilisateur
+            {iconPlus} Ajouter un utilisateur
           </a>
         </button>
       </div>
