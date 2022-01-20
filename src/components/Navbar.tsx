@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -84,14 +82,14 @@ export default function PrimarySearchAppBar() {
 
   const [open, setState] = useState(false);
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = (opens: any) => (event: any) => {
     if (
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
     ) {
       return;
     }
-    setState(open);
+    setState(opens);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -204,11 +202,10 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <Drawer
-                anchor="left" //from which side the drawer slides in
-                variant="temporary" //if and how easily the drawer can be closed
-                open={open} //if open is true, drawer is shown
-                onClose={toggleDrawer(false)} //function that is called when the drawer should close
-                onOpen={toggleDrawer(true)} //function that is called when the drawer should open
+                anchor="left" // from which side the drawer slides in
+                variant="temporary" // if and how easily the drawer can be closed
+                open={open} // if open is true, drawer is shown
+                onClose={toggleDrawer(false)} // function that is called when the drawer should close
               >
                 <Box>
                   <ul className="ul_nav">
