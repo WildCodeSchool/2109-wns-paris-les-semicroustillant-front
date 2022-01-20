@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { useMutation, gql, useQuery } from '@apollo/client';
 import { Mutation_addUser, getUsers } from '../schemaTypes';
+import '../styles/AddUsers.css';
 
 const AddUserX = (): JSX.Element => {
   const [firstname, setFirstname] = useState('');
@@ -50,7 +51,6 @@ const AddUserX = (): JSX.Element => {
   users?.forEach((element) => {
     if (element.email === inputEmailValue) {
       emailIsset = true;
-      alert('plop');
     }
   });
   // refactor for verification on click buton
@@ -82,20 +82,19 @@ const AddUserX = (): JSX.Element => {
     >
       <Box
         sx={{
-          border: 'solid red',
           display: 'flex',
           justifyContent: 'center',
           height: 800,
           flexGrow: 1,
         }}
       >
-        <Box sx={{ width: 600, border: 'solid black' }}>
-          <div>Ajouter un utilisateur :</div>
+        <Box className="subBox" sx={{ width: 600 }}>
           <Grid className="containerAddUser" container spacing={0}>
             <Grid item xs={6}>
-              <div>
+              <div className="container-input">
+                <label className="labelAddUser">Prénom </label>
                 <input
-                  placeholder="Firstname"
+                  placeholder="Prénom"
                   ref={(node) => {
                     input = node;
                   }}
@@ -105,10 +104,11 @@ const AddUserX = (): JSX.Element => {
                   }}
                 />
               </div>
-              <div>
+              <div className="container-input">
+                <label className="labelAddUser">E-mail </label>
                 <input
                   id="checkEmail"
-                  placeholder="Email"
+                  placeholder="E-mail"
                   ref={(node) => {
                     input = node;
                   }}
@@ -118,9 +118,10 @@ const AddUserX = (): JSX.Element => {
                   }}
                 />
               </div>
-              <div>
+              <div className="container-input">
+                <label className="labelAddUser">Nom </label>
                 <input
-                  placeholder="Lastname"
+                  placeholder="Nom"
                   ref={(node) => {
                     input = node;
                   }}
@@ -132,9 +133,10 @@ const AddUserX = (): JSX.Element => {
               </div>
             </Grid>
             <Grid item xs={6}>
-              <div>
+              <div className="container-input">
+                <label>Mot de passe </label>
                 <input
-                  placeholder="Hash"
+                  placeholder="Mot de passe"
                   ref={(node) => {
                     input = node;
                   }}
@@ -144,7 +146,8 @@ const AddUserX = (): JSX.Element => {
                   }}
                 />
               </div>
-              <div>
+              <div className="container-input">
+                <label className="labelAddUser">Role </label>
                 <input
                   placeholder="Role"
                   ref={(node) => {
@@ -156,7 +159,8 @@ const AddUserX = (): JSX.Element => {
                   }}
                 />
               </div>
-              <div>
+              <div className="container-input">
+                <label className="labelAddUser">Position </label>
                 <input
                   placeholder="Position"
                   ref={(node) => {
@@ -170,14 +174,17 @@ const AddUserX = (): JSX.Element => {
               </div>
             </Grid>
           </Grid>
-          <button
-            onClick={(e) => {
-              submit(e);
-            }}
-            type="submit"
-          >
-            Add user
-          </button>
+          <div className="container-button">
+            <button
+              id="addUserButton"
+              onClick={(e) => {
+                submit(e);
+              }}
+              type="submit"
+            >
+              Ajouter
+            </button>
+          </div>
         </Box>
       </Box>
     </form>
