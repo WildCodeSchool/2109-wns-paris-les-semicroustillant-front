@@ -211,7 +211,7 @@ export default function PrimarySearchAppBar() {
                   <ul className="ul_nav">
                     <li className="li_nav">
                       <a className="link_nav" href="/all-users">
-                        Géstion des utilisateurs
+                        Gestion des utilisateurs
                       </a>
                     </li>
                     <li className="li_nav">
