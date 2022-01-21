@@ -1,0 +1,53 @@
+.containerAddUser {
+  display: flex;
+  justify-content: center;
+}
+#addUser {
+  background: #1c76d2;
+  border: none;
+  color: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  margin-right: 50px;
+}
+
+#addUser:hover {
+  background: #155ca2;
+}
+
+#linkAddUser {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.edit {
+  background: #f77c3a;
+  border: none;
+  color: #ffffff;
+  padding: 15px;
+  margin-right: 15px;
+}
+
+.edit:hover {
+  background: #ff7226;
+  border: none;
+  color: white;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.delete {
+  background: #ff3745;
+  border: none;
+  color: white;
+  padding: 15px;
+}
+
+.delete:hover {
+  background: #ff0e0e;
+  border: none;
+  color: white;
+  padding: 15px;
+  cursor: pointer;
+}

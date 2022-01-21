@@ -9,6 +9,7 @@ import TaskList from './components/TaskList';
 import Ticket from './components/Ticket';
 import AllProject from './components/AllProject';
 import Project from './components/Project';
+import AddUserX from './components/AddUserX';
 
 function App(): JSX.Element {
   return (
@@ -22,6 +23,7 @@ function App(): JSX.Element {
           <Route path="/ticket" element={<Ticket />} />
           <Route path="/all-project" element={<AllProject />} />
           <Route path="/project" element={<Project />} />
+          <Route path="/add-user" element={<AddUserX />} />
         </Routes>
       </Router>
     </div>
