@@ -8,11 +8,12 @@ COPY tsconfig.json ./
 COPY package*.json ./
 
 RUN npm install
-RUN npm install -g typescript
+RUN npm install --save-dev typescript
 
 COPY src ./src
+COPY public ./public
 
-RUN tsc
+RUN npm run build
 
 FROM node:lts-alpine
 
@@ -20,13 +21,10 @@ RUN mkdir app
 
 WORKDIR /app
 
-
-COPY --from=builder /app/build /app/build
-
-RUN apk --no-cache add curl
+COPY --from=builder /app/build ./app/build
 
 COPY package*.json ./
 
 RUN npm install
 
-CMD npm run start:prod
+CMD npx serve app/build
