@@ -92,8 +92,11 @@ const AddUserX = (): JSX.Element => {
           <Grid className="containerAddUser" container spacing={0}>
             <Grid item xs={6}>
               <div className="container-input">
-                <label className="labelAddUser">Prénom </label>
+                <label htmlFor="firstname" className="labelAddUser">
+                  Prénom{' '}
+                </label>
                 <input
+                  id="firstname"
                   placeholder="Prénom"
                   ref={(node) => {
                     input = node;
@@ -105,7 +108,9 @@ const AddUserX = (): JSX.Element => {
                 />
               </div>
               <div className="container-input">
-                <label className="labelAddUser">E-mail </label>
+                <label htmlFor="checkEmail" className="labelAddUser">
+                  E-mail{' '}
+                </label>
                 <input
                   id="checkEmail"
                   placeholder="E-mail"
@@ -119,8 +124,11 @@ const AddUserX = (): JSX.Element => {
                 />
               </div>
               <div className="container-input">
-                <label className="labelAddUser">Nom </label>
+                <label htmlFor="name" className="labelAddUser">
+                  Nom{' '}
+                </label>
                 <input
+                  id="name"
                   placeholder="Nom"
                   ref={(node) => {
                     input = node;
@@ -134,8 +142,12 @@ const AddUserX = (): JSX.Element => {
             </Grid>
             <Grid item xs={6}>
               <div className="container-input">
-                <label>Mot de passe </label>
+                <label htmlFor="password" className="labelAddUser">
+                  {' '}
+                  Mot de passe{' '}
+                </label>
                 <input
+                  id="password"
                   placeholder="Mot de passe"
                   ref={(node) => {
                     input = node;
@@ -147,8 +159,11 @@ const AddUserX = (): JSX.Element => {
                 />
               </div>
               <div className="container-input">
-                <label className="labelAddUser">Role </label>
+                <label htmlFor="role" className="labelAddUser">
+                  Role{' '}
+                </label>
                 <input
+                  id="role"
                   placeholder="Role"
                   ref={(node) => {
                     input = node;
@@ -160,8 +175,11 @@ const AddUserX = (): JSX.Element => {
                 />
               </div>
               <div className="container-input">
-                <label className="labelAddUser">Position </label>
+                <label htmlFor="position" className="labelAddUser">
+                  Position{' '}
+                </label>
                 <input
+                  id="position"
                   placeholder="Position"
                   ref={(node) => {
                     input = node;
