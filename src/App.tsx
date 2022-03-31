@@ -17,13 +17,13 @@ function App(): JSX.Element {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Login />} />
           <Route path="/all-users" element={<AllUsers />} />
           <Route path="/task-list" element={<TaskList />} />
           <Route path="/ticket" element={<Ticket />} />
           <Route path="/all-project" element={<AllProject />} />
           <Route path="/project" element={<Project />} />
           <Route path="/add-user" element={<AddUserX />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
     </div>
