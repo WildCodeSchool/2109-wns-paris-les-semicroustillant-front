@@ -8,13 +8,14 @@ const LOGIN = gql`
 `;
 
 const Login = (): JSX.Element => {
-  const [email, setEmail] = useState('mj@email.com');
-  const [password, setPassword] = useState('iammj');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [getToken, { data }] = useLazyQuery(LOGIN);
   if (data) {
     console.log(data);
     localStorage.setItem('token', data.login);
   }
+
   return (
     <>
       <input value={email} onChange={(e) => setEmail(e.target.value)} />
