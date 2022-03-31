@@ -18,7 +18,7 @@ import AddUserX from './components/AddUserX';
 
 function App(): JSX.Element {
   interface IProtectedRoute {
-    user: any;
+    user: string | null;
     children: JSX.Element;
   }
 
@@ -31,7 +31,7 @@ function App(): JSX.Element {
     return children;
   };
 
-  const ProtectedLogin = ({ user, children }: IProtectedRoute) => {
+  const UnreachableLogin = ({ user, children }: IProtectedRoute) => {
     if (user) {
       return <Navigate to="/all-users" replace />;
     }
@@ -93,9 +93,9 @@ function App(): JSX.Element {
           <Route
             path="/login"
             element={
-              <ProtectedLogin user={userToken}>
+              <UnreachableLogin user={userToken}>
                 <Login />
-              </ProtectedLogin>
+              </UnreachableLogin>
             }
           />
         </Routes>

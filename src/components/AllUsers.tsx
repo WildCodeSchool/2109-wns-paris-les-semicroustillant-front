@@ -35,8 +35,6 @@ const AllUsers = (): JSX.Element => {
 
   const { loading, data } = useQuery<getUsers>(GET_USERS);
 
-  console.log(data);
-
   const [deleteId, setDeleteId] = useState('');
 
   let input: any;
