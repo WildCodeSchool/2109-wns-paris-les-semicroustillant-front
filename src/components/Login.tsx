@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useLazyQuery, gql } from '@apollo/client';
+import Box from '@mui/material/Box';
+import '../styles/Login.css';
 
 const LOGIN = gql`
   query login($email: String!, $password: String!) {
@@ -17,20 +19,39 @@ const Login = (): JSX.Element => {
 
   return (
     <>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input value={password} onChange={(e) => setPassword(e.target.value)} />
-      <button
-        type="button"
-        onClick={async () => {
-          try {
-            await getToken({ variables: { email, password } });
-          } catch (err) {
-            console.log('Handle me', err);
-          }
-        }}
-      >
-        Login
-      </button>
+      <Box className="loginBoxMain">
+        <Box className="loginBox">
+          <img
+            className="logo"
+            alt="logo_semi"
+            src="https://zupimages.net/up/22/13/zx35.png"
+          />
+          <h3 className="welcom"> WELCOME !</h3>
+          <input
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            className="buttonLogin"
+            type="button"
+            onClick={async () => {
+              try {
+                await getToken({ variables: { email, password } });
+              } catch (err) {
+                console.log('Handle me', err);
+              }
+            }}
+          >
+            Login
+          </button>
+        </Box>
+      </Box>
     </>
   );
 };
