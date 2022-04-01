@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLazyQuery, gql } from '@apollo/client';
+// import { useNavigate } from 'react-router-dom';
 
 const LOGIN = gql`
   query login($email: String!, $password: String!) {
@@ -11,7 +12,11 @@ const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [getToken, { data }] = useLazyQuery(LOGIN);
+
+  // const navigate = useNavigate();
+
   if (data) {
+    console.log(data);
     localStorage.setItem('token', data.login);
   }
 
@@ -24,6 +29,8 @@ const Login = (): JSX.Element => {
         onClick={async () => {
           try {
             await getToken({ variables: { email, password } });
+            console.log('navigating');
+            window.location.href = '/all-users';
           } catch (err) {
             console.log('Handle me', err);
           }
