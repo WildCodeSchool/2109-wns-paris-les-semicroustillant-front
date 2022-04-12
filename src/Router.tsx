@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  Outlet,
 } from 'react-router-dom';
 import './App.css';
 
@@ -17,99 +18,35 @@ import AddUserX from './components/AddUserX';
 import Homepage from './components/Homepage';
 
 export default function AppRouter(): JSX.Element {
-  interface IProtectedRoute {
-    user: string | null;
-    children: JSX.Element;
-    redirectPath?: string;
-  }
+  const useAuth = () => {
+    const user = localStorage.getItem('token');
+    if (user) return true;
 
-  const userToken = localStorage.getItem('token');
-
-  const ProtectedRoute = ({
-    user,
-    redirectPath = '/login',
-    children,
-  }: IProtectedRoute) => {
-    if (!user) {
-      return <Navigate to={redirectPath} replace />;
-    }
-    return children;
+    return false;
   };
 
-  // const UnreachableLogin = ({ user, children }: IProtectedRoute) => {
-  //   if (user) {
-  //     return <Navigate to="/all-users" replace />;
-  //   }
-  //   return children;
-  // };
+  const ProtectedRoutes = () => {
+    const auth = useAuth();
+
+    return auth ? <Outlet /> : <Navigate to="/login" />;
+  };
+  
+
   return (
     <Router>
       <Routes>
+
         <Route path="/login" element={<Login />} />
-        {/* <Route
-          path="/login"
-          element={
-            <ProtectedRoute redirectPath="/all-users" user={userToken}>
-              <Login />
-            </ProtectedRoute>
-          }
-        /> */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute user={userToken}>
-              <Homepage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/all-users"
-          element={
-            <ProtectedRoute user={userToken}>
-              <AllUsers />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/task-list"
-          element={
-            <ProtectedRoute user={userToken}>
-              <TaskList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/ticket"
-          element={
-            <ProtectedRoute user={userToken}>
-              <Ticket />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/all-projects"
-          element={
-            <ProtectedRoute user={userToken}>
-              <AllProject />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/project"
-          element={
-            <ProtectedRoute user={userToken}>
-              <Project />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/add-user"
-          element={
-            <ProtectedRoute user={userToken}>
-              <AddUserX />
-            </ProtectedRoute>
-          }
-        />
+
+      <Route path="/" element={<ProtectedRoutes />}>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/all-users" element={<AllUsers />} />
+        <Route path="/all-tasks" element={<TaskList />} />
+        <Route path="/ticket" element={<Ticket />} />
+        <Route path="/all-projects" element={<AllProject />} />
+        <Route path="/project" element={<Project />} />
+        <Route path="/add-user" element={<AddUserX />} />
+      </Route>
       </Routes>
     </Router>
   );

@@ -1,30 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLazyQuery, gql } from '@apollo/client';
 import Box from '@mui/material/Box';
 import '../styles/Login.css';
 import { useNavigate } from 'react-router-dom';
 
-const LOGIN = gql`
-  query login($email: String!, $password: String!) {
-    login(email: $email, password: $password)
-  }
-`;
-
 const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const LOGIN = gql`
+    query login($email: String!, $password: String!) {
+      login(email: $email, password: $password)
+    }
+  `;
   const [getToken, { data }] = useLazyQuery(LOGIN);
   const navigate = useNavigate();
-
   if (data) {
     localStorage.setItem('token', data.login);
   }
-
-  // const token = localStorage.getItem('token');
-
-  const goHome = () => {
-    navigate('/', { replace: true });
-  };
+  const token = localStorage.getItem('token');
 
   const login = async () => {
     try {
@@ -33,13 +27,12 @@ const Login = (): JSX.Element => {
       // eslint-disable-next-line no-console
       console.log('Handle me', err);
     } finally {
-      goHome();
+      if (token !== null) navigate('/');
     }
   };
 
   return (
-    <>
-      <Box className="loginBoxMain">
+    <> { token === null ? (<Box className="loginBoxMain">
         <Box className="loginBox">
           <img
             className="logo"
@@ -61,7 +54,8 @@ const Login = (): JSX.Element => {
             Login
           </button>
         </Box>
-      </Box>
+      </Box>) : useEffect(()=>(navigate('/')), []) }
+      
     </>
   );
 };
