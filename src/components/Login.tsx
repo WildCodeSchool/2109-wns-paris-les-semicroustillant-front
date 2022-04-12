@@ -44,6 +44,7 @@ const Login = (): JSX.Element => {
               try {
                 await getToken({ variables: { email, password } });
               } catch (err) {
+                // eslint-disable-next-line no-console
                 console.log('Handle me', err);
               }
             }}

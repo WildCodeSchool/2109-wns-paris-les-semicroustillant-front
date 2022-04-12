@@ -12,10 +12,10 @@ import App from './App';
 
 const httpLink = createHttpLink({
   // docker
-  uri: 'http://localhost:5050/graphql',
+  // uri: 'http://localhost:5050/graphql',
 
   // local
-  // uri: 'http://localhost:8000/graphql',
+  uri: 'http://localhost:4000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
