@@ -20,13 +20,18 @@ export default function AppRouter(): JSX.Element {
   interface IProtectedRoute {
     user: string | null;
     children: JSX.Element;
+    redirectPath?: string;
   }
 
   const userToken = localStorage.getItem('token');
 
-  const ProtectedRoute = ({ user, children }: IProtectedRoute) => {
+  const ProtectedRoute = ({
+    user,
+    redirectPath = '/login',
+    children,
+  }: IProtectedRoute) => {
     if (!user) {
-      return <Navigate to="/login" replace />;
+      return <Navigate to={redirectPath} replace />;
     }
     return children;
   };
@@ -40,6 +45,15 @@ export default function AppRouter(): JSX.Element {
   return (
     <Router>
       <Routes>
+        <Route path="/login" element={<Login />} />
+        {/* <Route
+          path="/login"
+          element={
+            <ProtectedRoute redirectPath="/all-users" user={userToken}>
+              <Login />
+            </ProtectedRoute>
+          }
+        /> */}
         <Route
           path="/"
           element={
@@ -48,15 +62,6 @@ export default function AppRouter(): JSX.Element {
             </ProtectedRoute>
           }
         />
-        <Route path="/login" element={<Login />} />
-        {/* <Route
-          path="/login"
-          element={
-            <UnreachableLogin user={userToken}>
-              <Login />
-            </UnreachableLogin>
-          }
-        /> */}
         <Route
           path="/all-users"
           element={

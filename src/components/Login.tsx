@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLazyQuery, gql } from '@apollo/client';
 import Box from '@mui/material/Box';
 import '../styles/Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const LOGIN = gql`
   query login($email: String!, $password: String!) {
@@ -13,9 +14,28 @@ const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [getToken, { data }] = useLazyQuery(LOGIN);
+  const navigate = useNavigate();
+
   if (data) {
     localStorage.setItem('token', data.login);
   }
+
+  // const token = localStorage.getItem('token');
+
+  const goHome = () => {
+    navigate('/', { replace: true });
+  };
+
+  const login = async () => {
+    try {
+      await getToken({ variables: { email, password } });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log('Handle me', err);
+    } finally {
+      goHome();
+    }
+  };
 
   return (
     <>
@@ -37,18 +57,7 @@ const Login = (): JSX.Element => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button
-            className="buttonLogin"
-            type="button"
-            onClick={async () => {
-              try {
-                await getToken({ variables: { email, password } });
-              } catch (err) {
-                // eslint-disable-next-line no-console
-                console.log('Handle me', err);
-              }
-            }}
-          >
+          <button className="buttonLogin" type="button" onClick={login}>
             Login
           </button>
         </Box>
