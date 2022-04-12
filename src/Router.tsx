@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 import './App.css';
 
-import Navbar from './components/Navbar';
 import AllUsers from './components/AllUsers';
 import Login from './components/Login';
 import TaskList from './components/TaskList';
@@ -15,6 +14,7 @@ import Ticket from './components/Ticket';
 import AllProject from './components/AllProject';
 import Project from './components/Project';
 import AddUserX from './components/AddUserX';
+import Homepage from './components/Homepage';
 
 export default function AppRouter(): JSX.Element {
   interface IProtectedRoute {
@@ -31,16 +31,32 @@ export default function AppRouter(): JSX.Element {
     return children;
   };
 
-  const UnreachableLogin = ({ user, children }: IProtectedRoute) => {
-    if (user) {
-      return <Navigate to="/all-users" replace />;
-    }
-    return children;
-  };
+  // const UnreachableLogin = ({ user, children }: IProtectedRoute) => {
+  //   if (user) {
+  //     return <Navigate to="/all-users" replace />;
+  //   }
+  //   return children;
+  // };
   return (
     <Router>
-      <Navbar />
       <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute user={userToken}>
+              <Homepage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        {/* <Route
+          path="/login"
+          element={
+            <UnreachableLogin user={userToken}>
+              <Login />
+            </UnreachableLogin>
+          }
+        /> */}
         <Route
           path="/all-users"
           element={
@@ -87,14 +103,6 @@ export default function AppRouter(): JSX.Element {
             <ProtectedRoute user={userToken}>
               <AddUserX />
             </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <UnreachableLogin user={userToken}>
-              <Login />
-            </UnreachableLogin>
           }
         />
       </Routes>
