@@ -16,6 +16,7 @@ import AllProject from './components/AllProject';
 import Project from './components/Project';
 import AddUserX from './components/AddUserX';
 import Homepage from './components/Homepage';
+import Navbar from './components/Navbar';
 
 export default function AppRouter(): JSX.Element {
   const useAuth = () => {
@@ -28,25 +29,29 @@ export default function AppRouter(): JSX.Element {
   const ProtectedRoutes = () => {
     const auth = useAuth();
 
-    return auth ? <Outlet /> : <Navigate to="/login" />;
+    return auth ? (
+      <>
+        <Navbar />
+        <Outlet />
+      </>
+    ) : (
+      <Navigate to="/login" />
+    );
   };
-  
 
   return (
     <Router>
       <Routes>
-
         <Route path="/login" element={<Login />} />
-
-      <Route path="/" element={<ProtectedRoutes />}>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/all-users" element={<AllUsers />} />
-        <Route path="/all-tasks" element={<TaskList />} />
-        <Route path="/ticket" element={<Ticket />} />
-        <Route path="/all-projects" element={<AllProject />} />
-        <Route path="/project" element={<Project />} />
-        <Route path="/add-user" element={<AddUserX />} />
-      </Route>
+        <Route path="/" element={<ProtectedRoutes />}>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/all-users" element={<AllUsers />} />
+          <Route path="/all-tasks" element={<TaskList />} />
+          <Route path="/ticket" element={<Ticket />} />
+          <Route path="/all-projects" element={<AllProject />} />
+          <Route path="/project" element={<Project />} />
+          <Route path="/add-user" element={<AddUserX />} />
+        </Route>
       </Routes>
     </Router>
   );

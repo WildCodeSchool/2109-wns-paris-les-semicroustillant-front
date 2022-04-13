@@ -225,7 +225,7 @@ export default function PrimarySearchAppBar() {
                       </a>
                     </li>
                     <li className="li_nav">
-                      <a className="link_nav" href="/all-project">
+                      <a className="link_nav" href="/all-projects">
                         Projets
                       </a>
                     </li>

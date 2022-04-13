@@ -1,5 +1,4 @@
 import React from 'react';
-import LoginContext from '../context/LoginContext';
 
 export default function Homepage(): JSX.Element {
   return (
