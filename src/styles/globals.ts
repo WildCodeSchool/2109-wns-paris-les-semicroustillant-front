@@ -1,5 +1,5 @@
 const colors = {
-  primary: '#f76c6c',
+  primary: '#F50D51',
   focus: {
     h: 45,
     s: '100%',

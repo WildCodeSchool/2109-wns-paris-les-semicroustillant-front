@@ -1,20 +1,207 @@
-import React, { useState } from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import React, { useState, MouseEvent } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import Drawer from '@mui/material/Drawer';
 import '../styles/Navbar.css';
+import { useNavigate } from 'react-router-dom';
+import colors from '../styles/globals';
+
+export default function PrimarySearchAppBar(): JSX.Element {
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={logout}>Log out</MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={logout}>Log out</MenuItem>
+    </Menu>
+  );
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar
+        position="static"
+        sx={{
+          bgcolor: 'white',
+        }}
+      >
+        <Toolbar>
+          <img
+            className="logo"
+            alt="logo_semi"
+            src="https://zupimages.net/up/22/13/zx35.png"
+          />
+
+          <Box sx={{ flexGrow: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{
+              display: { xs: 'none', sm: 'block' },
+              color: colors.primary,
+              marginRight: '1rem',
+            }}
+          >
+            Hello user
+          </Typography>
+
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+              sx={{ color: colors.primary }}
+            >
+              <AccountCircle />
+            </IconButton>
+            {renderMenu}
+          </Box>
+
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+              sx={{ color: colors.primary }}
+            >
+              <MoreIcon />
+            </IconButton>
+            {renderMobileMenu}
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+}
+
+/* 
+
+ const [open, setState] = useState(false);
+
+  const toggleDrawer = (opens: any) => (event: any) => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setState(opens);
+  };
+
+ <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+              sx={{ color: colors.primary }}
+            >
+              <Drawer
+                anchor="left" // from which side the drawer slides in
+                variant="temporary" // if and how easily the drawer can be closed
+                open={open} // if open is true, drawer is shown
+                onClose={toggleDrawer(false)} // function that is called when the drawer should close
+              >
+                <Box>
+                  <ul className="ul_nav">
+                    <li className="li_nav">
+                      <a className="link_nav" href="/all-users">
+                        Gestion des utilisateurs
+                      </a>
+                    </li>
+                    <li className="li_nav">
+                      <a className="link_nav" href="/task-list">
+                        Liste des taches
+                      </a>
+                    </li>
+                    <li className="li_nav">
+                      <a className="link_nav" href="/ticket">
+                        Tickets
+                      </a>
+                    </li>
+                    <li className="li_nav">
+                      <a className="link_nav" href="/all-projects">
+                        Projets
+                      </a>
+                    </li>
+                  </ul>
+                </Box>
+              </Drawer>
+              <AccountCircle />
+            </IconButton>
+          </Box>
+
+         
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -54,203 +241,4 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       width: '20ch',
     },
   },
-}));
-
-export default function PrimarySearchAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event: any) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const [open, setState] = useState(false);
-
-  const toggleDrawer = (opens: any) => (event: any) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
-    }
-    setState(opens);
-  };
-
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-            onClick={toggleDrawer(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            LOGO
-          </Typography>
-
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <Drawer
-                anchor="left" // from which side the drawer slides in
-                variant="temporary" // if and how easily the drawer can be closed
-                open={open} // if open is true, drawer is shown
-                onClose={toggleDrawer(false)} // function that is called when the drawer should close
-              >
-                <Box>
-                  <ul className="ul_nav">
-                    <li className="li_nav">
-                      <a className="link_nav" href="/all-users">
-                        Gestion des utilisateurs
-                      </a>
-                    </li>
-                    <li className="li_nav">
-                      <a className="link_nav" href="/task-list">
-                        Liste des taches
-                      </a>
-                    </li>
-                    <li className="li_nav">
-                      <a className="link_nav" href="/ticket">
-                        Tickets
-                      </a>
-                    </li>
-                    <li className="li_nav">
-                      <a className="link_nav" href="/all-projects">
-                        Projets
-                      </a>
-                    </li>
-                  </ul>
-                </Box>
-              </Drawer>
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-    </Box>
-  );
-}
+})); */
