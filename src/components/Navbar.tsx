@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,9 +11,12 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import '../styles/Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import colors from '../styles/globals';
+import LoginContext from '../context/LoginContext';
 
 export default function PrimarySearchAppBar(): JSX.Element {
   const navigate = useNavigate();
+  const user = useContext(LoginContext);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -101,7 +104,7 @@ export default function PrimarySearchAppBar(): JSX.Element {
               marginRight: '1rem',
             }}
           >
-            Hello user
+            Hello {user.username}
           </Typography>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

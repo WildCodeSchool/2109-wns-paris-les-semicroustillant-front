@@ -9,7 +9,6 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import App from './App';
-import LoginContext, { defaultState } from './context/LoginContext';
 
 const httpLink = createHttpLink({
   // docker
@@ -37,9 +36,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <LoginContext.Provider value={defaultState}>
-        <App />
-      </LoginContext.Provider>
+      <App />
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')

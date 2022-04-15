@@ -22,6 +22,7 @@
     "@types/react-dom": "^17.0.0",
     "apollo": "^2.33.9",
     "axios": "^0.21.4",
+    "jwt-decode": "^3.1.2",
     "material-ui-icons": "^1.0.0-beta.36",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
@@ -37,7 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate-gql-types": "apollo client:codegen --watch --includes='src/**/*.tsx' --endpoint=http://localhost:5050/graphql --target typescript --outputFlat src/schemaTypes.ts"
+    "generate-gql-types": "apollo client:codegen --watch --includes='src/**/*.tsx' --endpoint=http://localhost:4000/graphql --target typescript --outputFlat src/schemaTypes.ts"
   },
   "eslintConfig": {
     "extends": [
