@@ -32,7 +32,7 @@ const Login = (): JSX.Element => {
   };
 
   return (
-    <>
+    <div className="bodyLogin">
       {token === null && (
         <Box className="loginBoxMain">
           <Box className="loginBox">
@@ -58,7 +58,7 @@ const Login = (): JSX.Element => {
           </Box>
         </Box>
       )}
-    </>
+    </div>
   );
 };
 

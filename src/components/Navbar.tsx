@@ -88,7 +88,7 @@ export default function PrimarySearchAppBar(): JSX.Element {
       >
         <Toolbar>
           <img
-            className="logo"
+            className="logoNav"
             alt="logo_semi"
             src="https://zupimages.net/up/22/13/zx35.png"
           />

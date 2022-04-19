@@ -1,5 +1,6 @@
-body {
-  background: #b93c3c;
+.bodyLogin {
+  height: 100vh;
+  background: #f50d51;
 }
 
 .loginBoxMain {
@@ -29,7 +30,7 @@ body {
 }
 
 .buttonLogin {
-  background: #d41a1b;
+  background: #f50d51;
   border: none;
   padding: 20px;
   border-radius: 10px;
@@ -41,6 +42,10 @@ body {
   margin-bottom: 30px;
 }
 
+.buttonLogin:active {
+  background: #be083f;
+}
+
 input {
   height: 35px;
   border-color: rgba(128, 128, 128, 0.496);
@@ -48,6 +53,6 @@ input {
 }
 
 .welcom {
-  color: #f50d47;
+  color: #f50d51;
   margin-bottom: 30px;
 }

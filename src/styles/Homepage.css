@@ -1,0 +1,11 @@
+.bodyHomepage {
+  background: #d0c9cb;
+}
+
+.buttons {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
