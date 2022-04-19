@@ -16,6 +16,7 @@ function App(): JSX.Element {
   const token = localStorage.getItem('token');
   const decodedToken: '' | IdecodedToken | null = token && jwt_decode(token);
   const userId = decodedToken && decodedToken.userId;
+  console.log(userId);
 
   const GET_USER = gql`
     query GetOneUser($userId: String!) {

@@ -7,11 +7,14 @@ import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
+import { useMutation, gql } from '@apollo/client';
+import { DeleteTicket } from '../../schemaTypes';
 
 const iconTrash = <FontAwesomeIcon icon={faTrash} />;
 const iconEdit = <FontAwesomeIcon icon={faEdit} />;
 
 interface ITicketCard {
+  _id: string;
   subject: string;
   status: string;
   deadline: Date;
@@ -22,7 +25,8 @@ interface ITicketCard {
   projectId: string;
 }
 
-const TicketCard = ({
+function TicketCard({
+  _id,
   subject,
   status,
   deadline,
@@ -31,39 +35,56 @@ const TicketCard = ({
   total_time_spent,
   advancement,
   projectId,
-}: ITicketCard): JSX.Element => (
-  <div className="cardContainer">
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {status}
-        </Typography>
-        <Typography variant="h5" component="div">
-          {subject}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Deadline: {moment(deadline).format('DD/MM/YYYY')}
-        </Typography>
-        <Typography variant="body2">{description}</Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Initial time estimated: {initial_time_estimated}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Total time spent: {total_time_spent}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Advancement: {advancement}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Project: {projectId}
-        </Typography>
-      </CardContent>
-      <CardActions className="actions">
-        <Button size="small">{iconEdit}</Button>
-        <Button size="small">{iconTrash}</Button>
-      </CardActions>
-    </Card>
-  </div>
-);
+}: ITicketCard): JSX.Element {
+  const DELETE_TICKET = gql`
+    mutation DeleteTicket($deleteTicketId: String!) {
+      deleteTicket(id: $deleteTicketId)
+    }
+  `;
+  const [deleteTicket] = useMutation<DeleteTicket>(DELETE_TICKET);
+
+  return (
+    <div className="cardContainer">
+      <Card sx={{ minWidth: 275 }}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {status}
+          </Typography>
+          <Typography variant="h5" component="div">
+            {subject}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Deadline: {moment(deadline).format('DD/MM/YYYY')}
+          </Typography>
+          <Typography variant="body2">{description}</Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Initial time estimated: {initial_time_estimated}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Total time spent: {total_time_spent}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Advancement: {advancement}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Project: {projectId}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            ID: {_id}
+          </Typography>
+        </CardContent>
+        <CardActions className="actions">
+          <Button size="small">{iconEdit}</Button>
+          <Button
+            size="small"
+            onClick={() => deleteTicket({ variables: { deleteTicketId: _id } })}
+          >
+            {iconTrash}
+          </Button>
+        </CardActions>
+      </Card>
+    </div>
+  );
+}
 
 export default TicketCard;

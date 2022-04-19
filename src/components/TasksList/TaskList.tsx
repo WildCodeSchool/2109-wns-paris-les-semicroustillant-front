@@ -37,6 +37,7 @@ function TaskList(): JSX.Element {
           data.allTickets.map((ticket) => (
             <TaskCard
               key={ticket._id}
+              _id={ticket._id}
               subject={ticket.subject}
               status={ticket.status}
               deadline={ticket.deadline}
