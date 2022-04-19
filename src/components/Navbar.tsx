@@ -73,8 +73,12 @@ export default function PrimarySearchAppBar(): JSX.Element {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={logout}>Log out</MenuItem>
+      <MenuItem sx={{ color: colors.primary }} onClick={handleMenuClose}>
+        Profile
+      </MenuItem>
+      <MenuItem sx={{ color: colors.primary }} onClick={logout}>
+        Log out
+      </MenuItem>
     </Menu>
   );
 

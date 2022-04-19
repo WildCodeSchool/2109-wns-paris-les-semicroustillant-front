@@ -33,7 +33,7 @@ const Login = (): JSX.Element => {
 
   return (
     <div className="bodyLogin">
-      {token === null && (
+      {token === null ? (
         <Box className="loginBoxMain">
           <Box className="loginBox">
             <img
@@ -57,6 +57,17 @@ const Login = (): JSX.Element => {
             </button>
           </Box>
         </Box>
+      ) : (
+        <div className="already">
+          <h2>You are already logged in</h2>
+          <button
+            type="button"
+            className="homeButton"
+            onClick={() => navigate('/')}
+          >
+            Home
+          </button>
+        </div>
       )}
     </div>
   );
