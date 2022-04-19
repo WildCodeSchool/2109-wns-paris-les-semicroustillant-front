@@ -24,6 +24,7 @@
     "axios": "^0.21.4",
     "jwt-decode": "^3.1.2",
     "material-ui-icons": "^1.0.0-beta.36",
+    "moment": "^2.29.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
