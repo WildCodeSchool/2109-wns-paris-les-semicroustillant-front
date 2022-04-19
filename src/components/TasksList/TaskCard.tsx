@@ -25,6 +25,10 @@ interface ITicketCard {
   projectId: string;
 }
 
+interface IexistingTickets {
+  allTickets: ITicketCard[];
+}
+
 function TicketCard({
   _id,
   subject,
@@ -36,12 +40,41 @@ function TicketCard({
   advancement,
   projectId,
 }: ITicketCard): JSX.Element {
+  const GET_TICKETS = gql`
+    query getAllTickets {
+      allTickets {
+        _id
+        subject
+        status
+        deadline
+        description
+        initial_time_estimated
+        total_time_spent
+        advancement
+        projectId
+      }
+    }
+  `;
+
   const DELETE_TICKET = gql`
     mutation DeleteTicket($deleteTicketId: String!) {
       deleteTicket(id: $deleteTicketId)
     }
   `;
-  const [deleteTicket] = useMutation<DeleteTicket>(DELETE_TICKET);
+  const [deleteTicket] = useMutation<DeleteTicket>(DELETE_TICKET, {
+    update(cache) {
+      const existingTickets: IexistingTickets | null = cache.readQuery({
+        query: GET_TICKETS,
+      });
+      const newTickets = existingTickets?.allTickets.filter(
+        (t: ITicketCard) => t._id !== _id
+      );
+      cache.writeQuery({
+        query: GET_TICKETS,
+        data: { allTickets: newTickets },
+      });
+    },
+  });
 
   return (
     <div className="cardContainer">
