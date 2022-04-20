@@ -41,7 +41,7 @@ function TicketCard({
   projectId,
 }: ITicketCard): JSX.Element {
   const GET_TICKETS = gql`
-    query getAllTickets {
+    query getAllTicketsCard {
       allTickets {
         _id
         subject
