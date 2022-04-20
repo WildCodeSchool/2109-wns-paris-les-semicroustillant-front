@@ -105,9 +105,9 @@ function AddTaskCard(): JSX.Element {
         initial_time_estimated
         total_time_spent
         projectId
-        # users {
-        #   _id
-        # }
+        users {
+          _id
+        }
       }
     }
   `;
@@ -120,9 +120,7 @@ function AddTaskCard(): JSX.Element {
     initial_time_estimated: Number(ticketData.initial_time_estimated),
     total_time_spent: Number(ticketData.total_time_spent),
     projectId: selectProject,
-    // users: {
-    //   _id: selectUsers.map((user) => user.toString()),
-    // },
+    users: selectUsers.map((user) => ({ _id: user })),
   };
 
   console.log(ticketVariables);
