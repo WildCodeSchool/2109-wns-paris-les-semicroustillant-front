@@ -222,6 +222,11 @@ export interface TicketMutationVariables {
 // GraphQL query operation: getAllTicketsCard
 // ====================================================
 
+export interface getAllTicketsCard_allTickets_users {
+  __typename: "User";
+  _id: string;
+}
+
 export interface getAllTicketsCard_allTickets {
   __typename: "Ticket";
   _id: string;
@@ -233,6 +238,7 @@ export interface getAllTicketsCard_allTickets {
   total_time_spent: number | null;
   advancement: number | null;
   projectId: string;
+  users: getAllTicketsCard_allTickets_users[] | null;
 }
 
 export interface getAllTicketsCard {
@@ -265,6 +271,11 @@ export interface DeleteTicketVariables {
 // GraphQL query operation: getAllTickets
 // ====================================================
 
+export interface getAllTickets_allTickets_users {
+  __typename: "User";
+  _id: string;
+}
+
 export interface getAllTickets_allTickets {
   __typename: "Ticket";
   _id: string;
@@ -276,6 +287,7 @@ export interface getAllTickets_allTickets {
   total_time_spent: number | null;
   advancement: number | null;
   projectId: string;
+  users: getAllTickets_allTickets_users[] | null;
 }
 
 export interface getAllTickets {

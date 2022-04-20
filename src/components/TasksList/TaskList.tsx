@@ -23,6 +23,9 @@ function TaskList(): JSX.Element {
         total_time_spent
         advancement
         projectId
+        users {
+          _id
+        }
       }
     }
   `;
@@ -46,6 +49,7 @@ function TaskList(): JSX.Element {
               total_time_spent={ticket.total_time_spent}
               advancement={ticket.advancement}
               projectId={ticket.projectId}
+              users={ticket.users}
             />
           ))}
       </div>

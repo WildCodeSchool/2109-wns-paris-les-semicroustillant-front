@@ -8,7 +8,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { useMutation, gql } from '@apollo/client';
-import { DeleteTicket } from '../../schemaTypes';
+import {
+  DeleteTicket,
+  getAllTickets_allTickets_users,
+} from '../../schemaTypes';
 
 const iconTrash = <FontAwesomeIcon icon={faTrash} />;
 const iconEdit = <FontAwesomeIcon icon={faEdit} />;
@@ -23,6 +26,7 @@ interface ITicketCard {
   total_time_spent: number | null;
   advancement: number | null;
   projectId: string;
+  users: getAllTickets_allTickets_users[] | null;
 }
 
 interface IexistingTickets {
@@ -39,6 +43,7 @@ function TicketCard({
   total_time_spent,
   advancement,
   projectId,
+  users,
 }: ITicketCard): JSX.Element {
   const GET_TICKETS = gql`
     query getAllTicketsCard {
@@ -52,6 +57,9 @@ function TicketCard({
         total_time_spent
         advancement
         projectId
+        users {
+          _id
+        }
       }
     }
   `;
@@ -102,9 +110,11 @@ function TicketCard({
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Project: {projectId}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            ID: {_id}
-          </Typography>
+          {users?.map((user) => (
+            <Typography key={user._id} sx={{ mb: 1.5 }} color="text.secondary">
+              Users: {user._id}
+            </Typography>
+          ))}
         </CardContent>
         <CardActions className="actions">
           <Button size="small">{iconEdit}</Button>

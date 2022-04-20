@@ -14,6 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Checkbox from '@mui/material/Checkbox';
+import ListItemText from '@mui/material/ListItemText';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -123,7 +124,6 @@ function AddTaskCard(): JSX.Element {
     users: selectUsers.map((user) => ({ _id: user })),
   };
 
-  console.log(ticketVariables);
   return (
     <div className="cardContainer">
       <Card sx={{ minWidth: 600 }}>
@@ -228,7 +228,9 @@ function AddTaskCard(): JSX.Element {
                 {users?.map((user) => (
                   <MenuItem key={user._id} value={user._id}>
                     <Checkbox checked={selectUsers.indexOf(user._id) > -1} />
-                    {user.firstname} {user.lastname}
+                    <ListItemText
+                      primary={`${user.firstname} ${user.lastname}`}
+                    />
                   </MenuItem>
                 ))}
               </Select>
