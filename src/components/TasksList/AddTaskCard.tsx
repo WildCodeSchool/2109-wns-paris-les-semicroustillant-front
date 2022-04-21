@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
+import Autocomplete from '@mui/material/Autocomplete';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -10,17 +11,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Checkbox from '@mui/material/Checkbox';
-import ListItemText from '@mui/material/ListItemText';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
   GetTicketsProjects,
   AllTicketsUsers,
   TicketMutation,
+  AllTicketsUsers_allUsers,
 } from '../../schemaTypes';
 import '../../styles/TaskList.css';
 
@@ -44,7 +41,9 @@ function AddTaskCard(): JSX.Element {
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
   const [selectStatus, setSelectStatus] = useState<string>('');
   const [selectProject, setSelectProject] = useState<string>('');
-  const [selectUsers, setSelectUsers] = useState<string[]>([]);
+  const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
+    []
+  );
 
   const handleData = (event: ChangeEvent<HTMLInputElement>) => {
     setTicketData({
@@ -59,16 +58,6 @@ function AddTaskCard(): JSX.Element {
 
   const handleSelectProject = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectProject(event.target.value);
-  };
-
-  const handleSelectUsers = (event: SelectChangeEvent<typeof selectUsers>) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectUsers(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    );
   };
   interface ITicketProjects {
     _id: string;
@@ -121,12 +110,12 @@ function AddTaskCard(): JSX.Element {
     initial_time_estimated: Number(ticketData.initial_time_estimated),
     total_time_spent: Number(ticketData.total_time_spent),
     projectId: selectProject,
-    users: selectUsers.map((user) => ({ _id: user })),
+    users: selectUsers.map((user) => ({ _id: user._id })),
   };
 
   return (
     <div className="cardContainer">
-      <Card sx={{ minWidth: 600 }}>
+      <Card sx={{ marginBottom: 25, minWidth: 600 }}>
         <CardContent>
           <FormControl
             sx={{ m: 1, minWidth: 120 }}
@@ -208,33 +197,26 @@ function AddTaskCard(): JSX.Element {
                 </MenuItem>
               ))}
             </TextField>
-            <FormControl sx={{ marginTop: 2, minWidth: 120 }}>
-              <InputLabel id="demo-multiple-name-label">Users</InputLabel>
-              <Select
-                labelId="demo-multiple-name-label"
-                id="demo-multiple-name"
-                multiple
-                value={selectUsers}
-                onChange={handleSelectUsers}
-                input={<OutlinedInput label="Users" />}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <p>Users</p>;
-                  }
+            <Autocomplete
+              multiple
+              id="tags-outlined"
+              value={selectUsers}
+              options={users || []}
+              onChange={(event, newValue) => {
+                setSelectUsers(newValue);
+              }}
+              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...params}
+                  label="Users"
+                  placeholder="Users"
+                />
+              )}
+            />
 
-                  return selected.join(', ');
-                }}
-              >
-                {users?.map((user) => (
-                  <MenuItem key={user._id} value={user._id}>
-                    <Checkbox checked={selectUsers.indexOf(user._id) > -1} />
-                    <ListItemText
-                      primary={`${user.firstname} ${user.lastname}`}
-                    />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
             <CardActions className="createActions">
               <Button
                 size="small"
