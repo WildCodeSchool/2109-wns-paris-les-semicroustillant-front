@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import Modal from '@mui/material/Modal';
 import { getAllTickets } from '../../schemaTypes';
 import '../../styles/TaskList.css';
 import TaskCard from './TaskCard';
@@ -11,7 +12,10 @@ import { GET_TICKETS } from './TasksQueries';
 
 function TaskList(): JSX.Element {
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
-
+  const [displayAddCard, setDisplayAddCard] = useState(false);
+  const toggleDisplay = () => {
+    setDisplayAddCard(!displayAddCard);
+  };
   const { data } = useQuery<getAllTickets>(GET_TICKETS);
 
   return (
@@ -36,8 +40,18 @@ function TaskList(): JSX.Element {
           ))}
       </div>
       <>
-        <Button size="small">{iconPlus}</Button>
-        <AddTaskCard />
+        <Button size="small" onClick={toggleDisplay}>
+          {iconPlus}
+        </Button>
+        <Modal
+          open={displayAddCard}
+          onClose={toggleDisplay}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <AddTaskCard />
+        </Modal>
+        {displayAddCard && <AddTaskCard />}
       </>
     </div>
   );
