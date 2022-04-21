@@ -41,9 +41,11 @@ function AddTaskCard(): JSX.Element {
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
   const [selectStatus, setSelectStatus] = useState<string>('');
-  const [selectProject, setSelectProject] = useState<
-    GetTicketsProjects_getAllProjects[]
-  >([]);
+
+  const [selectProject, setSelectProject] = React.useState<
+    GetTicketsProjects_getAllProjects | null | undefined
+  >(null);
+  const [inputValue, setInputValue] = React.useState('');
   const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
     []
   );
@@ -74,8 +76,8 @@ function AddTaskCard(): JSX.Element {
       }
     }
   `;
-  const projectData = useQuery<GetTicketsProjects>(GET_PROJECTS);
-  const projects = projectData.data?.getAllProjects;
+  const { data } = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projects = data?.getAllProjects;
 
   const GET_USERS = gql`
     query AllTicketsUsers {
@@ -113,7 +115,7 @@ function AddTaskCard(): JSX.Element {
     description: ticketData.description,
     initial_time_estimated: Number(ticketData.initial_time_estimated),
     total_time_spent: Number(ticketData.total_time_spent),
-    projectId: selectProject,
+    projectId: selectProject?._id,
     users: selectUsers.map((user) => ({ _id: user._id })),
   };
 
@@ -187,7 +189,7 @@ function AddTaskCard(): JSX.Element {
               value={ticketData.total_time_spent}
               onChange={handleData}
             />
-            <Autocomplete
+            {/* <Autocomplete
               sx={{ marginTop: 2 }}
               multiple
               id="tags-outlined"
@@ -205,6 +207,24 @@ function AddTaskCard(): JSX.Element {
                   label="Projects"
                   placeholder="Projects"
                 />
+              )}
+            /> */}
+            <Autocomplete
+              value={selectProject}
+              onChange={(event, newValue) => {
+                setSelectProject(newValue);
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={projects || []}
+              getOptionLabel={(project) => project.name}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                <TextField {...params} label="Project" />
               )}
             />
 
