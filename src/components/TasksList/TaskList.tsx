@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import Modal from '@mui/material/Modal';
+import Dialog from '@mui/material/Dialog';
 import { getAllTickets } from '../../schemaTypes';
 import '../../styles/TaskList.css';
 import TaskCard from './TaskCard';
@@ -43,14 +44,14 @@ function TaskList(): JSX.Element {
         <Button size="small" onClick={toggleDisplay}>
           {iconPlus}
         </Button>
-        <Modal
+        <Dialog
           open={displayAddCard}
           onClose={toggleDisplay}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <AddTaskCard />
-        </Modal>
+        </Dialog>
         {displayAddCard && <AddTaskCard />}
       </>
     </div>
