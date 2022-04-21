@@ -18,6 +18,7 @@ import {
   AllTicketsUsers,
   TicketMutation,
   AllTicketsUsers_allUsers,
+  GetTicketsProjects_getAllProjects,
 } from '../../schemaTypes';
 import '../../styles/TaskList.css';
 
@@ -40,7 +41,9 @@ function AddTaskCard(): JSX.Element {
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
   const [selectStatus, setSelectStatus] = useState<string>('');
-  const [selectProject, setSelectProject] = useState<string>('');
+  const [selectProject, setSelectProject] = useState<
+    GetTicketsProjects_getAllProjects[]
+  >([]);
   const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
     []
   );
@@ -56,13 +59,13 @@ function AddTaskCard(): JSX.Element {
     setSelectStatus(event.target.value);
   };
 
-  const handleSelectProject = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectProject(event.target.value);
-  };
-  interface ITicketProjects {
-    _id: string;
-    name: string;
-  }
+  // const handleSelectProject = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setSelectProject(event.target.value);
+  // };
+  // interface ITicketProjects {
+  //   _id: string;
+  //   name: string;
+  // }
   const GET_PROJECTS = gql`
     query GetTicketsProjects {
       getAllProjects {
@@ -71,7 +74,8 @@ function AddTaskCard(): JSX.Element {
       }
     }
   `;
-  const { data } = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projectData = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projects = projectData.data?.getAllProjects;
 
   const GET_USERS = gql`
     query AllTicketsUsers {
@@ -183,21 +187,29 @@ function AddTaskCard(): JSX.Element {
               value={ticketData.total_time_spent}
               onChange={handleData}
             />
-            <TextField
-              id="projectId"
-              margin="normal"
-              select
-              label="Project"
-              value={selectProject}
-              onChange={handleSelectProject}
-            >
-              {data?.getAllProjects.map((project: ITicketProjects) => (
-                <MenuItem key={project._id} value={project._id}>
-                  {project.name}
-                </MenuItem>
-              ))}
-            </TextField>
             <Autocomplete
+              sx={{ marginTop: 2 }}
+              multiple
+              id="tags-outlined"
+              value={selectProject}
+              options={projects || []}
+              onChange={(event, newValue) => {
+                setSelectProject(newValue);
+              }}
+              getOptionLabel={(project) => project.name}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...params}
+                  label="Projects"
+                  placeholder="Projects"
+                />
+              )}
+            />
+
+            <Autocomplete
+              sx={{ marginTop: 2 }}
               multiple
               id="tags-outlined"
               value={selectUsers}
