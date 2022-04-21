@@ -7,14 +7,12 @@ import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import {
   DeleteTicket,
   getAllTickets_allTickets_users,
 } from '../../schemaTypes';
-
-const iconTrash = <FontAwesomeIcon icon={faTrash} />;
-const iconEdit = <FontAwesomeIcon icon={faEdit} />;
+import { GET_TICKETS, DELETE_TICKET } from './TasksQueries';
 
 interface ITicketCard {
   _id: string;
@@ -29,10 +27,6 @@ interface ITicketCard {
   users: getAllTickets_allTickets_users[] | null;
 }
 
-interface IexistingTickets {
-  allTickets: ITicketCard[];
-}
-
 function TicketCard({
   _id,
   subject,
@@ -45,30 +39,13 @@ function TicketCard({
   projectId,
   users,
 }: ITicketCard): JSX.Element {
-  const GET_TICKETS = gql`
-    query getAllTicketsCard {
-      allTickets {
-        _id
-        subject
-        status
-        deadline
-        description
-        initial_time_estimated
-        total_time_spent
-        advancement
-        projectId
-        users {
-          _id
-        }
-      }
-    }
-  `;
+  const iconTrash = <FontAwesomeIcon icon={faTrash} />;
+  const iconEdit = <FontAwesomeIcon icon={faEdit} />;
 
-  const DELETE_TICKET = gql`
-    mutation DeleteTicket($deleteTicketId: String!) {
-      deleteTicket(id: $deleteTicketId)
-    }
-  `;
+  interface IexistingTickets {
+    allTickets: ITicketCard[];
+  }
+
   const [deleteTicket] = useMutation<DeleteTicket>(DELETE_TICKET, {
     update(cache) {
       const existingTickets: IexistingTickets | null = cache.readQuery({

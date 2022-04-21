@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import Autocomplete from '@mui/material/Autocomplete';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -20,6 +20,7 @@ import {
   AllTicketsUsers_allUsers,
   GetTicketsProjects_getAllProjects,
 } from '../../schemaTypes';
+import { ADD_TICKET, GET_PROJECTS, GET_USERS } from './TasksQueries';
 import '../../styles/TaskList.css';
 
 function AddTaskCard(): JSX.Element {
@@ -41,7 +42,6 @@ function AddTaskCard(): JSX.Element {
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
   const [selectStatus, setSelectStatus] = useState<string>('');
-
   const [selectProject, setSelectProject] = React.useState<
     GetTicketsProjects_getAllProjects | null | undefined
   >(null);
@@ -61,52 +61,12 @@ function AddTaskCard(): JSX.Element {
     setSelectStatus(event.target.value);
   };
 
-  // const handleSelectProject = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setSelectProject(event.target.value);
-  // };
-  // interface ITicketProjects {
-  //   _id: string;
-  //   name: string;
-  // }
-  const GET_PROJECTS = gql`
-    query GetTicketsProjects {
-      getAllProjects {
-        _id
-        name
-      }
-    }
-  `;
   const { data } = useQuery<GetTicketsProjects>(GET_PROJECTS);
   const projects = data?.getAllProjects;
 
-  const GET_USERS = gql`
-    query AllTicketsUsers {
-      allUsers {
-        _id
-        firstname
-        lastname
-      }
-    }
-  `;
   const userData = useQuery<AllTicketsUsers>(GET_USERS);
   const users = userData?.data?.allUsers;
 
-  const ADD_TICKET = gql`
-    mutation TicketMutation($ticketInput: TicketInput!) {
-      addTicket(ticketInput: $ticketInput) {
-        subject
-        status
-        deadline
-        description
-        initial_time_estimated
-        total_time_spent
-        projectId
-        users {
-          _id
-        }
-      }
-    }
-  `;
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET);
   const ticketVariables = {
     subject: ticketData.subject,
@@ -189,26 +149,6 @@ function AddTaskCard(): JSX.Element {
               value={ticketData.total_time_spent}
               onChange={handleData}
             />
-            {/* <Autocomplete
-              sx={{ marginTop: 2 }}
-              multiple
-              id="tags-outlined"
-              value={selectProject}
-              options={projects || []}
-              onChange={(event, newValue) => {
-                setSelectProject(newValue);
-              }}
-              getOptionLabel={(project) => project.name}
-              filterSelectedOptions
-              renderInput={(params) => (
-                <TextField
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...params}
-                  label="Projects"
-                  placeholder="Projects"
-                />
-              )}
-            /> */}
             <Autocomplete
               value={selectProject}
               onChange={(event, newValue) => {

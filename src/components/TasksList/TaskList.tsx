@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -7,28 +7,10 @@ import { getAllTickets } from '../../schemaTypes';
 import '../../styles/TaskList.css';
 import TaskCard from './TaskCard';
 import AddTaskCard from './AddTaskCard';
+import { GET_TICKETS } from './TasksQueries';
 
 function TaskList(): JSX.Element {
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
-
-  const GET_TICKETS = gql`
-    query getAllTickets {
-      allTickets {
-        _id
-        subject
-        status
-        deadline
-        description
-        initial_time_estimated
-        total_time_spent
-        advancement
-        projectId
-        users {
-          _id
-        }
-      }
-    }
-  `;
 
   const { data } = useQuery<getAllTickets>(GET_TICKETS);
 
