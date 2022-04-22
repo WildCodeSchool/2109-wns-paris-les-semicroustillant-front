@@ -19,8 +19,14 @@ import {
   TicketMutation,
   AllTicketsUsers_allUsers,
   GetTicketsProjects_getAllProjects,
+  getAllTickets,
 } from '../../schemaTypes';
-import { ADD_TICKET, GET_PROJECTS, GET_USERS } from './TasksQueries';
+import {
+  ADD_TICKET,
+  GET_PROJECTS,
+  GET_USERS,
+  GET_TICKETS,
+} from './TasksQueries';
 import '../../styles/TaskList.css';
 
 interface IAddTaskCard {
@@ -69,13 +75,12 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     setSelectStatus(event.target.value);
   };
 
-  const { data } = useQuery<GetTicketsProjects>(GET_PROJECTS);
-  const projects = data?.getAllProjects;
+  const projectsData = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projects = projectsData.data?.getAllProjects;
 
   const userData = useQuery<AllTicketsUsers>(GET_USERS);
   const users = userData?.data?.allUsers;
 
-  const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET);
   const ticketVariables = {
     subject: ticketData.subject,
     status: selectStatus,
@@ -86,6 +91,23 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     projectId: selectProject?._id,
     users: selectUsers.map((user) => ({ _id: user._id })),
   };
+  const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
+    update(cache, { data }) {
+      const currentTasksList: getAllTickets = cache.readQuery({
+        query: GET_TICKETS,
+      }) ?? {
+        allTickets: [],
+      };
+      const result = data?.addTicket;
+      // TODO error while writing result: _id & advancement fields missing
+      if (result) {
+        cache.writeQuery({
+          query: GET_TICKETS,
+          data: { allTickets: [...currentTasksList.allTickets, result] },
+        });
+      }
+    },
+  });
 
   return (
     <div className="cardContainer">
@@ -213,6 +235,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                         ticketInput: ticketVariables,
                       },
                     });
+
                     toggleDisplay();
                   }
                   if (!selectStatus) {
