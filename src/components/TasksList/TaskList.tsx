@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/client';
 import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import Modal from '@mui/material/Modal';
 import Dialog from '@mui/material/Dialog';
 import { getAllTickets } from '../../schemaTypes';
 import '../../styles/TaskList.css';
@@ -17,7 +16,7 @@ function TaskList(): JSX.Element {
   const toggleDisplay = () => {
     setDisplayAddCard(!displayAddCard);
   };
-  const { data } = useQuery<getAllTickets>(GET_TICKETS);
+  const { data, error } = useQuery<getAllTickets>(GET_TICKETS);
 
   return (
     <div>
@@ -39,6 +38,7 @@ function TaskList(): JSX.Element {
               users={ticket.users}
             />
           ))}
+        {error && <p>Error: {error.message}</p>}
       </div>
       <>
         <Button size="small" onClick={toggleDisplay}>
