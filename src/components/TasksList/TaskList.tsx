@@ -50,9 +50,8 @@ function TaskList(): JSX.Element {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <AddTaskCard />
+          <AddTaskCard toggleDisplay={toggleDisplay} />
         </Dialog>
-        {displayAddCard && <AddTaskCard />}
       </>
     </div>
   );

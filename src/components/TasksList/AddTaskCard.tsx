@@ -23,7 +23,10 @@ import {
 import { ADD_TICKET, GET_PROJECTS, GET_USERS } from './TasksQueries';
 import '../../styles/TaskList.css';
 
-function AddTaskCard(): JSX.Element {
+interface IAddTaskCard {
+  toggleDisplay: () => void;
+}
+function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = ['In Progress', 'In Production', 'Done', 'Delayed'];
   interface ITicketData {
@@ -49,6 +52,11 @@ function AddTaskCard(): JSX.Element {
   const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
     []
   );
+  const [inputError, setInputError] = useState({
+    status: false,
+    subject: false,
+    project: false,
+  });
 
   const handleData = (event: ChangeEvent<HTMLInputElement>) => {
     setTicketData({
@@ -87,14 +95,11 @@ function AddTaskCard(): JSX.Element {
             sx={{ m: 1, minWidth: 120 }}
             onSubmit={(e) => {
               e.preventDefault();
-              addTicketFunction({
-                variables: {
-                  ticketInput: ticketVariables,
-                },
-              });
             }}
           >
             <TextField
+              required
+              error={inputError.status}
               id="status"
               margin="normal"
               select
@@ -109,6 +114,8 @@ function AddTaskCard(): JSX.Element {
               ))}
             </TextField>
             <TextField
+              required
+              error={inputError.subject}
               id="subject"
               margin="normal"
               label="Subject"
@@ -163,8 +170,13 @@ function AddTaskCard(): JSX.Element {
               getOptionLabel={(project) => project.name}
               sx={{ width: 300 }}
               renderInput={(params) => (
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                <TextField {...params} label="Project" />
+                <TextField
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...params}
+                  required
+                  error={inputError.project}
+                  label="Project"
+                />
               )}
             />
 
@@ -195,11 +207,32 @@ function AddTaskCard(): JSX.Element {
                 type="submit"
                 onClick={(e) => {
                   e.preventDefault();
-                  addTicketFunction({
-                    variables: {
-                      ticketInput: ticketVariables,
-                    },
-                  });
+                  if (selectStatus && ticketData.subject && selectProject) {
+                    addTicketFunction({
+                      variables: {
+                        ticketInput: ticketVariables,
+                      },
+                    });
+                    toggleDisplay();
+                  }
+                  if (!selectStatus) {
+                    setInputError({
+                      ...inputError,
+                      status: true,
+                    });
+                  }
+                  if (!ticketData.subject) {
+                    setInputError({
+                      ...inputError,
+                      subject: true,
+                    });
+                  }
+                  if (!selectProject) {
+                    setInputError({
+                      ...inputError,
+                      project: true,
+                    });
+                  }
                 }}
               >
                 {iconCheck}
