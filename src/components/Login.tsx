@@ -13,7 +13,11 @@ const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [getToken, { data }] = useLazyQuery(LOGIN);
+
+  // const navigate = useNavigate();
+
   if (data) {
+    console.log(data);
     localStorage.setItem('token', data.login);
   }
 
