@@ -1,0 +1,17 @@
+.ul_nav {
+  list-style: none;
+  padding: 20px;
+}
+
+.li_nav {
+  margin-bottom: 10px;
+}
+
+.link_nav {
+  color: black;
+  text-decoration: none;
+}
+
+.link_nav:hover {
+  color: #1c76d2;
+}

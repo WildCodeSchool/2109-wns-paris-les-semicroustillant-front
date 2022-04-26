@@ -6,6 +6,10 @@
     "@apollo/client": "^3.5.5",
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.16",
+    "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.2.0",
     "@mui/material": "^5.2.0",
@@ -33,7 +37,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate-gql-types": "apollo client:codegen --watch --includes='src/**/*.tsx' --endpoint=http://localhost:4000/graphql --target typescript --outputFlat src/schemaTypes.ts"
+    "generate-gql-types": "apollo client:codegen --watch --includes='src/**/*.tsx' --endpoint=http://localhost:5050/graphql --target typescript --outputFlat src/schemaTypes.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -53,11 +57,11 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:4000",
   "devDependencies": {
     "@types/styled-components": "^5.1.13",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
+    "dotenv": "^16.0.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^14.0.0",
     "eslint-config-prettier": "^8.3.0",
