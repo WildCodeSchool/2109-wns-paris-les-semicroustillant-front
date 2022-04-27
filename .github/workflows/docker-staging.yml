@@ -3,7 +3,7 @@ name: Push docker image in staging
 on:
   push:
     branches:
-      - 'test/staging'
+      - 'staging'
 
 jobs:
   docker:
