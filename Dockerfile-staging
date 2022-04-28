@@ -20,7 +20,7 @@ RUN mkdir app
 
 WORKDIR /app
 
-COPY --from=builder ./app/build ./app/build
+COPY --from=builder /app/build /app/build
 
 COPY package*.json ./
 
@@ -28,4 +28,4 @@ RUN npm install --production
 
 RUN npm install -g serve
 
-CMD npx serve -s ./app/build
+CMD npx serve -s /app/build
