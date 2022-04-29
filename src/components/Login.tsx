@@ -16,7 +16,6 @@ const Login = (): JSX.Element => {
   const [getToken, { data }] = useLazyQuery(LOGIN);
   const navigate = useNavigate();
   if (data) {
-    console.log(data);
     localStorage.setItem('token', data.login);
   }
   const token = localStorage.getItem('token');

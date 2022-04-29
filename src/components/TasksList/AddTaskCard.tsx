@@ -100,6 +100,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
       };
       const result = data?.addTicket;
       // TODO error while writing result: _id & advancement fields missing
+
       if (result) {
         cache.writeQuery({
           query: GET_TICKETS,
@@ -108,6 +109,22 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
       }
     },
   });
+
+  // update(cache, { data }){
+  //       const currentTasksList = cache.readQuery({ query: GET_TICKETS }) ?? {
+  //         posts: []
+  //       };
+  //       const result = data?.createPost;
+
+  //       if (result) {
+  //         cache.writeQuery({
+  //           query: GET_POSTS,
+  //           data: {
+  //             posts: [
+  //               ...currentPostsList.posts,
+  //               result
+  //             ]
+  //           }})
 
   return (
     <div className="cardContainer">
