@@ -1,0 +1,19 @@
+FROM node:lts-alpine
+
+RUN mkdir app
+
+WORKDIR /app
+
+COPY tsconfig.json ./
+COPY package*.json ./
+
+RUN npm install
+
+COPY src ./src
+COPY public ./public
+
+RUN npm run build
+
+RUN npm install -g serve
+
+CMD npx serve -s /app/build
