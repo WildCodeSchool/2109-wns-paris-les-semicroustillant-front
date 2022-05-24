@@ -8,7 +8,7 @@ import { getAllTickets } from '../../schemaTypes';
 import '../../styles/TaskList.css';
 import TaskCard from './TaskCard';
 import AddTaskCard from './AddTaskCard';
-import { GET_TICKETS } from './TasksQueries';
+import { GET_TICKETS } from '../../queries/TasksQueries';
 
 function TaskList(): JSX.Element {
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;

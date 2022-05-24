@@ -12,6 +12,7 @@ import '../styles/Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import colors from '../styles/globals';
 import LoginContext from '../context/LoginContext';
+import Logo from '../images/logo_semi.png';
 
 export default function PrimarySearchAppBar(): JSX.Element {
   const navigate = useNavigate();
@@ -91,11 +92,7 @@ export default function PrimarySearchAppBar(): JSX.Element {
         }}
       >
         <Toolbar>
-          <img
-            className="logoNav"
-            alt="logo_semi"
-            src="https://zupimages.net/up/22/13/zx35.png"
-          />
+          <img className="logoNav" alt="logo_semi" src={Logo} />
 
           <Box sx={{ flexGrow: 1 }} />
           <Typography
@@ -146,106 +143,3 @@ export default function PrimarySearchAppBar(): JSX.Element {
     </Box>
   );
 }
-
-/* 
-
- const [open, setState] = useState(false);
-
-  const toggleDrawer = (opens: any) => (event: any) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
-    }
-    setState(opens);
-  };
-
- <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-              sx={{ color: colors.primary }}
-            >
-              <Drawer
-                anchor="left" // from which side the drawer slides in
-                variant="temporary" // if and how easily the drawer can be closed
-                open={open} // if open is true, drawer is shown
-                onClose={toggleDrawer(false)} // function that is called when the drawer should close
-              >
-                <Box>
-                  <ul className="ul_nav">
-                    <li className="li_nav">
-                      <a className="link_nav" href="/all-users">
-                        Gestion des utilisateurs
-                      </a>
-                    </li>
-                    <li className="li_nav">
-                      <a className="link_nav" href="/task-list">
-                        Liste des taches
-                      </a>
-                    </li>
-                    <li className="li_nav">
-                      <a className="link_nav" href="/ticket">
-                        Tickets
-                      </a>
-                    </li>
-                    <li className="li_nav">
-                      <a className="link_nav" href="/all-projects">
-                        Projets
-                      </a>
-                    </li>
-                  </ul>
-                </Box>
-              </Drawer>
-              <AccountCircle />
-            </IconButton>
-          </Box>
-
-         
-
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-})); */

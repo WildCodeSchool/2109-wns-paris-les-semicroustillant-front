@@ -7,14 +7,14 @@ import LoginContext from './context/LoginContext';
 import { GetOneUser } from './schemaTypes';
 
 function App(): JSX.Element {
-  interface IdecodedToken {
+  interface IDecodedToken {
     userId: string;
     iat: number;
     exp: number;
   }
 
   const token = localStorage.getItem('token');
-  const decodedToken: '' | IdecodedToken | null = token && jwt_decode(token);
+  const decodedToken: '' | IDecodedToken | null = token && jwt_decode(token);
   const userId = decodedToken && decodedToken.userId;
 
   const GET_USER = gql`

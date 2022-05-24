@@ -12,7 +12,7 @@ import {
   DeleteTicket,
   getAllTickets_allTickets_users,
 } from '../../schemaTypes';
-import { GET_TICKETS, DELETE_TICKET } from './TasksQueries';
+import { GET_TICKETS, DELETE_TICKET } from '../../queries/TasksQueries';
 
 interface ITicketCard {
   _id: string;
@@ -42,13 +42,13 @@ function TicketCard({
   const iconTrash = <FontAwesomeIcon icon={faTrash} />;
   const iconEdit = <FontAwesomeIcon icon={faEdit} />;
 
-  interface IexistingTickets {
+  interface IExistingTickets {
     allTickets: ITicketCard[];
   }
 
   const [deleteTicket] = useMutation<DeleteTicket>(DELETE_TICKET, {
     update(cache) {
-      const existingTickets: IexistingTickets | null = cache.readQuery({
+      const existingTickets: IExistingTickets | null = cache.readQuery({
         query: GET_TICKETS,
       });
       const newTickets = existingTickets?.allTickets.filter(

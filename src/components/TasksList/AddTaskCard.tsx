@@ -26,7 +26,7 @@ import {
   GET_PROJECTS,
   GET_USERS,
   GET_TICKETS,
-} from './TasksQueries';
+} from '../../queries/TasksQueries';
 import '../../styles/TaskList.css';
 
 interface IAddTaskCard {

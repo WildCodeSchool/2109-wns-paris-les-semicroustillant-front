@@ -3,6 +3,7 @@ import { useLazyQuery, gql } from '@apollo/client';
 import Box from '@mui/material/Box';
 import '../styles/Login.css';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../images/logo_semi.png';
 
 const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
@@ -36,11 +37,7 @@ const Login = (): JSX.Element => {
       {token === null ? (
         <Box className="loginBoxMain">
           <Box className="loginBox">
-            <img
-              className="logo"
-              alt="logo_semi"
-              src="https://zupimages.net/up/22/13/zx35.png"
-            />
+            <img className="logo" alt="logo_semi" src={Logo} />
             <h3 className="welcom"> WELCOME !</h3>
             <input
               placeholder="Email"
