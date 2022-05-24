@@ -8,10 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { useMutation } from '@apollo/client';
-import {
-  DeleteTicket,
-  getAllTickets_allTickets_users,
-} from '../../schemaTypes';
+import { DeleteTicket } from '../../schemaTypes';
 import { GET_TICKETS, DELETE_TICKET } from '../../queries/TasksQueries';
 
 interface ITicketCard {
@@ -20,11 +17,11 @@ interface ITicketCard {
   status: string;
   deadline: Date;
   description: string;
-  initial_time_estimated: number;
+  initial_time_estimated: number | null;
   total_time_spent: number | null;
   advancement: number | null;
-  projectId: string;
-  users: getAllTickets_allTickets_users[] | null;
+  projectId: string | null;
+  users: string[] | null;
 }
 
 function TicketCard({
@@ -87,11 +84,14 @@ function TicketCard({
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Project: {projectId}
           </Typography>
-          {users?.map((user) => (
-            <Typography key={user._id} sx={{ mb: 1.5 }} color="text.secondary">
-              Users: {user._id}
-            </Typography>
-          ))}
+          <ul>
+            Users:{' '}
+            {users?.map((user) => (
+              <li key={user} color="text.secondary">
+                {user}
+              </li>
+            ))}
+          </ul>
         </CardContent>
         <CardActions className="actions">
           <Button size="small">{iconEdit}</Button>

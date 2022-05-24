@@ -91,6 +91,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     projectId: selectProject?._id,
     users: selectUsers.map((user) => ({ _id: user._id })),
   };
+
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
@@ -98,33 +99,18 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
       }) ?? {
         allTickets: [],
       };
-      const result = data?.addTicket;
-      // TODO error while writing result: _id & advancement fields missing
+      const result = { ...data?.addTicket, advancement: 0, _id: 'temporaryId' };
 
       if (result) {
         cache.writeQuery({
           query: GET_TICKETS,
-          data: { allTickets: [...currentTasksList.allTickets, result] },
+          data: {
+            allTickets: [...currentTasksList.allTickets, result],
+          },
         });
       }
     },
   });
-
-  // update(cache, { data }){
-  //       const currentTasksList = cache.readQuery({ query: GET_TICKETS }) ?? {
-  //         posts: []
-  //       };
-  //       const result = data?.createPost;
-
-  //       if (result) {
-  //         cache.writeQuery({
-  //           query: GET_POSTS,
-  //           data: {
-  //             posts: [
-  //               ...currentPostsList.posts,
-  //               result
-  //             ]
-  //           }})
 
   return (
     <div className="cardContainer">

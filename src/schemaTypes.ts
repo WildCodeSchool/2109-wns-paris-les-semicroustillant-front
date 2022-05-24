@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface GetOneUser_getOneUser {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   firstname: string;
 }
@@ -31,7 +31,7 @@ export interface GetOneUserVariables {
 // ====================================================
 
 export interface Mutation_addUser {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   firstname: string;
   lastname: string;
@@ -59,7 +59,7 @@ export interface MutationVariables {
 // ====================================================
 
 export interface getUsers_allUsers {
-  __typename: "User";
+  __typename: 'User';
   email: string;
 }
 
@@ -77,7 +77,7 @@ export interface getUsers {
 // ====================================================
 
 export interface getAllUsers_allUsers {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   firstname: string;
   lastname: string;
@@ -146,37 +146,25 @@ export interface loginVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetTicketsProjects
+// GraphQL query operation: getAllTickets
 // ====================================================
 
-export interface GetTicketsProjects_getAllProjects {
-  __typename: "Project";
+export interface getAllTickets_allTickets {
+  __typename: 'Ticket';
   _id: string;
-  name: string;
+  subject: string;
+  status: string;
+  deadline: any;
+  description: string;
+  initial_time_estimated: number | null;
+  total_time_spent: number | null;
+  advancement: number | null;
+  projectId: string | null;
+  users: string[] | null;
 }
 
-export interface GetTicketsProjects {
-  getAllProjects: GetTicketsProjects_getAllProjects[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: AllTicketsUsers
-// ====================================================
-
-export interface AllTicketsUsers_allUsers {
-  __typename: "User";
-  _id: string;
-  firstname: string;
-  lastname: string;
-}
-
-export interface AllTicketsUsers {
-  allUsers: AllTicketsUsers_allUsers[];
+export interface getAllTickets {
+  allTickets: getAllTickets_allTickets[];
 }
 
 /* tslint:disable */
@@ -188,21 +176,16 @@ export interface AllTicketsUsers {
 // GraphQL mutation operation: TicketMutation
 // ====================================================
 
-export interface TicketMutation_addTicket_users {
-  __typename: "User";
-  _id: string;
-}
-
 export interface TicketMutation_addTicket {
-  __typename: "Ticket";
+  __typename: 'Ticket';
   subject: string;
   status: string;
   deadline: any;
   description: string;
-  initial_time_estimated: number;
+  initial_time_estimated: number | null;
   total_time_spent: number | null;
-  projectId: string;
-  users: TicketMutation_addTicket_users[] | null;
+  projectId: string | null;
+  users: string[] | null;
 }
 
 export interface TicketMutation {
@@ -211,38 +194,6 @@ export interface TicketMutation {
 
 export interface TicketMutationVariables {
   ticketInput: TicketInput;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: getAllTicketsCard
-// ====================================================
-
-export interface getAllTicketsCard_allTickets_users {
-  __typename: "User";
-  _id: string;
-}
-
-export interface getAllTicketsCard_allTickets {
-  __typename: "Ticket";
-  _id: string;
-  subject: string;
-  status: string;
-  deadline: any;
-  description: string;
-  initial_time_estimated: number;
-  total_time_spent: number | null;
-  advancement: number | null;
-  projectId: string;
-  users: getAllTicketsCard_allTickets_users[] | null;
-}
-
-export interface getAllTicketsCard {
-  allTickets: getAllTicketsCard_allTickets[];
 }
 
 /* tslint:disable */
@@ -268,30 +219,37 @@ export interface DeleteTicketVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getAllTickets
+// GraphQL query operation: GetTicketsProjects
 // ====================================================
 
-export interface getAllTickets_allTickets_users {
-  __typename: "User";
+export interface GetTicketsProjects_getAllProjects {
+  __typename: 'Project';
   _id: string;
+  name: string;
 }
 
-export interface getAllTickets_allTickets {
-  __typename: "Ticket";
-  _id: string;
-  subject: string;
-  status: string;
-  deadline: any;
-  description: string;
-  initial_time_estimated: number;
-  total_time_spent: number | null;
-  advancement: number | null;
-  projectId: string;
-  users: getAllTickets_allTickets_users[] | null;
+export interface GetTicketsProjects {
+  getAllProjects: GetTicketsProjects_getAllProjects[];
 }
 
-export interface getAllTickets {
-  allTickets: getAllTickets_allTickets[];
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: AllTicketsUsers
+// ====================================================
+
+export interface AllTicketsUsers_allUsers {
+  __typename: 'User';
+  _id: string;
+  firstname: string;
+  lastname: string;
+}
+
+export interface AllTicketsUsers {
+  allUsers: AllTicketsUsers_allUsers[];
 }
 
 /* tslint:disable */
