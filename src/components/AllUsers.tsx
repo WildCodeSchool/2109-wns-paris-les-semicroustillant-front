@@ -13,7 +13,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useQuery, gql, useMutation } from '@apollo/client';
-import { getUsers, DeleteUser } from '../schemaTypes';
+import { getAllUsers, DeleteOneUser } from '../schemaTypes';
 import '../styles/AllUsers.css';
 
 // icone fontAwesome
@@ -23,7 +23,7 @@ const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
 
 const AllUsers = (): JSX.Element => {
   const GET_USERS = gql`
-    query getUsers {
+    query getAllUsers {
       allUsers {
         _id
         firstname
@@ -33,18 +33,18 @@ const AllUsers = (): JSX.Element => {
     }
   `;
 
-  const { loading, data } = useQuery<getUsers>(GET_USERS);
+  const { loading, data } = useQuery<getAllUsers>(GET_USERS);
 
   const [deleteId, setDeleteId] = useState('');
 
   let input: any;
 
   const DELETE_USER = gql`
-    mutation DeleteUser($deleteUserId: String!) {
+    mutation DeleteOneUser($deleteUserId: String!) {
       deleteUser(id: $deleteUserId)
     }
   `;
-  const [mutateFunction] = useMutation<DeleteUser>(DELETE_USER);
+  const [mutateFunction] = useMutation<DeleteOneUser>(DELETE_USER);
   return (
     <div>
       <TableContainer

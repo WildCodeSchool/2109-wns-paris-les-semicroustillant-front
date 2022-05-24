@@ -1,106 +1,40 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
 import './App.css';
-
-import Navbar from './components/Navbar';
-import AllUsers from './components/AllUsers';
-import Login from './components/Login';
-import TaskList from './components/TaskList';
-import Ticket from './components/Ticket';
-import AllProject from './components/AllProject';
-import Project from './components/Project';
-import AddUserX from './components/AddUserX';
+import jwt_decode from 'jwt-decode';
+import { useQuery, gql } from '@apollo/client';
+import AppRouter from './Router';
+import LoginContext from './context/LoginContext';
+import { GetOneUser } from './schemaTypes';
 
 function App(): JSX.Element {
-  interface IProtectedRoute {
-    user: string | null;
-    children: JSX.Element;
+  interface IDecodedToken {
+    userId: string;
+    iat: number;
+    exp: number;
   }
 
-  const userToken = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  const decodedToken: '' | IDecodedToken | null = token && jwt_decode(token);
+  const userId = decodedToken && decodedToken.userId;
 
-  const ProtectedRoute = ({ user, children }: IProtectedRoute) => {
-    if (!user) {
-      return <Navigate to="/login" replace />;
+  const GET_USER = gql`
+    query GetOneUser($userId: String!) {
+      getOneUser(userId: $userId) {
+        _id
+        firstname
+      }
     }
-    return children;
-  };
+  `;
 
-  const UnreachableLogin = ({ user, children }: IProtectedRoute) => {
-    if (user) {
-      return <Navigate to="/all-users" replace />;
-    }
-    return children;
-  };
+  const { data } = useQuery<GetOneUser>(GET_USER, { variables: { userId } });
+  const username = data?.getOneUser.firstname;
+
   return (
-    <div>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route
-            path="/all-users"
-            element={
-              <ProtectedRoute user={userToken}>
-                <AllUsers />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/task-list"
-            element={
-              <ProtectedRoute user={userToken}>
-                <TaskList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/ticket"
-            element={
-              <ProtectedRoute user={userToken}>
-                <Ticket />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/all-project"
-            element={
-              <ProtectedRoute user={userToken}>
-                <AllProject />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/project"
-            element={
-              <ProtectedRoute user={userToken}>
-                <Project />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/add-user"
-            element={
-              <ProtectedRoute user={userToken}>
-                <AddUserX />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <UnreachableLogin user={userToken}>
-                <Login />
-              </UnreachableLogin>
-            }
-          />
-        </Routes>
-      </Router>
-    </div>
+    <>
+      <LoginContext.Provider value={{ username }}>
+        <AppRouter />
+      </LoginContext.Provider>
+    </>
   );
 }
 
