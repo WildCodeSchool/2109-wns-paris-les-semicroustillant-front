@@ -98,13 +98,14 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
       }) ?? {
         allTickets: [],
       };
-      const result = data?.addTicket;
-      // TODO error while writing result: _id & advancement fields missing
+      const result = { ...data?.addTicket, advancement: 0, _id: 'temporaryId' };
 
       if (result) {
         cache.writeQuery({
           query: GET_TICKETS,
-          data: { allTickets: [...currentTasksList.allTickets, result] },
+          data: {
+            allTickets: [...currentTasksList.allTickets, result],
+          },
         });
       }
     },

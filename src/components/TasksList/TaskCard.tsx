@@ -84,16 +84,14 @@ function TicketCard({
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Project: {projectId}
           </Typography>
-          <Typography>
+          <ul>
             Users:{' '}
-            <ul>
-              {users?.map((user) => (
-                <li key={user} color="text.secondary">
-                  {user}
-                </li>
-              ))}
-            </ul>
-          </Typography>
+            {users?.map((user) => (
+              <li key={user} color="text.secondary">
+                {user}
+              </li>
+            ))}
+          </ul>
         </CardContent>
         <CardActions className="actions">
           <Button size="small">{iconEdit}</Button>
