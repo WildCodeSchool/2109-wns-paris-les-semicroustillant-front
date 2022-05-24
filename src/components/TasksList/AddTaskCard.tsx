@@ -91,6 +91,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     projectId: selectProject?._id,
     users: selectUsers.map((user) => ({ _id: user._id })),
   };
+
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
@@ -110,22 +111,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
       }
     },
   });
-
-  // update(cache, { data }){
-  //       const currentTasksList = cache.readQuery({ query: GET_TICKETS }) ?? {
-  //         posts: []
-  //       };
-  //       const result = data?.createPost;
-
-  //       if (result) {
-  //         cache.writeQuery({
-  //           query: GET_POSTS,
-  //           data: {
-  //             posts: [
-  //               ...currentPostsList.posts,
-  //               result
-  //             ]
-  //           }})
 
   return (
     <div className="cardContainer">
