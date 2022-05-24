@@ -146,6 +146,79 @@ export interface loginVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getAllTickets
+// ====================================================
+
+export interface getAllTickets_allTickets {
+  __typename: "Ticket";
+  _id: string;
+  subject: string;
+  status: string;
+  deadline: any;
+  description: string;
+  initial_time_estimated: number | null;
+  total_time_spent: number | null;
+  advancement: number | null;
+  projectId: string | null;
+  users: string[] | null;
+}
+
+export interface getAllTickets {
+  allTickets: getAllTickets_allTickets[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: TicketMutation
+// ====================================================
+
+export interface TicketMutation_addTicket {
+  __typename: "Ticket";
+  subject: string;
+  status: string;
+  deadline: any;
+  description: string;
+  initial_time_estimated: number | null;
+  total_time_spent: number | null;
+  projectId: string | null;
+  users: string[] | null;
+}
+
+export interface TicketMutation {
+  addTicket: TicketMutation_addTicket;
+}
+
+export interface TicketMutationVariables {
+  ticketInput: TicketInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteTicket
+// ====================================================
+
+export interface DeleteTicket {
+  deleteTicket: string;
+}
+
+export interface DeleteTicketVariables {
+  deleteTicketId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetTicketsProjects
 // ====================================================
 
@@ -177,121 +250,6 @@ export interface AllTicketsUsers_allUsers {
 
 export interface AllTicketsUsers {
   allUsers: AllTicketsUsers_allUsers[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: TicketMutation
-// ====================================================
-
-export interface TicketMutation_addTicket_users {
-  __typename: "User";
-  _id: string;
-}
-
-export interface TicketMutation_addTicket {
-  __typename: "Ticket";
-  subject: string;
-  status: string;
-  deadline: any;
-  description: string;
-  initial_time_estimated: number;
-  total_time_spent: number | null;
-  projectId: string;
-  users: TicketMutation_addTicket_users[] | null;
-}
-
-export interface TicketMutation {
-  addTicket: TicketMutation_addTicket;
-}
-
-export interface TicketMutationVariables {
-  ticketInput: TicketInput;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: getAllTicketsCard
-// ====================================================
-
-export interface getAllTicketsCard_allTickets_users {
-  __typename: "User";
-  _id: string;
-}
-
-export interface getAllTicketsCard_allTickets {
-  __typename: "Ticket";
-  _id: string;
-  subject: string;
-  status: string;
-  deadline: any;
-  description: string;
-  initial_time_estimated: number;
-  total_time_spent: number | null;
-  advancement: number | null;
-  projectId: string;
-  users: getAllTicketsCard_allTickets_users[] | null;
-}
-
-export interface getAllTicketsCard {
-  allTickets: getAllTicketsCard_allTickets[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteTicket
-// ====================================================
-
-export interface DeleteTicket {
-  deleteTicket: string;
-}
-
-export interface DeleteTicketVariables {
-  deleteTicketId: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: getAllTickets
-// ====================================================
-
-export interface getAllTickets_allTickets_users {
-  __typename: "User";
-  _id: string;
-}
-
-export interface getAllTickets_allTickets {
-  __typename: "Ticket";
-  _id: string;
-  subject: string;
-  status: string;
-  deadline: any;
-  description: string;
-  initial_time_estimated: number;
-  total_time_spent: number | null;
-  advancement: number | null;
-  projectId: string;
-  users: getAllTickets_allTickets_users[] | null;
-}
-
-export interface getAllTickets {
-  allTickets: getAllTickets_allTickets[];
 }
 
 /* tslint:disable */

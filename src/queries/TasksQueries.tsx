@@ -12,9 +12,7 @@ const GET_TICKETS = gql`
       total_time_spent
       advancement
       projectId
-      users {
-        _id
-      }
+      users
     }
   }
 `;
@@ -29,9 +27,7 @@ const ADD_TICKET = gql`
       initial_time_estimated
       total_time_spent
       projectId
-      users {
-        _id
-      }
+      users
     }
   }
 `;
