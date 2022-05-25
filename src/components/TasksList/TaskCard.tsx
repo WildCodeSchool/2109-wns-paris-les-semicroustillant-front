@@ -9,9 +9,13 @@ import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import { useMutation } from '@apollo/client';
-import { DeleteTicket } from '../../schemaTypes';
-import { GET_TICKETS, DELETE_TICKET } from '../../queries/TasksQueries';
+import { useMutation, useQuery } from '@apollo/client';
+import { DeleteTicket, GetOneProject } from '../../schemaTypes';
+import {
+  GET_TICKETS,
+  DELETE_TICKET,
+  GET_PROJECT,
+} from '../../queries/TasksQueries';
 import colors from '../../styles/globals';
 
 interface ITicketCard {
@@ -61,6 +65,11 @@ function TicketCard({
     },
   });
 
+  const { data } = useQuery<GetOneProject>(GET_PROJECT, {
+    variables: { projectId },
+  });
+  const projectName = data?.getOneProject.name;
+
   const span = (content: string) => (
     <Box
       component="span"
@@ -74,17 +83,19 @@ function TicketCard({
     <div className="cardContainer">
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          <Typography sx={{ fontSize: 14, color: colors.primary }} gutterBottom>
             {status}
           </Typography>
           <Typography variant="h5" component="div">
             {subject}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
             Deadline: {moment(deadline).format('DD/MM/YYYY')}
           </Typography>
           <Paper variant="outlined" sx={{ mb: 1.5 }}>
-            {description}
+            <Typography sx={{ m: 1.5 }} variant="body2">
+              {description}
+            </Typography>
           </Paper>
           {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Initial time estimated: {initial_time_estimated}
@@ -96,22 +107,28 @@ function TicketCard({
             {span('Advancement')}: {advancement}
           </Typography>
 
-          <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
-            Project: {projectId}
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Project')}: {projectName}
+          </Typography>
+
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Users')}:
           </Typography>
           <ul>
-            Users:{' '}
             {users?.map((user) => (
-              <li key={user} color="text.secondary">
+              <Typography key={user} variant="body2">
                 {user}
-              </li>
+              </Typography>
             ))}
           </ul>
         </CardContent>
         <CardActions className="actions">
-          <Button size="small">{iconEdit}</Button>
+          <Button size="medium" sx={{ color: colors.primary }}>
+            {iconEdit}
+          </Button>
           <Button
-            size="small"
+            size="medium"
+            sx={{ color: colors.primary }}
             onClick={() => deleteTicket({ variables: { deleteTicketId: _id } })}
           >
             {iconTrash}
