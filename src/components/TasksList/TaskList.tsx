@@ -21,7 +21,7 @@ function TaskList(): JSX.Element {
 
   return (
     <div>
-      <h1>TaskList</h1>
+      <h1 className="tasksTitle">Tasks</h1>
       <div className="cardsDisplay">
         {data &&
           data.allTickets.map((ticket) => (
@@ -32,8 +32,8 @@ function TaskList(): JSX.Element {
               status={ticket.status}
               deadline={ticket.deadline}
               description={ticket.description}
-              // initial_time_estimated={ticket.initial_time_estimated}
-              // total_time_spent={ticket.total_time_spent}
+              initial_time_estimated={ticket.initial_time_estimated}
+              total_time_spent={ticket.total_time_spent}
               advancement={ticket.advancement}
               projectId={ticket.projectId}
               users={ticket.users}

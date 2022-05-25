@@ -11,7 +11,6 @@ import './App.css';
 import AllUsers from './components/AllUsers';
 import Login from './components/Login';
 import TaskList from './components/TasksList/TaskList';
-import Ticket from './components/Ticket';
 import AllProject from './components/AllProject';
 import Project from './components/Project';
 import AddUserX from './components/AddUserX';
@@ -47,7 +46,6 @@ export default function AppRouter(): JSX.Element {
           <Route path="/" element={<Homepage />} />
           <Route path="/all-users" element={<AllUsers />} />
           <Route path="/all-tasks" element={<TaskList />} />
-          <Route path="/ticket" element={<Ticket />} />
           <Route path="/all-projects" element={<AllProject />} />
           <Route path="/project" element={<Project />} />
           <Route path="/add-user" element={<AddUserX />} />

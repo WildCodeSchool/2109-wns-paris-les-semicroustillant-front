@@ -1,7 +1,7 @@
 .actions {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .cardContainer {
@@ -19,4 +19,9 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+
+.tasksTitle {
+  text-align: center;
+  margin-top: 1rem;
 }

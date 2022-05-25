@@ -9,11 +9,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faTrash,
-  faEdit,
-  faPlusCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { useMutation, useQuery } from '@apollo/client';
 import { DeleteTicket, GetOneProject } from '../../schemaTypes';
@@ -23,6 +19,7 @@ import {
   GET_PROJECT,
 } from '../../queries/TasksQueries';
 import colors from '../../styles/globals';
+import TaskDetails from './TaskDetails';
 
 interface ITicketCard {
   _id: string;
@@ -30,8 +27,8 @@ interface ITicketCard {
   status: string;
   deadline: Date;
   description: string;
-  // initial_time_estimated: number | null;
-  // total_time_spent: number | null;
+  initial_time_estimated: number | null;
+  total_time_spent: number | null;
   advancement: number | null;
   projectId: string | null;
   users: string[] | null;
@@ -43,14 +40,13 @@ function TicketCard({
   status,
   deadline,
   description,
-  // initial_time_estimated,
-  // total_time_spent,
+  initial_time_estimated,
+  total_time_spent,
   advancement,
   projectId,
   users,
 }: ITicketCard): JSX.Element {
   const iconTrash = <FontAwesomeIcon icon={faTrash} />;
-  const iconEdit = <FontAwesomeIcon icon={faEdit} />;
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
 
   const [displaySeeTicket, setDisplaySeeTicket] = useState(false);
@@ -126,12 +122,7 @@ function TicketCard({
               {description}
             </Typography>
           </Paper>
-          {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Initial time estimated: {initial_time_estimated}
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Total time spent: {total_time_spent}
-          </Typography> */}
+
           <Typography sx={{ mb: 1.5 }} variant="body2">
             {span('Advancement')}: {advancement}
           </Typography>
@@ -139,22 +130,8 @@ function TicketCard({
           <Typography sx={{ mb: 1.5 }} variant="body2">
             {span('Project')}: {projectName}
           </Typography>
-
-          <Typography sx={{ mb: 1.5 }} variant="body2">
-            {span('Users')}:
-          </Typography>
-          <ul>
-            {users?.map((user) => (
-              <Typography key={user} variant="body2">
-                {user}
-              </Typography>
-            ))}
-          </ul>
         </CardContent>
         <CardActions className="actions">
-          <Button size="medium" sx={{ color: colors.primary }}>
-            {iconEdit}
-          </Button>
           <Button
             size="medium"
             sx={{ color: colors.primary }}
@@ -170,7 +147,12 @@ function TicketCard({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <p>Hi</p>
+        <TaskDetails
+          users={users}
+          span={span}
+          initial_time_estimated={initial_time_estimated}
+          total_time_spent={total_time_spent}
+        />
       </Dialog>
     </div>
   );
