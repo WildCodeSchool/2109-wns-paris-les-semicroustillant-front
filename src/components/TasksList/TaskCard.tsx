@@ -1,7 +1,9 @@
 import React from 'react';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +12,7 @@ import moment from 'moment';
 import { useMutation } from '@apollo/client';
 import { DeleteTicket } from '../../schemaTypes';
 import { GET_TICKETS, DELETE_TICKET } from '../../queries/TasksQueries';
+import colors from '../../styles/globals';
 
 interface ITicketCard {
   _id: string;
@@ -17,8 +20,8 @@ interface ITicketCard {
   status: string;
   deadline: Date;
   description: string;
-  initial_time_estimated: number | null;
-  total_time_spent: number | null;
+  // initial_time_estimated: number | null;
+  // total_time_spent: number | null;
   advancement: number | null;
   projectId: string | null;
   users: string[] | null;
@@ -30,8 +33,8 @@ function TicketCard({
   status,
   deadline,
   description,
-  initial_time_estimated,
-  total_time_spent,
+  // initial_time_estimated,
+  // total_time_spent,
   advancement,
   projectId,
   users,
@@ -58,6 +61,15 @@ function TicketCard({
     },
   });
 
+  const span = (content: string) => (
+    <Box
+      component="span"
+      sx={{ display: 'inline-block', mx: '2px', color: colors.primary }}
+    >
+      {content}
+    </Box>
+  );
+
   return (
     <div className="cardContainer">
       <Card sx={{ minWidth: 275 }}>
@@ -71,17 +83,20 @@ function TicketCard({
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Deadline: {moment(deadline).format('DD/MM/YYYY')}
           </Typography>
-          <Typography variant="body2">{description}</Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          <Paper variant="outlined" sx={{ mb: 1.5 }}>
+            {description}
+          </Paper>
+          {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Initial time estimated: {initial_time_estimated}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Total time spent: {total_time_spent}
+          </Typography> */}
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Advancement')}: {advancement}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Advancement: {advancement}
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+
+          <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
             Project: {projectId}
           </Typography>
           <ul>

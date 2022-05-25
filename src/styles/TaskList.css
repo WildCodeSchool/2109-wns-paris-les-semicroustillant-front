@@ -5,13 +5,14 @@
 }
 
 .cardContainer {
-  width: 20%;
-  margin: 2rem;
+  display: flex;
+  margin: 1.5rem;
 }
 
 .cardsDisplay {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .createActions {
