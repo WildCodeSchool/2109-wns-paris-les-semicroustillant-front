@@ -23,6 +23,7 @@ import {
   GET_PROJECT,
 } from '../../queries/TasksQueries';
 import colors from '../../styles/globals';
+import TaskDetails from './TaskDetails';
 
 interface ITicketCard {
   _id: string;
@@ -50,7 +51,6 @@ function TicketCard({
   users,
 }: ITicketCard): JSX.Element {
   const iconTrash = <FontAwesomeIcon icon={faTrash} />;
-  const iconEdit = <FontAwesomeIcon icon={faEdit} />;
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
 
   const [displaySeeTicket, setDisplaySeeTicket] = useState(false);
@@ -139,22 +139,8 @@ function TicketCard({
           <Typography sx={{ mb: 1.5 }} variant="body2">
             {span('Project')}: {projectName}
           </Typography>
-
-          <Typography sx={{ mb: 1.5 }} variant="body2">
-            {span('Users')}:
-          </Typography>
-          <ul>
-            {users?.map((user) => (
-              <Typography key={user} variant="body2">
-                {user}
-              </Typography>
-            ))}
-          </ul>
         </CardContent>
         <CardActions className="actions">
-          <Button size="medium" sx={{ color: colors.primary }}>
-            {iconEdit}
-          </Button>
           <Button
             size="medium"
             sx={{ color: colors.primary }}
@@ -170,7 +156,7 @@ function TicketCard({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <p>Hi</p>
+        <TaskDetails users={users} span={span} />
       </Dialog>
     </div>
   );
