@@ -22,16 +22,20 @@ function App(): JSX.Element {
       getOneUser(userId: $userId) {
         _id
         firstname
+        role
+        position
       }
     }
   `;
 
   const { data } = useQuery<GetOneUser>(GET_USER, { variables: { userId } });
   const username = data?.getOneUser.firstname;
+  const role = data?.getOneUser.role;
+  const position = data?.getOneUser.position;
 
   return (
     <>
-      <LoginContext.Provider value={{ username }}>
+      <LoginContext.Provider value={{ username, role, position }}>
         <AppRouter />
       </LoginContext.Provider>
     </>
