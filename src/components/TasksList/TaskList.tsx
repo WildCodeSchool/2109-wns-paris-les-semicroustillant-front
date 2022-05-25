@@ -9,6 +9,7 @@ import '../../styles/TaskList.css';
 import TaskCard from './TaskCard';
 import AddTaskCard from './AddTaskCard';
 import { GET_TICKETS } from '../../queries/TasksQueries';
+import colors from '../../styles/globals';
 
 function TaskList(): JSX.Element {
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
@@ -41,7 +42,11 @@ function TaskList(): JSX.Element {
         {error && <p>Error: {error.message}</p>}
       </div>
       <>
-        <Button size="small" onClick={toggleDisplay}>
+        <Button
+          size="large"
+          sx={{ color: colors.primary }}
+          onClick={toggleDisplay}
+        >
           {iconPlus}
         </Button>
         <Dialog

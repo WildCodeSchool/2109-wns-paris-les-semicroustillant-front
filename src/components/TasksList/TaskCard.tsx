@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrash,
+  faEdit,
+  faPlusCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { useMutation, useQuery } from '@apollo/client';
 import { DeleteTicket, GetOneProject } from '../../schemaTypes';
@@ -45,6 +51,12 @@ function TicketCard({
 }: ITicketCard): JSX.Element {
   const iconTrash = <FontAwesomeIcon icon={faTrash} />;
   const iconEdit = <FontAwesomeIcon icon={faEdit} />;
+  const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
+
+  const [displaySeeTicket, setDisplaySeeTicket] = useState(false);
+  const toggleDisplay = () => {
+    setDisplaySeeTicket(!displaySeeTicket);
+  };
 
   interface IExistingTickets {
     allTickets: ITicketCard[];
@@ -82,10 +94,27 @@ function TicketCard({
   return (
     <div className="cardContainer">
       <Card sx={{ minWidth: 275 }}>
+        <CardHeader
+          sx={{ pb: 0 }}
+          title={
+            <Typography
+              sx={{ fontSize: 14, color: colors.primary, m: 0 }}
+              gutterBottom
+            >
+              {status}
+            </Typography>
+          }
+          action={
+            <Button
+              size="large"
+              sx={{ color: colors.primary }}
+              onClick={toggleDisplay}
+            >
+              {iconPlus}
+            </Button>
+          }
+        />
         <CardContent>
-          <Typography sx={{ fontSize: 14, color: colors.primary }} gutterBottom>
-            {status}
-          </Typography>
           <Typography variant="h5" component="div">
             {subject}
           </Typography>
@@ -135,6 +164,14 @@ function TicketCard({
           </Button>
         </CardActions>
       </Card>
+      <Dialog
+        open={displaySeeTicket}
+        onClose={toggleDisplay}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <p>Hi</p>
+      </Dialog>
     </div>
   );
 }
