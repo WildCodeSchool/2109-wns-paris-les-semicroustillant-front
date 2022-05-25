@@ -1,5 +1,17 @@
-body {
-  background: #b93c3c;
+@import './variables.css';
+
+.already {
+  height: 100vh;
+  background: #d0c9cb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bodyLogin {
+  height: 100vh;
+  background: var(--primary);
 }
 
 .loginBoxMain {
@@ -24,17 +36,34 @@ body {
 
 .logo {
   max-width: 300px;
-  margin-top: 0;
+  margin-bottom: 50px;
   position: relative;
 }
 
 .buttonLogin {
-  background: #d41a1b;
+  background: var(--primary);
   border: none;
   padding: 20px;
   border-radius: 10px;
   width: 80%;
   color: white;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.buttonLogin:active {
+  background: #be083f;
+}
+
+.homeButton {
+  background: var(--primary);
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+  width: 20%;
+
   font-size: 18px;
   font-weight: bold;
   margin-top: 30px;
@@ -48,6 +77,6 @@ input {
 }
 
 .welcom {
-  color: #f50d47;
+  color: var(--primary);
   margin-bottom: 30px;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Ticket() {
+function Ticket(): JSX.Element {
   return (
     <div>
       <h1>Ticket</h1>

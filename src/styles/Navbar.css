@@ -15,3 +15,9 @@
 .link_nav:hover {
   color: #1c76d2;
 }
+
+.logoNav {
+  width: 100px;
+  margin: 0;
+  position: relative;
+}

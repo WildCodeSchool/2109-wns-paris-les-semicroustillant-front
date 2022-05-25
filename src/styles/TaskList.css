@@ -1,0 +1,21 @@
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardContainer {
+  width: 20%;
+  margin: 2rem;
+}
+
+.cardsDisplay {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.createActions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
