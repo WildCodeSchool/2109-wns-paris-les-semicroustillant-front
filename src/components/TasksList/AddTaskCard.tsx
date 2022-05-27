@@ -1,16 +1,16 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import Autocomplete from '@mui/material/Autocomplete';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -27,6 +27,7 @@ import {
   GET_USERS,
   GET_TICKETS,
 } from '../../queries/TasksQueries';
+import LoginContext from '../../context/LoginContext';
 import '../../styles/TaskList.css';
 
 
@@ -34,6 +35,7 @@ interface IAddTaskCard {
   toggleDisplay: () => void;
 }
 function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
+  const userContext = useContext(LoginContext);
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = ['In Progress', 'In Production', 'Done', 'Delayed'];
   interface ITicketData {
@@ -41,14 +43,14 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     description: string;
     initial_time_estimated: number | null;
     total_time_spent: number | null;
-    projectId: string;
+    project_id: string;
   }
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
     description: '',
     initial_time_estimated: 0,
     total_time_spent: 0,
-    projectId: '',
+    project_id: '',
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
   const [selectStatus, setSelectStatus] = useState<string>('');
@@ -83,13 +85,14 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
+    created_by: userContext.userId,
     subject: ticketData.subject,
     status: selectStatus,
     deadline: pickDeadline,
     description: ticketData.description,
     initial_time_estimated: Number(ticketData.initial_time_estimated),
     total_time_spent: Number(ticketData.total_time_spent),
-    projectId: selectProject?._id,
+    project_id: selectProject?._id,
     users: selectUsers.map((user) => ({ _id: user._id })),
   };
 
@@ -100,7 +103,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
       }) ?? {
         allTickets: [],
       };
-      const result = { ...data?.addTicket, advancement: 0, _id: 'temporaryId' };
+      const result = { ...data?.addTicket/* , advancement: 0, _id: 'temporaryId' */ };
 
       if (result) {
         cache.writeQuery({
@@ -262,7 +265,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                   }
                 }}
               >
-                {iconCheck}
+                Validate {iconCheck}
               </Button>
             </CardActions>
           </FormControl>

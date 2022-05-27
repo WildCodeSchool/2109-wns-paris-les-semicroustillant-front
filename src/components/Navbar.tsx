@@ -92,7 +92,9 @@ export default function PrimarySearchAppBar(): JSX.Element {
         }}
       >
         <Toolbar>
-          <img className="logoNav" alt="logo_semi" src={Logo} />
+          <Box onClick={() => navigate('/')}>
+            <img className="logoNav" alt="logo_semi" src={Logo} />
+          </Box>
 
           <Box sx={{ flexGrow: 1 }} />
           <Typography

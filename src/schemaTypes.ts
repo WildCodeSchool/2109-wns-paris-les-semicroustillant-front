@@ -154,14 +154,15 @@ export interface loginVariables {
 export interface getAllTickets_allTickets {
   __typename: "Ticket";
   _id: string;
+  created_by: string;
   subject: string;
-  status: string;
-  deadline: any;
-  description: string;
+  status: string | null;
+  deadline: any | null;
+  description: string | null;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   advancement: number | null;
-  projectId: string | null;
+  project_id: string;
   users: string[] | null;
 }
 
@@ -180,13 +181,16 @@ export interface getAllTickets {
 
 export interface TicketMutation_addTicket {
   __typename: "Ticket";
+  _id: string;
+  created_by: string;
   subject: string;
-  status: string;
-  deadline: any;
-  description: string;
+  status: string | null;
+  deadline: any | null;
+  description: string | null;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
-  projectId: string | null;
+  advancement: number | null;
+  project_id: string;
   users: string[] | null;
 }
 
@@ -244,13 +248,17 @@ export interface GetTicketsProjects {
 // ====================================================
 
 export interface GetOneProject_getOneProject {
-  __typename: 'Project';
+  __typename: "Project";
   _id: string;
   name: string;
 }
 
 export interface GetOneProject {
   getOneProject: GetOneProject_getOneProject;
+}
+
+export interface GetOneProjectVariables {
+  projectId: string;
 }
 
 /* tslint:disable */
@@ -287,6 +295,7 @@ export interface IdInput {
 }
 
 export interface TicketInput {
+  created_by: string;
   subject: string;
   status?: string | null;
   deadline?: any | null;
@@ -294,7 +303,7 @@ export interface TicketInput {
   initial_time_estimated?: number | null;
   total_time_spent?: number | null;
   advancement?: number | null;
-  projectId?: string | null;
+  project_id: string;
   users?: IdInput[] | null;
 }
 

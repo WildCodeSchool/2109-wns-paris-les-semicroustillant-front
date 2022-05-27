@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { useMutation, useQuery } from '@apollo/client';
 import { DeleteTicket, GetOneProject } from '../../schemaTypes';
@@ -24,13 +24,13 @@ import TaskDetails from './TaskDetails';
 interface ITicketCard {
   _id: string;
   subject: string;
-  status: string;
+  status: string | null;
   deadline: Date;
-  description: string;
+  description: string | null;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   advancement: number | null;
-  projectId: string | null;
+  project_id: string | null;
   users: string[] | null;
 }
 
@@ -43,11 +43,11 @@ function TicketCard({
   initial_time_estimated,
   total_time_spent,
   advancement,
-  projectId,
+  project_id,
   users,
 }: ITicketCard): JSX.Element {
   const iconTrash = <FontAwesomeIcon icon={faTrash} />;
-  const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
+  const iconDetails = <FontAwesomeIcon icon={faInfoCircle} />;
 
   const [displaySeeTicket, setDisplaySeeTicket] = useState(false);
   const toggleDisplay = () => {
@@ -74,7 +74,7 @@ function TicketCard({
   });
 
   const { data } = useQuery<GetOneProject>(GET_PROJECT, {
-    variables: { projectId },
+    variables: { projectId: project_id },
   });
   const projectName = data?.getOneProject.name;
 
@@ -106,7 +106,7 @@ function TicketCard({
               sx={{ color: colors.primary }}
               onClick={toggleDisplay}
             >
-              {iconPlus}
+              {iconDetails}
             </Button>
           }
         />
