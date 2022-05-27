@@ -238,6 +238,25 @@ export interface GetTicketsProjects {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetOneProject
+// ====================================================
+
+export interface GetOneProject_getOneProject {
+  __typename: 'Project';
+  _id: string;
+  name: string;
+}
+
+export interface GetOneProject {
+  getOneProject: GetOneProject_getOneProject;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: AllTicketsUsers
 // ====================================================
 
