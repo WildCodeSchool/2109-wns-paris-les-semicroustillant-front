@@ -89,7 +89,7 @@ function TicketCard({
 
   return (
     <div className="cardContainer">
-      <Card sx={{ minWidth: 275 }}>
+      <Card sx={{ minWidth: 275, maxWidth: 300 }} elevation={10}>
         <CardHeader
           sx={{ pb: 0 }}
           title={
@@ -111,11 +111,11 @@ function TicketCard({
           }
         />
         <CardContent>
-          <Typography variant="h5" component="div">
+          <Typography variant="h5" sx={{ fontWeight: 'bold' }} component="div">
             {subject}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
-            Deadline: {moment(deadline).format('DD/MM/YYYY')}
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Deadline')}: {moment(deadline).format('DD/MM/YYYY')}
           </Typography>
           <Paper variant="outlined" sx={{ mb: 1.5 }}>
             <Typography sx={{ m: 1.5 }} variant="body2">
