@@ -47,6 +47,15 @@ const GET_PROJECTS = gql`
   }
 `;
 
+const GET_PROJECT = gql`
+  query GetOneProject($projectId: String!) {
+    getOneProject(projectId: $projectId) {
+      _id
+      name
+    }
+  }
+`;
+
 const GET_USERS = gql`
   query AllTicketsUsers {
     allUsers {
@@ -56,4 +65,11 @@ const GET_USERS = gql`
     }
   }
 `;
-export { GET_TICKETS, ADD_TICKET, DELETE_TICKET, GET_PROJECTS, GET_USERS };
+export {
+  GET_TICKETS,
+  ADD_TICKET,
+  DELETE_TICKET,
+  GET_PROJECTS,
+  GET_PROJECT,
+  GET_USERS,
+};

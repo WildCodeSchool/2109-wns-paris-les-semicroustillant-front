@@ -29,6 +29,7 @@ import {
 } from '../../queries/TasksQueries';
 import '../../styles/TaskList.css';
 
+
 interface IAddTaskCard {
   toggleDisplay: () => void;
 }

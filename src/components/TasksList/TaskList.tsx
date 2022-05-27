@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +9,7 @@ import '../../styles/TaskList.css';
 import TaskCard from './TaskCard';
 import AddTaskCard from './AddTaskCard';
 import { GET_TICKETS } from '../../queries/TasksQueries';
-import LoginContext from '../../context/LoginContext';
+import colors from '../../styles/globals';
 
 function TaskList(): JSX.Element {
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
@@ -18,11 +18,10 @@ function TaskList(): JSX.Element {
     setDisplayAddCard(!displayAddCard);
   };
   const { data, error } = useQuery<getAllTickets>(GET_TICKETS);
-  const user = useContext(LoginContext);
 
   return (
     <div>
-      <h1>TaskList</h1>
+      <h1 className="tasksTitle">Tasks</h1>
       <div className="cardsDisplay">
         {data &&
           data.allTickets.map((ticket) => (
@@ -42,8 +41,12 @@ function TaskList(): JSX.Element {
           ))}
         {error && <p>Error: {error.message}</p>}
       </div>
-      <div>
-        <Button size="small" onClick={toggleDisplay}>
+      <>
+        <Button
+          size="large"
+          sx={{ color: colors.primary }}
+          onClick={toggleDisplay}
+        >
           {iconPlus}
         </Button>
         <Dialog
@@ -54,7 +57,7 @@ function TaskList(): JSX.Element {
         >
           <AddTaskCard toggleDisplay={toggleDisplay} />
         </Dialog>
-      </div>
+      </>
     </div>
   );
 }

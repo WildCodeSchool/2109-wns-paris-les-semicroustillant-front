@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import { useMutation } from '@apollo/client';
-import { DeleteTicket } from '../../schemaTypes';
-import { GET_TICKETS, DELETE_TICKET } from '../../queries/TasksQueries';
+import { useMutation, useQuery } from '@apollo/client';
+import { DeleteTicket, GetOneProject } from '../../schemaTypes';
+import {
+  GET_TICKETS,
+  DELETE_TICKET,
+  GET_PROJECT,
+} from '../../queries/TasksQueries';
+import colors from '../../styles/globals';
+import TaskDetails from './TaskDetails';
 
 interface ITicketCard {
   _id: string;
@@ -37,7 +47,12 @@ function TicketCard({
   users,
 }: ITicketCard): JSX.Element {
   const iconTrash = <FontAwesomeIcon icon={faTrash} />;
-  const iconEdit = <FontAwesomeIcon icon={faEdit} />;
+  const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
+
+  const [displaySeeTicket, setDisplaySeeTicket] = useState(false);
+  const toggleDisplay = () => {
+    setDisplaySeeTicket(!displaySeeTicket);
+  };
 
   interface IExistingTickets {
     allTickets: ITicketCard[];
@@ -58,51 +73,87 @@ function TicketCard({
     },
   });
 
+  const { data } = useQuery<GetOneProject>(GET_PROJECT, {
+    variables: { projectId },
+  });
+  const projectName = data?.getOneProject.name;
+
+  const span = (content: string) => (
+    <Box
+      component="span"
+      sx={{ display: 'inline-block', mx: '2px', color: colors.primary }}
+    >
+      {content}
+    </Box>
+  );
+
   return (
     <div className="cardContainer">
-      <Card sx={{ minWidth: 275 }}>
+      <Card sx={{ minWidth: 275, maxWidth: 300 }} elevation={10}>
+        <CardHeader
+          sx={{ pb: 0 }}
+          title={
+            <Typography
+              sx={{ fontSize: 14, color: colors.primary, m: 0 }}
+              gutterBottom
+            >
+              {status}
+            </Typography>
+          }
+          action={
+            <Button
+              size="large"
+              sx={{ color: colors.primary }}
+              onClick={toggleDisplay}
+            >
+              {iconPlus}
+            </Button>
+          }
+        />
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {status}
-          </Typography>
-          <Typography variant="h5" component="div">
+          <Typography variant="h5" sx={{ fontWeight: 'bold' }} component="div">
             {subject}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Deadline: {moment(deadline).format('DD/MM/YYYY')}
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Deadline')}: {moment(deadline).format('DD/MM/YYYY')}
           </Typography>
-          <Typography variant="body2">{description}</Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Initial time estimated: {initial_time_estimated}
+          <Paper variant="outlined" sx={{ mb: 1.5 }}>
+            <Typography sx={{ m: 1.5 }} variant="body2">
+              {description}
+            </Typography>
+          </Paper>
+
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Advancement')}: {advancement}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Total time spent: {total_time_spent}
+
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Project')}: {projectName}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Advancement: {advancement}
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Project: {projectId}
-          </Typography>
-          <ul>
-            Users:{' '}
-            {users?.map((user) => (
-              <li key={user} color="text.secondary">
-                {user}
-              </li>
-            ))}
-          </ul>
         </CardContent>
         <CardActions className="actions">
-          <Button size="small">{iconEdit}</Button>
           <Button
-            size="small"
+            size="medium"
+            sx={{ color: colors.primary }}
             onClick={() => deleteTicket({ variables: { deleteTicketId: _id } })}
           >
             {iconTrash}
           </Button>
         </CardActions>
       </Card>
+      <Dialog
+        open={displaySeeTicket}
+        onClose={toggleDisplay}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <TaskDetails
+          users={users}
+          span={span}
+          initial_time_estimated={initial_time_estimated}
+          total_time_spent={total_time_spent}
+        />
+      </Dialog>
     </div>
   );
 }
