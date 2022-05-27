@@ -4,6 +4,7 @@ const GET_TICKETS = gql`
   query getAllTickets {
     allTickets {
       _id
+      created_by
       subject
       status
       deadline
@@ -11,12 +12,28 @@ const GET_TICKETS = gql`
       initial_time_estimated
       total_time_spent
       advancement
-      projectId
+      project_id
       users
     }
   }
 `;
-
+/*
+query getAllTickets {
+  allTickets {
+    _id
+    created_by
+    subject
+    status
+    deadline
+    description
+    initial_time_estimated
+    total_time_spent
+    advancement
+    project_id
+    users
+  }
+}
+*/
 const ADD_TICKET = gql`
   mutation TicketMutation($ticketInput: TicketInput!) {
     addTicket(ticketInput: $ticketInput) {
@@ -26,7 +43,7 @@ const ADD_TICKET = gql`
       description
       initial_time_estimated
       total_time_spent
-      projectId
+      project_id
       users
     }
   }
