@@ -9,7 +9,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrash,
+  faPlusCircle,
+  faPen,
+} from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { useMutation, useQuery } from '@apollo/client';
 import { DeleteTicket, GetOneProject } from '../../schemaTypes';
@@ -48,10 +52,16 @@ function TicketCard({
 }: ITicketCard): JSX.Element {
   const iconTrash = <FontAwesomeIcon icon={faTrash} />;
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
+  const iconPen = <FontAwesomeIcon icon={faPen} />;
 
   const [displaySeeTicket, setDisplaySeeTicket] = useState(false);
   const toggleDisplay = () => {
     setDisplaySeeTicket(!displaySeeTicket);
+  };
+
+  const [displayUpdate, setDisplayUpdate] = useState(false);
+  const toggleUpdate = () => {
+    setDisplayUpdate(!displayUpdate);
   };
 
   interface IExistingTickets {
@@ -135,6 +145,13 @@ function TicketCard({
           <Button
             size="medium"
             sx={{ color: colors.primary }}
+            onClick={toggleUpdate}
+          >
+            {iconPen}
+          </Button>
+          <Button
+            size="medium"
+            sx={{ color: colors.primary }}
             onClick={() => deleteTicket({ variables: { deleteTicketId: _id } })}
           >
             {iconTrash}
@@ -153,6 +170,14 @@ function TicketCard({
           initial_time_estimated={initial_time_estimated}
           total_time_spent={total_time_spent}
         />
+      </Dialog>
+      <Dialog
+        open={displayUpdate}
+        onClose={toggleUpdate}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <p>Hi</p>
       </Dialog>
     </div>
   );
