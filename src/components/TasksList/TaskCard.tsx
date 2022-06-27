@@ -186,7 +186,7 @@ function TicketCard({
           _description={description}
           _initial_time_estimated={initial_time_estimated}
           _total_time_spent={total_time_spent}
-          // _projectId={projectId}
+          _projectId={projectId}
           // _users={users}
         />
       </Dialog>

@@ -20,12 +20,14 @@ import {
   AllTicketsUsers_allUsers,
   GetTicketsProjects_getAllProjects,
   getAllTickets,
+  GetOneProject,
 } from '../../schemaTypes';
 import {
   ADD_TICKET,
   GET_PROJECTS,
   GET_USERS,
   GET_TICKETS,
+  GET_PROJECT,
 } from '../../queries/TasksQueries';
 import '../../styles/TaskList.css';
 
@@ -37,7 +39,7 @@ interface IUpdateTaskCard {
   _description: string;
   _initial_time_estimated: number | null;
   _total_time_spent: number | null;
-  // _projectId: string;
+  _projectId: string | null;
   // _users: string[] | null;
 }
 
@@ -49,9 +51,8 @@ function UpdateTaskCard({
   _description,
   _initial_time_estimated,
   _total_time_spent,
-}: // _projectId,
-// _users,
-IUpdateTaskCard): JSX.Element {
+  _projectId,
+}: IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = ['In Progress', 'In Production', 'Done', 'Delayed'];
   interface ITicketData {
@@ -59,23 +60,31 @@ IUpdateTaskCard): JSX.Element {
     description: string;
     initial_time_estimated: number | null;
     total_time_spent: number | null;
-    projectId: string;
+    projectId: string | null;
   }
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: _subject,
     description: _description,
     initial_time_estimated: _initial_time_estimated,
     total_time_spent: _total_time_spent,
-    projectId: '',
+    projectId: _projectId,
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(
     new Date(_deadline)
   );
   const [selectStatus, setSelectStatus] = useState<string>(_status);
-  const [selectProject, setSelectProject] = React.useState<
+
+  const getProjectDetails = useQuery<GetOneProject>(GET_PROJECT, {
+    variables: { projectId: _projectId },
+  });
+  const projectDetails = getProjectDetails.data?.getOneProject;
+
+  const [selectProject, setSelectProject] = useState<
     GetTicketsProjects_getAllProjects | null | undefined
-  >(null);
-  const [inputValue, setInputValue] = React.useState('');
+  >(projectDetails);
+
+  const [inputValue, setInputValue] = useState('');
+
   const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
     []
   );

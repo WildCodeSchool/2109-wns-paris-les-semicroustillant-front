@@ -40,7 +40,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     description: string;
     initial_time_estimated: number | null;
     total_time_spent: number | null;
-    projectId: string;
+    projectId: string | null;
   }
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
