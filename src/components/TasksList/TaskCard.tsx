@@ -24,6 +24,7 @@ import {
 } from '../../queries/TasksQueries';
 import colors from '../../styles/globals';
 import TaskDetails from './TaskDetails';
+import UpdateTaskCard from './UpdateTaskCard';
 
 interface ITicketCard {
   _id: string;
@@ -177,7 +178,7 @@ function TicketCard({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <p>Hi</p>
+        <UpdateTaskCard toggleDisplay={toggleUpdate} />
       </Dialog>
     </div>
   );
