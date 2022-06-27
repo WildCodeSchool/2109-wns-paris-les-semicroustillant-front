@@ -178,7 +178,17 @@ function TicketCard({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <UpdateTaskCard toggleDisplay={toggleUpdate} />
+        <UpdateTaskCard
+          toggleDisplay={toggleUpdate}
+          _status={status}
+          _subject={subject}
+          _deadline={deadline}
+          _description={description}
+          _initial_time_estimated={initial_time_estimated}
+          _total_time_spent={total_time_spent}
+          // _projectId={projectId}
+          // _users={users}
+        />
       </Dialog>
     </div>
   );

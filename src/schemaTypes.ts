@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface GetOneUser_getOneUser {
-  __typename: 'User';
+  __typename: "User";
   _id: string;
   firstname: string;
 }
@@ -31,7 +31,7 @@ export interface GetOneUserVariables {
 // ====================================================
 
 export interface Mutation_addUser {
-  __typename: 'User';
+  __typename: "User";
   _id: string;
   firstname: string;
   lastname: string;
@@ -59,7 +59,7 @@ export interface MutationVariables {
 // ====================================================
 
 export interface getUsers_allUsers {
-  __typename: 'User';
+  __typename: "User";
   email: string;
 }
 
@@ -77,7 +77,7 @@ export interface getUsers {
 // ====================================================
 
 export interface getAllUsers_allUsers {
-  __typename: 'User';
+  __typename: "User";
   _id: string;
   firstname: string;
   lastname: string;
@@ -150,7 +150,7 @@ export interface loginVariables {
 // ====================================================
 
 export interface getAllTickets_allTickets {
-  __typename: 'Ticket';
+  __typename: "Ticket";
   _id: string;
   subject: string;
   status: string;
@@ -177,7 +177,7 @@ export interface getAllTickets {
 // ====================================================
 
 export interface TicketMutation_addTicket {
-  __typename: 'Ticket';
+  __typename: "Ticket";
   subject: string;
   status: string;
   deadline: any;
@@ -223,7 +223,7 @@ export interface DeleteTicketVariables {
 // ====================================================
 
 export interface GetTicketsProjects_getAllProjects {
-  __typename: 'Project';
+  __typename: "Project";
   _id: string;
   name: string;
 }
@@ -242,13 +242,17 @@ export interface GetTicketsProjects {
 // ====================================================
 
 export interface GetOneProject_getOneProject {
-  __typename: 'Project';
+  __typename: "Project";
   _id: string;
   name: string;
 }
 
 export interface GetOneProject {
   getOneProject: GetOneProject_getOneProject;
+}
+
+export interface GetOneProjectVariables {
+  projectId: string;
 }
 
 /* tslint:disable */
@@ -261,7 +265,7 @@ export interface GetOneProject {
 // ====================================================
 
 export interface AllTicketsUsers_allUsers {
-  __typename: 'User';
+  __typename: "User";
   _id: string;
   firstname: string;
   lastname: string;

@@ -29,10 +29,29 @@ import {
 } from '../../queries/TasksQueries';
 import '../../styles/TaskList.css';
 
-interface IAddTaskCard {
+interface IUpdateTaskCard {
   toggleDisplay: () => void;
+  _status: string;
+  _subject: string;
+  _deadline: Date;
+  _description: string;
+  _initial_time_estimated: number | null;
+  _total_time_spent: number | null;
+  // _projectId: string;
+  // _users: string[] | null;
 }
-function UpdateTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
+
+function UpdateTaskCard({
+  toggleDisplay,
+  _status,
+  _subject,
+  _deadline,
+  _description,
+  _initial_time_estimated,
+  _total_time_spent,
+}: // _projectId,
+// _users,
+IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = ['In Progress', 'In Production', 'Done', 'Delayed'];
   interface ITicketData {
@@ -43,14 +62,16 @@ function UpdateTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     projectId: string;
   }
   const [ticketData, setTicketData] = useState<ITicketData>({
-    subject: '',
-    description: '',
-    initial_time_estimated: 0,
-    total_time_spent: 0,
+    subject: _subject,
+    description: _description,
+    initial_time_estimated: _initial_time_estimated,
+    total_time_spent: _total_time_spent,
     projectId: '',
   });
-  const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
-  const [selectStatus, setSelectStatus] = useState<string>('');
+  const [pickDeadline, setPickDeadline] = useState<Date | null>(
+    new Date(_deadline)
+  );
+  const [selectStatus, setSelectStatus] = useState<string>(_status);
   const [selectProject, setSelectProject] = React.useState<
     GetTicketsProjects_getAllProjects | null | undefined
   >(null);
