@@ -6,6 +6,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import colors from '../../styles/globals';
 
 interface ITicketDetails {
+  created_by: string;
   users: string[] | null;
   span: (content: string) => JSX.Element;
   initial_time_estimated: number | null;
@@ -13,6 +14,7 @@ interface ITicketDetails {
 }
 
 function TaskDetails({
+  created_by,
   users,
   span,
   initial_time_estimated,
@@ -22,6 +24,9 @@ function TaskDetails({
 
   return (
     <div>
+      <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        Created by: {created_by}
+      </Typography>
       <Typography sx={{ mb: 1.5 }} color="text.secondary">
         Initial time estimated: {initial_time_estimated}
       </Typography>

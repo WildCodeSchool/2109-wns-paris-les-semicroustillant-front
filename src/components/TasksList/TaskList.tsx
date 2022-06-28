@@ -28,6 +28,7 @@ function TaskList(): JSX.Element {
             <TaskCard
               key={ticket._id}
               _id={ticket._id}
+              created_by={ticket.created_by}
               subject={ticket.subject}
               status={ticket.status}
               deadline={ticket.deadline}

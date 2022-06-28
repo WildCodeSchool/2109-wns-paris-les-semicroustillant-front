@@ -16,10 +16,9 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
   GetTicketsProjects,
   AllTicketsUsers,
-  TicketMutation,
+  UpdateTicket,
   AllTicketsUsers_allUsers,
   GetTicketsProjects_getAllProjects,
-  getAllTickets,
   GetOneProject,
   getAllUsers,
 } from '../../schemaTypes';
@@ -27,17 +26,17 @@ import {
   ADD_TICKET,
   GET_PROJECTS,
   GET_USERS,
-  GET_TICKETS,
   GET_PROJECT,
 } from '../../queries/TasksQueries';
 import '../../styles/TaskList.css';
 
 interface IUpdateTaskCard {
   toggleDisplay: () => void;
-  _status: string;
+  _id: string;
+  _status: string | null;
   _subject: string;
   _deadline: Date;
-  _description: string;
+  _description: string | null;
   _initial_time_estimated: number | null;
   _total_time_spent: number | null;
   _project_id: string | null;
@@ -46,6 +45,7 @@ interface IUpdateTaskCard {
 
 function UpdateTaskCard({
   toggleDisplay,
+  _id,
   _status,
   _subject,
   _deadline,
@@ -59,7 +59,7 @@ function UpdateTaskCard({
   const statuses = ['In Progress', 'In Production', 'Done', 'Delayed'];
   interface ITicketData {
     subject: string;
-    description: string;
+    description: string | null;
     initial_time_estimated: number | null;
     total_time_spent: number | null;
     project_id: string | null;
@@ -74,7 +74,7 @@ function UpdateTaskCard({
   const [pickDeadline, setPickDeadline] = useState<Date | null>(
     new Date(_deadline)
   );
-  const [selectStatus, setSelectStatus] = useState<string>(_status);
+  const [selectStatus, setSelectStatus] = useState<string>(_status || '');
 
   const getProjectDetails = useQuery<GetOneProject>(GET_PROJECT, {
     variables: { projectId: _project_id },
@@ -126,6 +126,7 @@ function UpdateTaskCard({
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
+    _id,
     subject: ticketData.subject,
     status: selectStatus,
     deadline: pickDeadline,
@@ -136,23 +137,9 @@ function UpdateTaskCard({
     users: selectUsers.map((user) => ({ _id: user._id })),
   };
 
-  const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
-    update(cache, { data }) {
-      const currentTasksList: getAllTickets = cache.readQuery({
-        query: GET_TICKETS,
-      }) ?? {
-        allTickets: [],
-      };
-      const result = { ...data?.addTicket, advancement: 0, _id: 'temporaryId' };
-
-      if (result) {
-        cache.writeQuery({
-          query: GET_TICKETS,
-          data: {
-            allTickets: [...currentTasksList.allTickets, result],
-          },
-        });
-      }
+  const [updateTicketFunction] = useMutation<UpdateTicket>(ADD_TICKET, {
+    variables: {
+      ticketInput: ticketVariables,
     },
   });
 
@@ -277,12 +264,7 @@ function UpdateTaskCard({
                 onClick={(e) => {
                   e.preventDefault();
                   if (selectStatus && ticketData.subject && selectProject) {
-                    addTicketFunction({
-                      variables: {
-                        ticketInput: ticketVariables,
-                      },
-                    });
-
+                    updateTicketFunction();
                     toggleDisplay();
                   }
                   if (!selectStatus) {

@@ -28,10 +28,11 @@ import UpdateTaskCard from './UpdateTaskCard';
 
 interface ITicketCard {
   _id: string;
+  created_by: string;
   subject: string;
-  status: string;
+  status: string | null;
   deadline: Date;
-  description: string;
+  description: string | null;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   advancement: number | null;
@@ -41,6 +42,7 @@ interface ITicketCard {
 
 function TicketCard({
   _id,
+  created_by,
   subject,
   status,
   deadline,
@@ -166,6 +168,7 @@ function TicketCard({
         aria-describedby="modal-modal-description"
       >
         <TaskDetails
+          created_by={created_by}
           users={users}
           span={span}
           initial_time_estimated={initial_time_estimated}
@@ -180,6 +183,7 @@ function TicketCard({
       >
         <UpdateTaskCard
           toggleDisplay={toggleUpdate}
+          _id={_id}
           _status={status}
           _subject={subject}
           _deadline={deadline}
