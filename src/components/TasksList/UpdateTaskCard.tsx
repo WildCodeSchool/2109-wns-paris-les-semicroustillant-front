@@ -23,7 +23,7 @@ import {
   getAllUsers,
 } from '../../schemaTypes';
 import {
-  ADD_TICKET,
+  UPDATE_TICKET,
   GET_PROJECTS,
   GET_USER,
   GET_USERS,
@@ -76,6 +76,7 @@ function UpdateTaskCard({
   const [selectCreatedBy, setSelectCreatedBy] =
     useState<AllTicketsUsers_allUsers | null>(createdByDetails);
   const [createdByInputValue, setCreatedByInputValue] = React.useState('');
+  console.log(selectCreatedBy);
 
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: _subject,
@@ -141,6 +142,7 @@ function UpdateTaskCard({
 
   const ticketVariables = {
     _id,
+    created_by: selectCreatedBy?._id,
     subject: ticketData.subject,
     status: selectStatus,
     deadline: pickDeadline,
@@ -148,13 +150,13 @@ function UpdateTaskCard({
     initial_time_estimated: Number(ticketData.initial_time_estimated),
     total_time_spent: Number(ticketData.total_time_spent),
     project_id: selectProject?._id,
-    users: selectUsers.map((user) => ({ _id: user._id })),
+    users: selectUsers.map((user) => user._id),
   };
 
   // TODO: error handling
-  const [updateTicketFunction] = useMutation<UpdateTicket>(ADD_TICKET, {
+  const [updateTicketFunction] = useMutation<UpdateTicket>(UPDATE_TICKET, {
     variables: {
-      ticketInput: ticketVariables,
+      ticketInputUpdate: ticketVariables,
     },
   });
 
