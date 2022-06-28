@@ -21,6 +21,7 @@ import {
   GetTicketsProjects_getAllProjects,
   getAllTickets,
   GetOneProject,
+  getAllUsers,
 } from '../../schemaTypes';
 import {
   ADD_TICKET,
@@ -86,7 +87,23 @@ function UpdateTaskCard({
 
   const [inputValue, setInputValue] = useState('');
 
-  console.log(_users);
+  const getUsersNames = useQuery<getAllUsers>(GET_USERS);
+  const allUsers = getUsersNames.data?.allUsers;
+
+  const usersNames = () => {
+    const result: string[] = [];
+    allUsers?.map((user) =>
+      _users?.map(
+        (userId) =>
+          user._id === userId &&
+          result.push(`${user.firstname} ${user.lastname}`)
+      )
+    );
+    return result;
+  };
+
+  console.log(usersNames());
+
   const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
     []
   );
