@@ -40,7 +40,7 @@ interface IUpdateTaskCard {
   _initial_time_estimated: number | null;
   _total_time_spent: number | null;
   _projectId: string | null;
-  // _users: string[] | null;
+  _users: string[] | null;
 }
 
 function UpdateTaskCard({
@@ -52,6 +52,7 @@ function UpdateTaskCard({
   _initial_time_estimated,
   _total_time_spent,
   _projectId,
+  _users,
 }: IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = ['In Progress', 'In Production', 'Done', 'Delayed'];
@@ -85,6 +86,7 @@ function UpdateTaskCard({
 
   const [inputValue, setInputValue] = useState('');
 
+  console.log(_users);
   const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
     []
   );
