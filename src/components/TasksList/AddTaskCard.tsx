@@ -6,6 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+// import Typography from '@mui/material/Typography';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
@@ -34,7 +35,7 @@ interface IAddTaskCard {
 }
 function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
-  const statuses = ['In Progress', 'In Production', 'Done', 'Delayed'];
+  const statuses = ['In progress', 'To do', 'Done'];
   interface ITicketData {
     subject: string;
     description: string;
@@ -42,6 +43,10 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     total_time_spent: number | null;
     project_id: string | null;
   }
+
+  const [selectCreatedBy, setSelectCreatedBy] =
+    useState<AllTicketsUsers_allUsers | null>(null);
+  const [createdByInputValue, setCreatedByInputValue] = React.useState('');
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
     description: '',
@@ -59,6 +64,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     []
   );
   const [inputError, setInputError] = useState({
+    created_by: false,
     status: false,
     subject: false,
     project: false,
@@ -82,6 +88,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
+    created_by: selectCreatedBy?._id,
     subject: ticketData.subject,
     status: selectStatus,
     deadline: pickDeadline,
@@ -89,9 +96,10 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     initial_time_estimated: Number(ticketData.initial_time_estimated),
     total_time_spent: Number(ticketData.total_time_spent),
     project_id: selectProject?._id,
-    users: selectUsers.map((user) => ({ _id: user._id })),
+    users: selectUsers.map((user) => user._id),
   };
 
+  // TODO: error handling
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
@@ -99,7 +107,11 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
       }) ?? {
         allTickets: [],
       };
-      const result = { ...data?.addTicket, advancement: 0, _id: 'temporaryId' };
+      const result = {
+        ...data?.addTicket,
+        advancement: 0,
+        _id: 'temporaryId',
+      };
 
       if (result) {
         cache.writeQuery({
@@ -122,6 +134,30 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
               e.preventDefault();
             }}
           >
+            <Autocomplete
+              value={selectCreatedBy}
+              onChange={(event, newValue) => {
+                setSelectCreatedBy(newValue);
+              }}
+              inputValue={createdByInputValue}
+              onInputChange={(event, newInputValue) => {
+                setCreatedByInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={users || []}
+              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...params}
+                  required
+                  error={inputError.created_by}
+                  label="Created by"
+                />
+              )}
+            />
+
             <TextField
               required
               error={inputError.status}
@@ -238,8 +274,12 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                         ticketInput: ticketVariables,
                       },
                     });
-
-                    toggleDisplay();
+                  }
+                  if (!selectCreatedBy) {
+                    setInputError({
+                      ...inputError,
+                      created_by: true,
+                    });
                   }
                   if (!selectStatus) {
                     setInputError({
@@ -259,12 +299,18 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                       project: true,
                     });
                   }
+                  toggleDisplay();
                 }}
               >
                 {iconCheck}
               </Button>
             </CardActions>
           </FormControl>
+          {/* {error !== undefined && (
+            <Typography variant="body2" color="text.secondary">
+              An error occured : {error.message}
+            </Typography>
+          )} */}
         </CardContent>
       </Card>
     </div>
