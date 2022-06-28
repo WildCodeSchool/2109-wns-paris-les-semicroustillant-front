@@ -40,14 +40,14 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     description: string;
     initial_time_estimated: number | null;
     total_time_spent: number | null;
-    projectId: string | null;
+    project_id: string | null;
   }
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
     description: '',
     initial_time_estimated: 0,
     total_time_spent: 0,
-    projectId: '',
+    project_id: '',
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
   const [selectStatus, setSelectStatus] = useState<string>('');
@@ -88,7 +88,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     description: ticketData.description,
     initial_time_estimated: Number(ticketData.initial_time_estimated),
     total_time_spent: Number(ticketData.total_time_spent),
-    projectId: selectProject?._id,
+    project_id: selectProject?._id,
     users: selectUsers.map((user) => ({ _id: user._id })),
   };
 

@@ -35,7 +35,7 @@ function TaskList(): JSX.Element {
               initial_time_estimated={ticket.initial_time_estimated}
               total_time_spent={ticket.total_time_spent}
               advancement={ticket.advancement}
-              projectId={ticket.projectId}
+              project_id={ticket.project_id}
               users={ticket.users}
             />
           ))}

@@ -39,7 +39,7 @@ interface IUpdateTaskCard {
   _description: string;
   _initial_time_estimated: number | null;
   _total_time_spent: number | null;
-  _projectId: string | null;
+  _project_id: string | null;
   _users: string[] | null;
 }
 
@@ -51,7 +51,7 @@ function UpdateTaskCard({
   _description,
   _initial_time_estimated,
   _total_time_spent,
-  _projectId,
+  _project_id,
   _users,
 }: IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
@@ -61,14 +61,14 @@ function UpdateTaskCard({
     description: string;
     initial_time_estimated: number | null;
     total_time_spent: number | null;
-    projectId: string | null;
+    project_id: string | null;
   }
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: _subject,
     description: _description,
     initial_time_estimated: _initial_time_estimated,
     total_time_spent: _total_time_spent,
-    projectId: _projectId,
+    project_id: _project_id,
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(
     new Date(_deadline)
@@ -76,7 +76,7 @@ function UpdateTaskCard({
   const [selectStatus, setSelectStatus] = useState<string>(_status);
 
   const getProjectDetails = useQuery<GetOneProject>(GET_PROJECT, {
-    variables: { projectId: _projectId },
+    variables: { projectId: _project_id },
   });
   const projectDetails = getProjectDetails.data?.getOneProject;
 
@@ -120,7 +120,7 @@ function UpdateTaskCard({
     description: ticketData.description,
     initial_time_estimated: Number(ticketData.initial_time_estimated),
     total_time_spent: Number(ticketData.total_time_spent),
-    projectId: selectProject?._id,
+    project_id: selectProject?._id,
     users: selectUsers.map((user) => ({ _id: user._id })),
   };
 

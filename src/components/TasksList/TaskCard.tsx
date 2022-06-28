@@ -35,7 +35,7 @@ interface ITicketCard {
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   advancement: number | null;
-  projectId: string | null;
+  project_id: string | null;
   users: string[] | null;
 }
 
@@ -48,7 +48,7 @@ function TicketCard({
   initial_time_estimated,
   total_time_spent,
   advancement,
-  projectId,
+  project_id,
   users,
 }: ITicketCard): JSX.Element {
   const iconTrash = <FontAwesomeIcon icon={faTrash} />;
@@ -85,7 +85,7 @@ function TicketCard({
   });
 
   const { data } = useQuery<GetOneProject>(GET_PROJECT, {
-    variables: { projectId },
+    variables: { projectId: project_id },
   });
   const projectName = data?.getOneProject.name;
 
@@ -186,7 +186,7 @@ function TicketCard({
           _description={description}
           _initial_time_estimated={initial_time_estimated}
           _total_time_spent={total_time_spent}
-          _projectId={projectId}
+          _project_id={project_id}
           _users={users}
         />
       </Dialog>
