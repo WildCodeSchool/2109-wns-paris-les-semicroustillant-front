@@ -42,7 +42,7 @@ function TaskList(): JSX.Element {
           ))}
         {error && <p>Error: {error.message}</p>}
       </div>
-      <>
+      <div>
         <Button
           size="large"
           sx={{ color: colors.primary }}
@@ -58,7 +58,7 @@ function TaskList(): JSX.Element {
         >
           <AddTaskCard toggleDisplay={toggleDisplay} />
         </Dialog>
-      </>
+      </div>
     </div>
   );
 }

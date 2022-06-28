@@ -125,195 +125,198 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   });
 
   return (
-    <div className="cardContainer">
-      <Card sx={{ marginBottom: 25, minWidth: 600 }}>
-        <CardContent>
-          <FormControl
-            sx={{ m: 1, minWidth: 120 }}
-            onSubmit={(e) => {
-              e.preventDefault();
+    <Card
+      sx={{
+        minWidth: 600,
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <CardContent>
+        <FormControl
+          sx={{ m: 1, minWidth: 120 }}
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <Autocomplete
+            value={selectCreatedBy}
+            onChange={(event, newValue) => {
+              setSelectCreatedBy(newValue);
             }}
-          >
-            <Autocomplete
-              value={selectCreatedBy}
-              onChange={(event, newValue) => {
-                setSelectCreatedBy(newValue);
-              }}
-              inputValue={createdByInputValue}
-              onInputChange={(event, newInputValue) => {
-                setCreatedByInputValue(newInputValue);
-              }}
-              id="controllable-states-demo"
-              options={users || []}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...params}
-                  required
-                  error={inputError.created_by}
-                  label="Created by"
-                />
-              )}
-            />
-
-            <TextField
-              required
-              error={inputError.status}
-              id="status"
-              margin="normal"
-              select
-              label="Status"
-              value={selectStatus}
-              onChange={handleSelectStatus}
-            >
-              {statuses.map((status) => (
-                <MenuItem key={status} value={status}>
-                  {status}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              required
-              error={inputError.subject}
-              id="subject"
-              margin="normal"
-              label="Subject"
-              value={ticketData.subject}
-              onChange={handleData}
-            />
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-              <DatePicker
-                label="Deadline"
-                value={pickDeadline}
-                onChange={(value) => {
-                  setPickDeadline(value);
-                }}
+            inputValue={createdByInputValue}
+            onInputChange={(event, newInputValue) => {
+              setCreatedByInputValue(newInputValue);
+            }}
+            id="controllable-states-demo"
+            options={users || []}
+            getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+            sx={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField
                 // eslint-disable-next-line react/jsx-props-no-spreading
-                renderInput={(params) => <TextField {...params} />}
+                {...params}
+                required
+                error={inputError.created_by}
+                label="Created by"
               />
-            </LocalizationProvider>
-            <TextField
-              multiline
-              rows={4}
-              id="description"
-              margin="normal"
-              label="Description"
-              value={ticketData.description}
-              onChange={handleData}
-            />
-            <TextField
-              id="initial_time_estimated"
-              margin="normal"
-              label="Initial time estimated (hours)"
-              value={ticketData.initial_time_estimated}
-              onChange={handleData}
-            />
-            <TextField
-              id="total_time_spent"
-              margin="normal"
-              label="Total time spent (hours)"
-              value={ticketData.total_time_spent}
-              onChange={handleData}
-            />
-            <Autocomplete
-              value={selectProject}
-              onChange={(event, newValue) => {
-                setSelectProject(newValue);
-              }}
-              inputValue={inputValue}
-              onInputChange={(event, newInputValue) => {
-                setInputValue(newInputValue);
-              }}
-              id="controllable-states-demo"
-              options={projects || []}
-              getOptionLabel={(project) => project.name}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...params}
-                  required
-                  error={inputError.project}
-                  label="Project"
-                />
-              )}
-            />
+            )}
+          />
 
-            <Autocomplete
-              sx={{ marginTop: 2 }}
-              multiple
-              id="tags-outlined"
-              value={selectUsers}
-              options={users || []}
-              onChange={(event, newValue) => {
-                setSelectUsers(newValue);
+          <TextField
+            required
+            error={inputError.status}
+            id="status"
+            margin="normal"
+            select
+            label="Status"
+            value={selectStatus}
+            onChange={handleSelectStatus}
+          >
+            {statuses.map((status) => (
+              <MenuItem key={status} value={status}>
+                {status}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            required
+            error={inputError.subject}
+            id="subject"
+            margin="normal"
+            label="Subject"
+            value={ticketData.subject}
+            onChange={handleData}
+          />
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DatePicker
+              label="Deadline"
+              value={pickDeadline}
+              onChange={(value) => {
+                setPickDeadline(value);
               }}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
-              filterSelectedOptions
-              renderInput={(params) => (
-                <TextField
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...params}
-                  label="Users"
-                  placeholder="Users"
-                />
-              )}
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              renderInput={(params) => <TextField {...params} />}
             />
+          </LocalizationProvider>
+          <TextField
+            multiline
+            rows={4}
+            id="description"
+            margin="normal"
+            label="Description"
+            value={ticketData.description}
+            onChange={handleData}
+          />
+          <TextField
+            id="initial_time_estimated"
+            margin="normal"
+            label="Initial time estimated (hours)"
+            value={ticketData.initial_time_estimated}
+            onChange={handleData}
+          />
+          <TextField
+            id="total_time_spent"
+            margin="normal"
+            label="Total time spent (hours)"
+            value={ticketData.total_time_spent}
+            onChange={handleData}
+          />
+          <Autocomplete
+            value={selectProject}
+            onChange={(event, newValue) => {
+              setSelectProject(newValue);
+            }}
+            inputValue={inputValue}
+            onInputChange={(event, newInputValue) => {
+              setInputValue(newInputValue);
+            }}
+            id="controllable-states-demo"
+            options={projects || []}
+            getOptionLabel={(project) => project.name}
+            sx={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...params}
+                required
+                error={inputError.project}
+                label="Project"
+              />
+            )}
+          />
+          <Autocomplete
+            sx={{ marginTop: 2 }}
+            multiple
+            id="tags-outlined"
+            value={selectUsers}
+            options={users || []}
+            onChange={(event, newValue) => {
+              setSelectUsers(newValue);
+            }}
+            getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+            filterSelectedOptions
+            renderInput={(params) => (
+              <TextField
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...params}
+                label="Users"
+                placeholder="Users"
+              />
+            )}
+          />
 
-            <CardActions className="createActions">
-              <Button
-                size="small"
-                type="submit"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (selectStatus && ticketData.subject && selectProject) {
-                    addTicketFunction({
-                      variables: {
-                        ticketInput: ticketVariables,
-                      },
-                    });
-                  }
-                  if (!selectCreatedBy) {
-                    setInputError({
-                      ...inputError,
-                      created_by: true,
-                    });
-                  }
-                  if (!selectStatus) {
-                    setInputError({
-                      ...inputError,
-                      status: true,
-                    });
-                  }
-                  if (!ticketData.subject) {
-                    setInputError({
-                      ...inputError,
-                      subject: true,
-                    });
-                  }
-                  if (!selectProject) {
-                    setInputError({
-                      ...inputError,
-                      project: true,
-                    });
-                  }
-                  toggleDisplay();
-                }}
-              >
-                {iconCheck}
-              </Button>
-            </CardActions>
-          </FormControl>
-          {/* {error !== undefined && (
+          <CardActions className="createActions">
+            <Button
+              size="large"
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                if (selectStatus && ticketData.subject && selectProject) {
+                  addTicketFunction({
+                    variables: {
+                      ticketInput: ticketVariables,
+                    },
+                  });
+                }
+                if (!selectCreatedBy) {
+                  setInputError({
+                    ...inputError,
+                    created_by: true,
+                  });
+                }
+                if (!selectStatus) {
+                  setInputError({
+                    ...inputError,
+                    status: true,
+                  });
+                }
+                if (!ticketData.subject) {
+                  setInputError({
+                    ...inputError,
+                    subject: true,
+                  });
+                }
+                if (!selectProject) {
+                  setInputError({
+                    ...inputError,
+                    project: true,
+                  });
+                }
+                toggleDisplay();
+              }}
+            >
+              {iconCheck}
+            </Button>
+          </CardActions>
+        </FormControl>
+        {/* {error !== undefined && (
             <Typography variant="body2" color="text.secondary">
               An error occured : {error.message}
             </Typography>
           )} */}
-        </CardContent>
-      </Card>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 

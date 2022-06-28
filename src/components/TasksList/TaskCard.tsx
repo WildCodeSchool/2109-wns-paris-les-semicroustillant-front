@@ -101,8 +101,11 @@ function TicketCard({
   );
 
   return (
-    <div className="cardContainer">
-      <Card sx={{ minWidth: 275, maxWidth: 300 }} elevation={10}>
+    <div>
+      <Card
+        sx={{ marginTop: 5, marginBottom: 5, minWidth: 275, maxWidth: 300 }}
+        elevation={10}
+      >
         <CardHeader
           sx={{ pb: 0 }}
           title={
@@ -161,40 +164,49 @@ function TicketCard({
           </Button>
         </CardActions>
       </Card>
-      <Dialog
-        open={displaySeeTicket}
-        onClose={toggleDisplay}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <TaskDetails
-          created_by={created_by}
-          users={users}
-          span={span}
-          initial_time_estimated={initial_time_estimated}
-          total_time_spent={total_time_spent}
-        />
-      </Dialog>
-      <Dialog
-        open={displayUpdate}
-        onClose={toggleUpdate}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <UpdateTaskCard
-          toggleDisplay={toggleUpdate}
-          _id={_id}
-          _created_by={created_by}
-          _status={status}
-          _subject={subject}
-          _deadline={deadline}
-          _description={description}
-          _initial_time_estimated={initial_time_estimated}
-          _total_time_spent={total_time_spent}
-          _project_id={project_id}
-          _users={users}
-        />
-      </Dialog>
+      <div>
+        <Dialog
+          open={displaySeeTicket}
+          onClose={toggleDisplay}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <TaskDetails
+            _id={_id}
+            created_by={created_by}
+            users={users}
+            span={span}
+            status={status}
+            subject={subject}
+            deadline={deadline}
+            description={description}
+            project_id={project_id}
+            initial_time_estimated={initial_time_estimated}
+            total_time_spent={total_time_spent}
+            advancement={advancement}
+          />
+        </Dialog>
+        <Dialog
+          open={displayUpdate}
+          onClose={toggleUpdate}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <UpdateTaskCard
+            toggleDisplay={toggleUpdate}
+            _id={_id}
+            _created_by={created_by}
+            _status={status}
+            _subject={subject}
+            _deadline={deadline}
+            _description={description}
+            _initial_time_estimated={initial_time_estimated}
+            _total_time_spent={total_time_spent}
+            _project_id={project_id}
+            _users={users}
+          />
+        </Dialog>
+      </div>
     </div>
   );
 }

@@ -4,11 +4,6 @@
   justify-content: space-between;
 }
 
-.cardContainer {
-  display: flex;
-  margin: 1.5rem;
-}
-
 .cardsDisplay {
   display: flex;
   flex-wrap: wrap;
