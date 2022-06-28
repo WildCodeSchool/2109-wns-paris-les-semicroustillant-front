@@ -91,22 +91,17 @@ function UpdateTaskCard({
   const allUsers = getUsersNames.data?.allUsers;
 
   const usersNames = () => {
-    const result: string[] = [];
+    const result: AllTicketsUsers_allUsers[] = [];
     allUsers?.map((user) =>
-      _users?.map(
-        (userId) =>
-          user._id === userId &&
-          result.push(`${user.firstname} ${user.lastname}`)
-      )
+      _users?.map((userId) => user._id === userId && result.push(user))
     );
     return result;
   };
 
-  console.log(usersNames());
-
   const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
-    []
+    usersNames()
   );
+
   const [inputError, setInputError] = useState({
     status: false,
     subject: false,
@@ -270,7 +265,7 @@ function UpdateTaskCard({
                   // eslint-disable-next-line react/jsx-props-no-spreading
                   {...params}
                   label="Users"
-                  placeholder="Users"
+                  placeholder={selectUsers.length !== 0 ? undefined : 'Users'}
                 />
               )}
             />
