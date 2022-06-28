@@ -184,6 +184,7 @@ function TicketCard({
         <UpdateTaskCard
           toggleDisplay={toggleUpdate}
           _id={_id}
+          _created_by={created_by}
           _status={status}
           _subject={subject}
           _deadline={deadline}

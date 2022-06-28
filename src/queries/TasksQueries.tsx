@@ -85,6 +85,16 @@ const GET_USERS = gql`
     }
   }
 `;
+
+const GET_USER = gql`
+  query GetOneUser($userId: String!) {
+    getOneUser(userId: $userId) {
+      _id
+      firstname
+      lastname
+    }
+  }
+`;
 export {
   GET_TICKETS,
   ADD_TICKET,
@@ -93,4 +103,5 @@ export {
   GET_PROJECTS,
   GET_PROJECT,
   GET_USERS,
+  GET_USER,
 };

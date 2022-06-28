@@ -25,6 +25,7 @@ import {
 import {
   ADD_TICKET,
   GET_PROJECTS,
+  GET_USER,
   GET_USERS,
   GET_PROJECT,
 } from '../../queries/TasksQueries';
@@ -33,6 +34,7 @@ import '../../styles/TaskList.css';
 interface IUpdateTaskCard {
   toggleDisplay: () => void;
   _id: string;
+  _created_by: string;
   _status: string | null;
   _subject: string;
   _deadline: Date;
@@ -46,6 +48,7 @@ interface IUpdateTaskCard {
 function UpdateTaskCard({
   toggleDisplay,
   _id,
+  _created_by,
   _status,
   _subject,
   _deadline,
@@ -56,7 +59,7 @@ function UpdateTaskCard({
   _users,
 }: IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
-  const statuses = ['In Progress', 'In Production', 'Done', 'Delayed'];
+  const statuses = ['In progress', 'To do', 'Done'];
   interface ITicketData {
     subject: string;
     description: string | null;
@@ -64,6 +67,16 @@ function UpdateTaskCard({
     total_time_spent: number | null;
     project_id: string | null;
   }
+
+  const getCreatedByDetails = useQuery(GET_USER, {
+    variables: { userId: _created_by },
+  });
+  const createdByDetails = getCreatedByDetails.data?.getOneUser;
+
+  const [selectCreatedBy, setSelectCreatedBy] =
+    useState<AllTicketsUsers_allUsers | null>(createdByDetails);
+  const [createdByInputValue, setCreatedByInputValue] = React.useState('');
+
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: _subject,
     description: _description,
@@ -103,6 +116,7 @@ function UpdateTaskCard({
   );
 
   const [inputError, setInputError] = useState({
+    created_by: false,
     status: false,
     subject: false,
     project: false,
@@ -137,6 +151,7 @@ function UpdateTaskCard({
     users: selectUsers.map((user) => ({ _id: user._id })),
   };
 
+  // TODO: error handling
   const [updateTicketFunction] = useMutation<UpdateTicket>(ADD_TICKET, {
     variables: {
       ticketInput: ticketVariables,
@@ -153,6 +168,30 @@ function UpdateTaskCard({
               e.preventDefault();
             }}
           >
+            <Autocomplete
+              value={selectCreatedBy}
+              onChange={(event, newValue) => {
+                setSelectCreatedBy(newValue);
+              }}
+              inputValue={createdByInputValue}
+              onInputChange={(event, newInputValue) => {
+                setCreatedByInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={users || []}
+              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...params}
+                  required
+                  error={inputError.created_by}
+                  label="Created by"
+                />
+              )}
+            />
+
             <TextField
               required
               error={inputError.status}
