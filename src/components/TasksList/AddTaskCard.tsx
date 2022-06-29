@@ -6,7 +6,6 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
@@ -14,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 import {
   GetTicketsProjects,
   AllTicketsUsers,
@@ -29,7 +29,6 @@ import {
   GET_TICKETS,
 } from '../../queries/TasksQueries';
 import '../../styles/TaskList.css';
-// import { onError } from '@apollo/client/link/error';
 
 interface IAddTaskCard {
   toggleDisplay: () => void;
@@ -125,7 +124,9 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
       }
     },
     onError(error) {
+      // eslint-disable-next-line no-console
       console.log(error);
+      toast.error('An error occurred!');
     },
   });
 

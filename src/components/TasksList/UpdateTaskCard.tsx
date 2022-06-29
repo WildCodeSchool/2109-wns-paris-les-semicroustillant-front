@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 import {
   GetTicketsProjects,
   AllTicketsUsers,
@@ -155,7 +156,9 @@ function UpdateTaskCard({
   // TODO: error handling
   const [updateTicketFunction] = useMutation<UpdateTicket>(UPDATE_TICKET, {
     onError(error) {
+      // eslint-disable-next-line no-console
       console.log(error);
+      toast.error('An error occurred!');
     },
   });
 
