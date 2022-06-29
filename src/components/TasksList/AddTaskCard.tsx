@@ -6,7 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-// import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
@@ -29,6 +29,7 @@ import {
   GET_TICKETS,
 } from '../../queries/TasksQueries';
 import '../../styles/TaskList.css';
+// import { onError } from '@apollo/client/link/error';
 
 interface IAddTaskCard {
   toggleDisplay: () => void;
@@ -100,6 +101,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   };
 
   // TODO: error handling
+  // const [mutationError, setMutationError] = useState('');
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
@@ -121,6 +123,9 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
           },
         });
       }
+    },
+    onError(error) {
+      console.log(error);
     },
   });
 
@@ -270,6 +275,12 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
             <Button
               size="large"
               type="submit"
+              disabled={
+                !selectStatus ||
+                !selectCreatedBy ||
+                !ticketData.subject ||
+                !selectProject
+              }
               onClick={(e) => {
                 e.preventDefault();
                 if (selectStatus && ticketData.subject && selectProject) {
@@ -310,11 +321,11 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
             </Button>
           </CardActions>
         </FormControl>
-        {/* {error !== undefined && (
-            <Typography variant="body2" color="text.secondary">
-              An error occured : {error.message}
-            </Typography>
-          )} */}
+        {/*     {error && (
+          <Typography variant="body2" color="text.secondary">
+            An error occured : {error.message}
+          </Typography>
+        )} */}
       </CardContent>
     </Card>
   );

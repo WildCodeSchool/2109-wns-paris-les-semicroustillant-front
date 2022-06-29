@@ -154,8 +154,8 @@ function UpdateTaskCard({
 
   // TODO: error handling
   const [updateTicketFunction] = useMutation<UpdateTicket>(UPDATE_TICKET, {
-    variables: {
-      ticketInputUpdate: ticketVariables,
+    onError(error) {
+      console.log(error);
     },
   });
 
@@ -300,11 +300,20 @@ function UpdateTaskCard({
             <Button
               size="large"
               type="submit"
+              disabled={
+                !selectStatus ||
+                !selectCreatedBy ||
+                !ticketData.subject ||
+                !selectProject
+              }
               onClick={(e) => {
                 e.preventDefault();
                 if (selectStatus && ticketData.subject && selectProject) {
-                  updateTicketFunction();
-                  toggleDisplay();
+                  updateTicketFunction({
+                    variables: {
+                      ticketInputUpdate: ticketVariables,
+                    },
+                  });
                 }
                 if (!selectStatus) {
                   setInputError({
@@ -324,6 +333,7 @@ function UpdateTaskCard({
                     project: true,
                   });
                 }
+                toggleDisplay();
               }}
             >
               {iconCheck}
