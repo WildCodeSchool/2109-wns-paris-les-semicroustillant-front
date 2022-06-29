@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
-import { useLazyQuery, gql } from '@apollo/client';
-import Box from '@mui/material/Box';
-import '../styles/Login.css';
+import React, { useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLazyQuery, gql } from '@apollo/client';
+import {
+  Box,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import CustomLoginButton from '../assets/custom-components/login';
+
+import '../styles/Login.css';
+
 import Logo from '../images/logo_semi.png';
 
 const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   const LOGIN = gql`
     query login($email: String!, $password: String!) {
@@ -39,19 +59,47 @@ const Login = (): JSX.Element => {
           <Box className="loginBox">
             <img className="logo" alt="logo_semi" src={Logo} />
             <h3 className="welcom"> WELCOME !</h3>
-            <input
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button className="buttonLogin" type="button" onClick={login}>
+
+            <FormControl sx={{ m: 1 }} fullWidth variant="outlined">
+              <InputLabel htmlFor="outlined-email">
+                Email
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-email"
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                label="Email"
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }} fullWidth variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+
+            <CustomLoginButton type="submit" onClick={login}>
               Login
-            </button>
+            </CustomLoginButton>
           </Box>
         </Box>
       ) : (
