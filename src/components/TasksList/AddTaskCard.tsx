@@ -68,6 +68,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     status: false,
     subject: false,
     project: false,
+    initial_time_estimated: false,
   });
 
   const handleData = (event: ChangeEvent<HTMLInputElement>) => {
@@ -193,6 +194,10 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
             label="Subject"
             value={ticketData.subject}
             onChange={handleData}
+            helperText={
+              ticketData.subject.length > 30 &&
+              'Subject must be less than 30 characters'
+            }
           />
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
@@ -220,8 +225,15 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
             label="Initial time estimated (hours)"
             value={ticketData.initial_time_estimated}
             onChange={handleData}
+            helperText={
+              ticketData.initial_time_estimated &&
+              ticketData.initial_time_estimated / 1 !==
+                ticketData.initial_time_estimated &&
+              'Time must be a number'
+            }
           />
           <TextField
+            error={inputError.initial_time_estimated}
             id="total_time_spent"
             margin="normal"
             label="Total time spent (hours)"
@@ -284,7 +296,12 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
               }
               onClick={(e) => {
                 e.preventDefault();
-                if (selectStatus && ticketData.subject && selectProject) {
+                if (
+                  selectStatus &&
+                  ticketData.subject &&
+                  selectProject &&
+                  !inputError
+                ) {
                   addTicketFunction({
                     variables: {
                       ticketInput: ticketVariables,
@@ -303,7 +320,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                     status: true,
                   });
                 }
-                if (!ticketData.subject) {
+                if (!ticketData.subject || ticketData.subject.length > 30) {
                   setInputError({
                     ...inputError,
                     subject: true,
@@ -315,7 +332,9 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                     project: true,
                   });
                 }
-                toggleDisplay();
+                if (!inputError) {
+                  toggleDisplay();
+                }
               }}
             >
               {iconCheck}

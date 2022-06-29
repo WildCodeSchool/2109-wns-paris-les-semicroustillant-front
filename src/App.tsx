@@ -45,10 +45,7 @@ function App(): JSX.Element {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-<<<<<<< HEAD
           theme="colored"
-=======
->>>>>>> 3a1834ef137f37ee7a0c08df09fab134e2be8a50
         />
       </LoginContext.Provider>
     </>
