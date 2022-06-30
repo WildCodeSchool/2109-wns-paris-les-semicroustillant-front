@@ -15,7 +15,6 @@
 }
 
 .loginBoxMain {
-  min-height: 1080px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,6 +31,7 @@
   align-items: center;
   min-width: 600px;
   margin-top: 100px;
+  padding: 6%;
 }
 
 .logo {
@@ -40,12 +40,13 @@
   position: relative;
 }
 
+/* Already used in assets/custom-components/login */
 .buttonLogin {
   background: var(--primary);
   border: none;
   padding: 20px;
   border-radius: 10px;
-  width: 80%;
+  width: 85%;
   color: white;
   font-size: 18px;
   font-weight: bold;
@@ -53,6 +54,7 @@
   margin-bottom: 30px;
 }
 
+/* Already used in assets/custom-components/login */
 .buttonLogin:active {
   background: #be083f;
 }
