@@ -69,6 +69,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     subject: false,
     project: false,
     initial_time_estimated: false,
+    total_time_spent: false,
   });
 
   const handleData = (event: ChangeEvent<HTMLInputElement>) => {
@@ -100,8 +101,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     users: selectUsers.map((user) => user._id),
   };
 
-  // TODO: error handling
-  // const [mutationError, setMutationError] = useState('');
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
@@ -122,12 +121,14 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
             allTickets: [...currentTasksList.allTickets, result],
           },
         });
+        toast.success('Ticket created!');
+        toggleDisplay();
       }
     },
     onError(error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      toast.error('An error occurred!');
+      toast.error(`${error.message}`);
     },
   });
 
@@ -169,7 +170,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
               />
             )}
           />
-
           <TextField
             required
             error={inputError.status}
@@ -221,24 +221,27 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
           />
           <TextField
             id="initial_time_estimated"
+            error={inputError.initial_time_estimated}
             margin="normal"
             label="Initial time estimated (hours)"
             value={ticketData.initial_time_estimated}
             onChange={handleData}
             helperText={
-              ticketData.initial_time_estimated &&
-              ticketData.initial_time_estimated / 1 !==
-                ticketData.initial_time_estimated &&
+              Number.isNaN(ticketVariables.initial_time_estimated) === true &&
               'Time must be a number'
             }
           />
           <TextField
-            error={inputError.initial_time_estimated}
+            error={inputError.total_time_spent}
             id="total_time_spent"
             margin="normal"
             label="Total time spent (hours)"
             value={ticketData.total_time_spent}
             onChange={handleData}
+            helperText={
+              Number.isNaN(ticketVariables.total_time_spent) === true &&
+              'Time must be a number'
+            }
           />
           <Autocomplete
             value={selectProject}
@@ -292,16 +295,14 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                 !selectStatus ||
                 !selectCreatedBy ||
                 !ticketData.subject ||
+                ticketData.subject.length > 30 ||
+                Number.isNaN(ticketVariables.initial_time_estimated) === true ||
+                Number.isNaN(ticketVariables.total_time_spent) === true ||
                 !selectProject
               }
               onClick={(e) => {
                 e.preventDefault();
-                if (
-                  selectStatus &&
-                  ticketData.subject &&
-                  selectProject &&
-                  !inputError
-                ) {
+                if (selectStatus && ticketData.subject && selectProject) {
                   addTicketFunction({
                     variables: {
                       ticketInput: ticketVariables,
@@ -332,8 +333,19 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                     project: true,
                   });
                 }
-                if (!inputError) {
-                  toggleDisplay();
+                if (
+                  Number.isNaN(ticketVariables.initial_time_estimated) === true
+                ) {
+                  setInputError({
+                    ...inputError,
+                    initial_time_estimated: true,
+                  });
+                }
+                if (Number.isNaN(ticketVariables.total_time_spent) === true) {
+                  setInputError({
+                    ...inputError,
+                    total_time_spent: true,
+                  });
                 }
               }}
             >
@@ -341,11 +353,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
             </Button>
           </CardActions>
         </FormControl>
-        {/*     {error && (
-          <Typography variant="body2" color="text.secondary">
-            An error occured : {error.message}
-          </Typography>
-        )} */}
       </CardContent>
     </Card>
   );

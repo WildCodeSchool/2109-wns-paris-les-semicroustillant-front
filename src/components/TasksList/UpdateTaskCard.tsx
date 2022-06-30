@@ -121,6 +121,8 @@ function UpdateTaskCard({
     status: false,
     subject: false,
     project: false,
+    initial_time_estimated: false,
+    total_time_spent: false,
   });
 
   const handleData = (event: ChangeEvent<HTMLInputElement>) => {
@@ -155,10 +157,14 @@ function UpdateTaskCard({
 
   // TODO: error handling
   const [updateTicketFunction] = useMutation<UpdateTicket>(UPDATE_TICKET, {
+    onCompleted() {
+      toast.success('Ticket updated!');
+      toggleDisplay();
+    },
     onError(error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      toast.error('An error occurred!');
+      toast.error(`${error.message}`);
     },
   });
 
@@ -219,6 +225,10 @@ function UpdateTaskCard({
             label="Subject"
             value={ticketData.subject}
             onChange={handleData}
+            helperText={
+              ticketData.subject.length > 30 &&
+              'Subject must be less than 30 characters'
+            }
           />
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
@@ -246,6 +256,10 @@ function UpdateTaskCard({
             label="Initial time estimated (hours)"
             value={ticketData.initial_time_estimated}
             onChange={handleData}
+            helperText={
+              Number.isNaN(ticketVariables.initial_time_estimated) === true &&
+              'Time must be a number'
+            }
           />
           <TextField
             id="total_time_spent"
@@ -253,6 +267,10 @@ function UpdateTaskCard({
             label="Total time spent (hours)"
             value={ticketData.total_time_spent}
             onChange={handleData}
+            helperText={
+              Number.isNaN(ticketVariables.total_time_spent) === true &&
+              'Time must be a number'
+            }
           />
           <Autocomplete
             value={selectProject}
@@ -277,7 +295,6 @@ function UpdateTaskCard({
               />
             )}
           />
-
           <Autocomplete
             sx={{ marginTop: 2 }}
             multiple
@@ -307,6 +324,9 @@ function UpdateTaskCard({
                 !selectStatus ||
                 !selectCreatedBy ||
                 !ticketData.subject ||
+                ticketData.subject.length > 30 ||
+                Number.isNaN(ticketVariables.initial_time_estimated) === true ||
+                Number.isNaN(ticketVariables.total_time_spent) === true ||
                 !selectProject
               }
               onClick={(e) => {
@@ -324,7 +344,7 @@ function UpdateTaskCard({
                     status: true,
                   });
                 }
-                if (!ticketData.subject) {
+                if (!ticketData.subject || ticketData.subject.length > 30) {
                   setInputError({
                     ...inputError,
                     subject: true,
@@ -336,7 +356,20 @@ function UpdateTaskCard({
                     project: true,
                   });
                 }
-                toggleDisplay();
+                if (
+                  Number.isNaN(ticketVariables.initial_time_estimated) === true
+                ) {
+                  setInputError({
+                    ...inputError,
+                    initial_time_estimated: true,
+                  });
+                }
+                if (Number.isNaN(ticketVariables.total_time_spent) === true) {
+                  setInputError({
+                    ...inputError,
+                    total_time_spent: true,
+                  });
+                }
               }}
             >
               {iconCheck}
