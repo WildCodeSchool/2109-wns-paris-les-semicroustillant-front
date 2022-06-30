@@ -8,9 +8,11 @@
 // ====================================================
 
 export interface GetOneUser_getOneUser {
-  __typename: 'User';
+  __typename: "User";
   _id: string;
   firstname: string;
+  lastname: string;
+  position: string;
 }
 
 export interface GetOneUser {
@@ -31,12 +33,11 @@ export interface GetOneUserVariables {
 // ====================================================
 
 export interface Mutation_addUser {
-  __typename: 'User';
+  __typename: "User";
   _id: string;
   firstname: string;
   lastname: string;
   email: string;
-  hash: string;
   role: string;
   position: string;
 }
@@ -59,7 +60,7 @@ export interface MutationVariables {
 // ====================================================
 
 export interface getUsers_allUsers {
-  __typename: 'User';
+  __typename: "User";
   email: string;
 }
 
@@ -77,7 +78,7 @@ export interface getUsers {
 // ====================================================
 
 export interface getAllUsers_allUsers {
-  __typename: 'User';
+  __typename: "User";
   _id: string;
   firstname: string;
   lastname: string;
@@ -86,40 +87,6 @@ export interface getAllUsers_allUsers {
 
 export interface getAllUsers {
   allUsers: getAllUsers_allUsers[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteOneUser
-// ====================================================
-
-export interface DeleteOneUser {
-  deleteUser: string;
-}
-
-export interface DeleteOneUserVariables {
-  deleteUserId: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteUser
-// ====================================================
-
-export interface DeleteUser {
-  deleteUser: string;
-}
-
-export interface DeleteUserVariables {
-  deleteUserId: string;
 }
 
 /* tslint:disable */
@@ -150,16 +117,16 @@ export interface loginVariables {
 // ====================================================
 
 export interface getAllTickets_allTickets {
-  __typename: 'Ticket';
+  __typename: "Ticket";
   _id: string;
   subject: string;
-  status: string;
-  deadline: any;
-  description: string;
+  status: string | null;
+  deadline: any | null;
+  description: string | null;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   advancement: number | null;
-  projectId: string | null;
+  project_id: string;
   users: string[] | null;
 }
 
@@ -177,14 +144,14 @@ export interface getAllTickets {
 // ====================================================
 
 export interface TicketMutation_addTicket {
-  __typename: 'Ticket';
+  __typename: "Ticket";
   subject: string;
-  status: string;
-  deadline: any;
-  description: string;
+  status: string | null;
+  deadline: any | null;
+  description: string | null;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
-  projectId: string | null;
+  project_id: string;
   users: string[] | null;
 }
 
@@ -223,7 +190,7 @@ export interface DeleteTicketVariables {
 // ====================================================
 
 export interface GetTicketsProjects_getAllProjects {
-  __typename: 'Project';
+  __typename: "Project";
   _id: string;
   name: string;
 }
@@ -242,13 +209,17 @@ export interface GetTicketsProjects {
 // ====================================================
 
 export interface GetOneProject_getOneProject {
-  __typename: 'Project';
+  __typename: "Project";
   _id: string;
   name: string;
 }
 
 export interface GetOneProject {
   getOneProject: GetOneProject_getOneProject;
+}
+
+export interface GetOneProjectVariables {
+  projectId: string;
 }
 
 /* tslint:disable */
@@ -261,7 +232,7 @@ export interface GetOneProject {
 // ====================================================
 
 export interface AllTicketsUsers_allUsers {
-  __typename: 'User';
+  __typename: "User";
   _id: string;
   firstname: string;
   lastname: string;
@@ -276,15 +247,29 @@ export interface AllTicketsUsers {
 // @generated
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL mutation operation: DeleteUser
+// ====================================================
+
+export interface DeleteUser {
+  deleteUser: string;
+}
+
+export interface DeleteUserVariables {
+  userId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
 
-export interface IdInput {
-  _id: string;
-}
-
 export interface TicketInput {
+  created_by: string;
   subject: string;
   status?: string | null;
   deadline?: any | null;
@@ -292,8 +277,8 @@ export interface TicketInput {
   initial_time_estimated?: number | null;
   total_time_spent?: number | null;
   advancement?: number | null;
-  projectId?: string | null;
-  users?: IdInput[] | null;
+  project_id: string;
+  users?: string[] | null;
 }
 
 export interface UserInput {

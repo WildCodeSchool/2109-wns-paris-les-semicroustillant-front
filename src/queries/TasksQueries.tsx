@@ -11,7 +11,7 @@ const GET_TICKETS = gql`
       initial_time_estimated
       total_time_spent
       advancement
-      projectId
+      project_id
       users
     }
   }
@@ -26,7 +26,7 @@ const ADD_TICKET = gql`
       description
       initial_time_estimated
       total_time_spent
-      projectId
+      project_id
       users
     }
   }
@@ -65,6 +65,12 @@ const GET_USERS = gql`
     }
   }
 `;
+
+const DELETE_USER = gql`
+  mutation DeleteUser($userId: String!) {
+    deleteUser(UserId: $userId)
+  }
+`;
 export {
   GET_TICKETS,
   ADD_TICKET,
@@ -72,4 +78,5 @@ export {
   GET_PROJECTS,
   GET_PROJECT,
   GET_USERS,
+  DELETE_USER,
 };

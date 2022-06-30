@@ -24,9 +24,9 @@ import TaskDetails from './TaskDetails';
 interface ITicketCard {
   _id: string;
   subject: string;
-  status: string;
+  status: string | null;
   deadline: Date;
-  description: string;
+  description: string | null;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   advancement: number | null;
