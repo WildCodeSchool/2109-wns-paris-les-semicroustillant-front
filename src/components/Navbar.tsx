@@ -6,17 +6,20 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import '../styles/Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import colors from '../styles/globals';
 import LoginContext from '../context/LoginContext';
+
+import AvatarComponent from '../assets/custom-components/AvatarComponent';
+
+import '../styles/Navbar.css';
 import Logo from '../images/logo_semi.png';
+
 
 export default function PrimarySearchAppBar(): JSX.Element {
   const navigate = useNavigate();
-  const user = useContext(LoginContext);
+  const { userFirstname, userLastname, userPosition } = useContext(LoginContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -105,7 +108,7 @@ export default function PrimarySearchAppBar(): JSX.Element {
               marginRight: '1rem',
             }}
           >
-            Hello {user.username}
+            Hello {userLastname || ''}
           </Typography>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -117,9 +120,14 @@ export default function PrimarySearchAppBar(): JSX.Element {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
-              sx={{ color: colors.primary }}
+              sx={{ color: colors.primary, marginRight: '5vh' }}
             >
-              <AccountCircle />
+              <AvatarComponent 
+                position={userPosition || ''}
+                lastname={userLastname || ''}
+                firstname={userFirstname || ''}
+                avatarSize={50}
+                />
             </IconButton>
             {renderMenu}
           </Box>
