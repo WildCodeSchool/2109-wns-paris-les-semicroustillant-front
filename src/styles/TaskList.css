@@ -4,6 +4,11 @@
   justify-content: space-between;
 }
 
+.cardContainer {
+  height: 100%;
+  width: 100%;
+}
+
 .cardsDisplay {
   display: flex;
   flex-wrap: wrap;

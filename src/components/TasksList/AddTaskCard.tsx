@@ -133,228 +133,232 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   });
 
   return (
-    <Card
-      sx={{
-        minWidth: 600,
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <CardContent>
-        <FormControl
-          sx={{ m: 1, minWidth: 120 }}
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <Autocomplete
-            value={selectCreatedBy}
-            onChange={(event, newValue) => {
-              setSelectCreatedBy(newValue);
+    <div className="cardContainer">
+      <Card
+        sx={{
+          minWidth: 600,
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <CardContent>
+          <FormControl
+            sx={{ m: 1, minWidth: 120 }}
+            onSubmit={(e) => {
+              e.preventDefault();
             }}
-            inputValue={createdByInputValue}
-            onInputChange={(event, newInputValue) => {
-              setCreatedByInputValue(newInputValue);
-            }}
-            id="controllable-states-demo"
-            options={users || []}
-            getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
-            sx={{ width: 300 }}
-            renderInput={(params) => (
-              <TextField
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...params}
-                required
-                error={inputError.created_by}
-                label="Created by"
-              />
-            )}
-          />
-          <TextField
-            required
-            error={inputError.status}
-            id="status"
-            margin="normal"
-            select
-            label="Status"
-            value={selectStatus}
-            onChange={handleSelectStatus}
           >
-            {statuses.map((status) => (
-              <MenuItem key={status} value={status}>
-                {status}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            required
-            error={inputError.subject}
-            id="subject"
-            margin="normal"
-            label="Subject"
-            value={ticketData.subject}
-            onChange={handleData}
-            helperText={
-              ticketData.subject.length > 30 &&
-              'Subject must be less than 30 characters'
-            }
-          />
-          <LocalizationProvider dateAdapter={AdapterMoment}>
-            <DatePicker
-              label="Deadline"
-              value={pickDeadline}
-              onChange={(value) => {
-                setPickDeadline(value);
+            <Autocomplete
+              value={selectCreatedBy}
+              onChange={(event, newValue) => {
+                setSelectCreatedBy(newValue);
               }}
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              renderInput={(params) => <TextField {...params} />}
+              inputValue={createdByInputValue}
+              onInputChange={(event, newInputValue) => {
+                setCreatedByInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={users || []}
+              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...params}
+                  required
+                  error={inputError.created_by}
+                  label="Created by"
+                />
+              )}
             />
-          </LocalizationProvider>
-          <TextField
-            multiline
-            rows={4}
-            id="description"
-            margin="normal"
-            label="Description"
-            value={ticketData.description}
-            onChange={handleData}
-          />
-          <TextField
-            id="initial_time_estimated"
-            error={inputError.initial_time_estimated}
-            margin="normal"
-            label="Initial time estimated (hours)"
-            value={ticketData.initial_time_estimated}
-            onChange={handleData}
-            helperText={
-              Number.isNaN(ticketVariables.initial_time_estimated) === true &&
-              'Time must be a number'
-            }
-          />
-          <TextField
-            error={inputError.total_time_spent}
-            id="total_time_spent"
-            margin="normal"
-            label="Total time spent (hours)"
-            value={ticketData.total_time_spent}
-            onChange={handleData}
-            helperText={
-              Number.isNaN(ticketVariables.total_time_spent) === true &&
-              'Time must be a number'
-            }
-          />
-          <Autocomplete
-            value={selectProject}
-            onChange={(event, newValue) => {
-              setSelectProject(newValue);
-            }}
-            inputValue={inputValue}
-            onInputChange={(event, newInputValue) => {
-              setInputValue(newInputValue);
-            }}
-            id="controllable-states-demo"
-            options={projects || []}
-            getOptionLabel={(project) => project.name}
-            sx={{ width: 300 }}
-            renderInput={(params) => (
-              <TextField
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...params}
-                required
-                error={inputError.project}
-                label="Project"
-              />
-            )}
-          />
-          <Autocomplete
-            sx={{ marginTop: 2 }}
-            multiple
-            id="tags-outlined"
-            value={selectUsers}
-            options={users || []}
-            onChange={(event, newValue) => {
-              setSelectUsers(newValue);
-            }}
-            getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
-            filterSelectedOptions
-            renderInput={(params) => (
-              <TextField
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...params}
-                label="Users"
-                placeholder="Users"
-              />
-            )}
-          />
-
-          <CardActions className="createActions">
-            <Button
-              size="large"
-              type="submit"
-              disabled={
-                !selectStatus ||
-                !selectCreatedBy ||
-                !ticketData.subject ||
-                ticketData.subject.length > 30 ||
-                Number.isNaN(ticketVariables.initial_time_estimated) === true ||
-                Number.isNaN(ticketVariables.total_time_spent) === true ||
-                !selectProject
-              }
-              onClick={(e) => {
-                e.preventDefault();
-                if (selectStatus && ticketData.subject && selectProject) {
-                  addTicketFunction({
-                    variables: {
-                      ticketInput: ticketVariables,
-                    },
-                  });
-                }
-                if (!selectCreatedBy) {
-                  setInputError({
-                    ...inputError,
-                    created_by: true,
-                  });
-                }
-                if (!selectStatus) {
-                  setInputError({
-                    ...inputError,
-                    status: true,
-                  });
-                }
-                if (!ticketData.subject || ticketData.subject.length > 30) {
-                  setInputError({
-                    ...inputError,
-                    subject: true,
-                  });
-                }
-                if (!selectProject) {
-                  setInputError({
-                    ...inputError,
-                    project: true,
-                  });
-                }
-                if (
-                  Number.isNaN(ticketVariables.initial_time_estimated) === true
-                ) {
-                  setInputError({
-                    ...inputError,
-                    initial_time_estimated: true,
-                  });
-                }
-                if (Number.isNaN(ticketVariables.total_time_spent) === true) {
-                  setInputError({
-                    ...inputError,
-                    total_time_spent: true,
-                  });
-                }
-              }}
+            <TextField
+              required
+              error={inputError.status}
+              id="status"
+              margin="normal"
+              select
+              label="Status"
+              value={selectStatus}
+              onChange={handleSelectStatus}
             >
-              {iconCheck}
-            </Button>
-          </CardActions>
-        </FormControl>
-      </CardContent>
-    </Card>
+              {statuses.map((status) => (
+                <MenuItem key={status} value={status}>
+                  {status}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              required
+              error={inputError.subject}
+              id="subject"
+              margin="normal"
+              label="Subject"
+              value={ticketData.subject}
+              onChange={handleData}
+              helperText={
+                ticketData.subject.length > 30 &&
+                'Subject must be less than 30 characters'
+              }
+            />
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DatePicker
+                label="Deadline"
+                value={pickDeadline}
+                onChange={(value) => {
+                  setPickDeadline(value);
+                }}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <TextField
+              multiline
+              rows={4}
+              id="description"
+              margin="normal"
+              label="Description"
+              value={ticketData.description}
+              onChange={handleData}
+            />
+            <TextField
+              id="initial_time_estimated"
+              error={inputError.initial_time_estimated}
+              margin="normal"
+              label="Initial time estimated (hours)"
+              value={ticketData.initial_time_estimated}
+              onChange={handleData}
+              helperText={
+                Number.isNaN(ticketVariables.initial_time_estimated) === true &&
+                'Time must be a number'
+              }
+            />
+            <TextField
+              error={inputError.total_time_spent}
+              id="total_time_spent"
+              margin="normal"
+              label="Total time spent (hours)"
+              value={ticketData.total_time_spent}
+              onChange={handleData}
+              helperText={
+                Number.isNaN(ticketVariables.total_time_spent) === true &&
+                'Time must be a number'
+              }
+            />
+            <Autocomplete
+              value={selectProject}
+              onChange={(event, newValue) => {
+                setSelectProject(newValue);
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={projects || []}
+              getOptionLabel={(project) => project.name}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...params}
+                  required
+                  error={inputError.project}
+                  label="Project"
+                />
+              )}
+            />
+            <Autocomplete
+              sx={{ marginTop: 2 }}
+              multiple
+              id="tags-outlined"
+              value={selectUsers}
+              options={users || []}
+              onChange={(event, newValue) => {
+                setSelectUsers(newValue);
+              }}
+              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...params}
+                  label="Users"
+                  placeholder="Users"
+                />
+              )}
+            />
+
+            <CardActions className="createActions">
+              <Button
+                size="large"
+                type="submit"
+                disabled={
+                  !selectStatus ||
+                  !selectCreatedBy ||
+                  !ticketData.subject ||
+                  ticketData.subject.length > 30 ||
+                  Number.isNaN(ticketVariables.initial_time_estimated) ===
+                    true ||
+                  Number.isNaN(ticketVariables.total_time_spent) === true ||
+                  !selectProject
+                }
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (selectStatus && ticketData.subject && selectProject) {
+                    addTicketFunction({
+                      variables: {
+                        ticketInput: ticketVariables,
+                      },
+                    });
+                  }
+                  if (!selectCreatedBy) {
+                    setInputError({
+                      ...inputError,
+                      created_by: true,
+                    });
+                  }
+                  if (!selectStatus) {
+                    setInputError({
+                      ...inputError,
+                      status: true,
+                    });
+                  }
+                  if (!ticketData.subject || ticketData.subject.length > 30) {
+                    setInputError({
+                      ...inputError,
+                      subject: true,
+                    });
+                  }
+                  if (!selectProject) {
+                    setInputError({
+                      ...inputError,
+                      project: true,
+                    });
+                  }
+                  if (
+                    Number.isNaN(ticketVariables.initial_time_estimated) ===
+                    true
+                  ) {
+                    setInputError({
+                      ...inputError,
+                      initial_time_estimated: true,
+                    });
+                  }
+                  if (Number.isNaN(ticketVariables.total_time_spent) === true) {
+                    setInputError({
+                      ...inputError,
+                      total_time_spent: true,
+                    });
+                  }
+                }}
+              >
+                {iconCheck}
+              </Button>
+            </CardActions>
+          </FormControl>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 

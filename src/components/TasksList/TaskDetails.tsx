@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Card from '@mui/material/Card';
+import { useQuery } from '@apollo/client';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
@@ -12,6 +13,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import UpdateTaskCard from './UpdateTaskCard';
 import colors from '../../styles/globals';
+import { GET_USER } from '../../queries/TasksQueries';
 
 interface ITicketDetails {
   _id: string;
@@ -26,6 +28,7 @@ interface ITicketDetails {
   description: string | null;
   advancement: number | null;
   project_id: string | null;
+  projectName: string | undefined;
 }
 
 function TaskDetails({
@@ -41,12 +44,18 @@ function TaskDetails({
   description,
   advancement,
   project_id,
+  projectName,
 }: ITicketDetails): JSX.Element {
   const iconEdit = <FontAwesomeIcon icon={faEdit} />;
   const [displayUpdate, setDisplayUpdate] = useState(false);
   const toggleUpdate = () => {
     setDisplayUpdate(!displayUpdate);
   };
+
+  const getCreatedByDetails = useQuery(GET_USER, {
+    variables: { userId: created_by },
+  });
+  const createdByDetails = getCreatedByDetails.data?.getOneUser;
 
   return (
     <div>
@@ -67,7 +76,8 @@ function TaskDetails({
             {subject}
           </Typography>
           <Typography sx={{ mb: 1.5 }} variant="body2">
-            {span('Created by')}: {created_by}
+            {span('Created by')}: {createdByDetails.firstname}{' '}
+            {createdByDetails.lastname}
           </Typography>
           <Typography sx={{ mb: 1.5 }} variant="body2">
             {span('Deadline')}: {moment(deadline).format('DD/MM/YYYY')}
@@ -78,7 +88,7 @@ function TaskDetails({
             </Typography>
           </Paper>
           <Typography sx={{ mb: 1.5 }} variant="body2">
-            {span('Project')}: {project_id}
+            {span('Project')}: {projectName}
           </Typography>
           <Typography sx={{ mb: 1.5 }} variant="body2">
             {span('Initial time estimated')}: {initial_time_estimated} hours

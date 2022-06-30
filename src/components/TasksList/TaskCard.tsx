@@ -181,6 +181,7 @@ function TicketCard({
             deadline={deadline}
             description={description}
             project_id={project_id}
+            projectName={projectName}
             initial_time_estimated={initial_time_estimated}
             total_time_spent={total_time_spent}
             advancement={advancement}
