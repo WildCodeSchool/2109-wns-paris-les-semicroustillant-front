@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Card from '@mui/material/Card';
 import { useQuery } from '@apollo/client';
 import CardActions from '@mui/material/CardActions';
@@ -13,7 +13,8 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import UpdateTaskCard from './UpdateTaskCard';
 import colors from '../../styles/globals';
-import { GET_USER } from '../../queries/TasksQueries';
+import { AllTicketsUsers_allUsers, getAllUsers } from '../../schemaTypes';
+import { GET_USER, GET_USERS } from '../../queries/TasksQueries';
 
 interface ITicketDetails {
   _id: string;
@@ -52,24 +53,17 @@ function TaskDetails({
     setDisplayUpdate(!displayUpdate);
   };
 
-  // const getUsersDetails = () => {
-  //   users?.map((user) => {
-  //     const test = useQuery(GET_USER, {
-  //       variables: { userId: user },
-  //     });
-  //     return test;
-  //   });
-  // };
-
-  const getUsersDetails =
-    users &&
-    users.map((user) =>
-      useQuery(GET_USER, {
-        variables: { userId: user },
-      })
+  const getUsersNames = useQuery<getAllUsers>(GET_USERS);
+  const allUsers = getUsersNames.data?.allUsers;
+  const usersNames = () => {
+    const result: AllTicketsUsers_allUsers[] = [];
+    allUsers?.map((user) =>
+      users?.map((userId) => user._id === userId && result.push(user))
     );
+    return result;
+  };
 
-  console.log(getUsersDetails);
+  const usersDetails = useMemo(() => usersNames(), []);
 
   const getCreatedByDetails = useQuery(GET_USER, {
     variables: { userId: created_by },
@@ -123,13 +117,11 @@ function TaskDetails({
             {span('Users')}:
           </Typography>
           <ul>
-            {/* {getUsersDetails &&
-              getUsersDetails.map((user) => (
-                <Typography key={user.data.getOneUser._id} variant="body2">
-                  {getUsersDetails && user.data.getOneUser.firstname}{' '}
-                  {getUsersDetails && user.data.getOneUser.lastname}
-                </Typography>
-              ))} */}
+            {usersDetails.map((user) => (
+              <Typography key={user._id} variant="body2">
+                {user.firstname} {user.lastname}
+              </Typography>
+            ))}
           </ul>
         </CardContent>
         <CardActions
