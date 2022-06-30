@@ -1,25 +1,26 @@
 import React, { useState, MouseEvent, useContext } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  MenuItem,
+  Menu,
+} from '@mui/material';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import colors from '../styles/globals';
-import LoginContext from '../context/LoginContext';
-
 import AvatarComponent from '../assets/custom-components/AvatarComponent';
+import LoginContext from '../context/LoginContext';
 
 import '../styles/Navbar.css';
 import Logo from '../images/logo_semi.png';
 
-
 export default function PrimarySearchAppBar(): JSX.Element {
   const navigate = useNavigate();
-  const { userFirstname, userLastname, userPosition } = useContext(LoginContext);
+  const { userFirstname, userLastname, userPosition } =
+    useContext(LoginContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -122,12 +123,12 @@ export default function PrimarySearchAppBar(): JSX.Element {
               color="inherit"
               sx={{ color: colors.primary, marginRight: '5vh' }}
             >
-              <AvatarComponent 
+              <AvatarComponent
                 position={userPosition || ''}
                 lastname={userLastname || ''}
                 firstname={userFirstname || ''}
                 avatarSize={50}
-                />
+              />
             </IconButton>
             {renderMenu}
           </Box>
