@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { toast } from 'react-toastify';
-import CustomLoginButton from '../assets/custom-components/login';
+import CustomLoginButton from '../assets/custom-components/loginBtn';
 
 import '../styles/Login.css';
 import Logo from '../images/logo_semi.png';
