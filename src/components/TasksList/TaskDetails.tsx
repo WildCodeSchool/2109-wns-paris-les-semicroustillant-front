@@ -52,6 +52,25 @@ function TaskDetails({
     setDisplayUpdate(!displayUpdate);
   };
 
+  // const getUsersDetails = () => {
+  //   users?.map((user) => {
+  //     const test = useQuery(GET_USER, {
+  //       variables: { userId: user },
+  //     });
+  //     return test;
+  //   });
+  // };
+
+  const getUsersDetails =
+    users &&
+    users.map((user) =>
+      useQuery(GET_USER, {
+        variables: { userId: user },
+      })
+    );
+
+  console.log(getUsersDetails);
+
   const getCreatedByDetails = useQuery(GET_USER, {
     variables: { userId: created_by },
   });
@@ -76,8 +95,9 @@ function TaskDetails({
             {subject}
           </Typography>
           <Typography sx={{ mb: 1.5 }} variant="body2">
-            {span('Created by')}: {createdByDetails.firstname}{' '}
-            {createdByDetails.lastname}
+            {span('Created by')}:{' '}
+            {createdByDetails && createdByDetails.firstname}{' '}
+            {createdByDetails && createdByDetails.lastname}
           </Typography>
           <Typography sx={{ mb: 1.5 }} variant="body2">
             {span('Deadline')}: {moment(deadline).format('DD/MM/YYYY')}
@@ -103,11 +123,13 @@ function TaskDetails({
             {span('Users')}:
           </Typography>
           <ul>
-            {users?.map((user) => (
-              <Typography key={user} variant="body2">
-                {user}
-              </Typography>
-            ))}
+            {/* {getUsersDetails &&
+              getUsersDetails.map((user) => (
+                <Typography key={user.data.getOneUser._id} variant="body2">
+                  {getUsersDetails && user.data.getOneUser.firstname}{' '}
+                  {getUsersDetails && user.data.getOneUser.lastname}
+                </Typography>
+              ))} */}
           </ul>
         </CardContent>
         <CardActions
