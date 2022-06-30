@@ -1,9 +1,10 @@
 /* eslint-disable react/react-in-jsx-scope */
+import Container from '@mui/material/Container';
 import Header from '../components/Header';
 
 const Users = (): JSX.Element => (
-  <div style={{ flex: 1, height: '100vw', width: '100vw' }}>
+  <Container maxWidth="xl">
     <Header title="Users" />
-  </div>
+  </Container>
 );
 export default Users;
