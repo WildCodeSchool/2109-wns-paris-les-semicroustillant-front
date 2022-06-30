@@ -2,9 +2,11 @@ import React from 'react';
 import './App.css';
 import jwt_decode from 'jwt-decode';
 import { useQuery, gql } from '@apollo/client';
+import { ToastContainer } from 'react-toastify';
 import AppRouter from './Router';
 import LoginContext from './context/LoginContext';
 import { GetOneUser } from './schemaTypes';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App(): JSX.Element {
   interface IDecodedToken {
@@ -33,6 +35,18 @@ function App(): JSX.Element {
     <>
       <LoginContext.Provider value={{ username }}>
         <AppRouter />
+        <ToastContainer
+           position="bottom-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           newestOnTop={false}
+           closeOnClick
+           rtl={false}
+           pauseOnFocusLoss
+           draggable
+           pauseOnHover
+           theme="colored"
+         />
       </LoginContext.Provider>
     </>
   );
