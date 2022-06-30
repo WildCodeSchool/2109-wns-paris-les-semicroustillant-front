@@ -1,9 +1,9 @@
 /* eslint-disable react/react-in-jsx-scope */
-import NavbarGoBackScreenName from '../components/NavbarGoBackScreenName';
+import Header from '../components/Header';
 
 const Users = (): JSX.Element => (
   <div style={{ flex: 1, height: '100vw', width: '100vw' }}>
-    <NavbarGoBackScreenName />
+    <Header title="Users" />
   </div>
 );
 export default Users;

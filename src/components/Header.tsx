@@ -3,7 +3,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
-const NavbarGoBackScreenName = (): JSX.Element => {
+const Header = ({ title }: { title: string }): JSX.Element => {
   const StyledMainBox = styled(Box)(() => ({
     width: '100%',
     height: '5%',
@@ -23,8 +23,8 @@ const NavbarGoBackScreenName = (): JSX.Element => {
   return (
     <StyledMainBox>
       <ArrowBackIcon fontSize="large" />
-      <StyledUsersBox>Users</StyledUsersBox>
+      <StyledUsersBox>{title}</StyledUsersBox>
     </StyledMainBox>
   );
 };
-export default NavbarGoBackScreenName;
+export default Header;
