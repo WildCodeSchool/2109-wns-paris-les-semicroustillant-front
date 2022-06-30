@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLazyQuery, gql } from '@apollo/client';
 import {
   Box,
+  CircularProgress,
   FormControl,
   IconButton,
   InputAdornment,
@@ -10,16 +11,17 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { toast } from 'react-toastify';
 import CustomLoginButton from '../assets/custom-components/login';
 
 import '../styles/Login.css';
-
 import Logo from '../images/logo_semi.png';
 
 const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -34,22 +36,21 @@ const Login = (): JSX.Element => {
       login(email: $email, password: $password)
     }
   `;
-  const [getToken, { data }] = useLazyQuery(LOGIN);
-  const navigate = useNavigate();
-  if (data) {
-    localStorage.setItem('token', data.login);
-  }
+  const [getToken, { loading }] = useLazyQuery(LOGIN, {
+    onCompleted: (data) => {
+      localStorage.setItem('token', data.login);
+      navigate('/');
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+    notifyOnNetworkStatusChange: true,
+  });
+
   const token = localStorage.getItem('token');
 
-  const login = async () => {
-    try {
-      await getToken({ variables: { email, password } });
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('Handle me', err);
-    } finally {
-      navigate('/');
-    }
+  const handleSubmit = () => {
+    getToken({ variables: { email, password } });
   };
 
   return (
@@ -61,12 +62,10 @@ const Login = (): JSX.Element => {
             <h3 className="welcom"> WELCOME !</h3>
 
             <FormControl sx={{ m: 1 }} fullWidth variant="outlined">
-              <InputLabel htmlFor="outlined-email">
-                Email
-              </InputLabel>
+              <InputLabel htmlFor="outlined-email">Email</InputLabel>
               <OutlinedInput
                 id="outlined-email"
-                type="text"
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 label="Email"
@@ -97,21 +96,25 @@ const Login = (): JSX.Element => {
               />
             </FormControl>
 
-            <CustomLoginButton type="submit" onClick={login}>
-              Login
+            <CustomLoginButton type="submit" onClick={handleSubmit}>
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                'Log In'
+              )}
             </CustomLoginButton>
           </Box>
         </Box>
       ) : (
         <div className="already">
           <h2>You are already logged in</h2>
-          <button
+          <CustomLoginButton
             type="button"
             className="homeButton"
             onClick={() => navigate('/')}
           >
             Home
-          </button>
+          </CustomLoginButton>
         </div>
       )}
     </div>
