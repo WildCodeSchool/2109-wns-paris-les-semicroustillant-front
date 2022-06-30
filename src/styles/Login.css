@@ -15,7 +15,6 @@
 }
 
 .loginBoxMain {
-  min-height: 1080px;
   display: flex;
   justify-content: center;
   align-items: center;
