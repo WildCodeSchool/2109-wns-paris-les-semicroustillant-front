@@ -14,42 +14,90 @@ function App(): JSX.Element {
     iat: number;
     exp: number;
   }
+  // @FREDY: remove comments
+
+  //   const [user, setUser] = useState<GetOneUser | unknown>({});
+  //   const [loggedIn, setLoggedIn] = useState(false);
+
+  //   const GET_USER = gql`
+  //   query GetOneUser($userId: String!) {
+  //     getOneUser(userId: $userId) {
+  //       _id
+  //       firstname
+  //     }
+  //   }
+  // `;
+
+  //   useEffect(() => {
+  //     const token = localStorage.getItem('token');
+
+  //     if (token) {
+  //       const decodedToken: '' | IDecodedToken | null = token && jwt_decode(token);
+  //       const userId = decodedToken && decodedToken.userId;
+
+  //       console.log('----- USER ID FROM TOKEN - APP -----', userId);
+
+  //       const { data } = useQuery<GetOneUser>(GET_USER, { variables: { userId } });
+  //       console.log('----- DATA APP -----', data);
+
+  //       if (data) {
+  //         setUser(data.getOneUser);
+  //         setLoggedIn(true);
+  //       }
+  //     }
+  //     localStorage.removeItem('token');
+  //     setLoggedIn(false);
+
+  //   }, []);
 
   const token = localStorage.getItem('token');
   const decodedToken: '' | IDecodedToken | null = token && jwt_decode(token);
   const userId = decodedToken && decodedToken.userId;
+
+  // console.log('----- DECODED TOKEN -----', decodedToken);
 
   const GET_USER = gql`
     query GetOneUser($userId: String!) {
       getOneUser(userId: $userId) {
         _id
         firstname
+        lastname
+        position
       }
     }
   `;
 
   const { data } = useQuery<GetOneUser>(GET_USER, { variables: { userId } });
-  const username = data?.getOneUser.firstname;
+  const userFirstname = data?.getOneUser.firstname;
+  const userLastname = data?.getOneUser.lastname;
+  const userPosition = data?.getOneUser.position;
+
+  // if (!data) {
+  //   localStorage.removeItem('token');
+  // }
 
   return (
     <>
-      <LoginContext.Provider value={{ username }}>
+      <LoginContext.Provider value={{ userFirstname, userLastname, userPosition }}>
         <AppRouter />
         <ToastContainer
-           position="bottom-center"
-           autoClose={3000}
-           hideProgressBar={false}
-           newestOnTop={false}
-           closeOnClick
-           rtl={false}
-           pauseOnFocusLoss
-           draggable
-           pauseOnHover
-           theme="colored"
-         />
+          position="bottom-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </LoginContext.Provider>
     </>
   );
 }
 
 export default App;
+
+// @FREDY: remove comments
+// Refresh useEffect when changing pages at App level => useNavigate/useHistory/useRef
