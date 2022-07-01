@@ -46,7 +46,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
 
   const [selectCreatedBy, setSelectCreatedBy] =
     useState<AllTicketsUsers_allUsers | null>(null);
-  const [createdByInputValue, setCreatedByInputValue] = React.useState('');
+  const [createdByInputValue, setCreatedByInputValue] = useState('');
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
     description: '',
@@ -56,10 +56,10 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
   const [selectStatus, setSelectStatus] = useState<string>('');
-  const [selectProject, setSelectProject] = React.useState<
+  const [selectProject, setSelectProject] = useState<
     GetTicketsProjects_getAllProjects | null | undefined
   >(null);
-  const [inputValue, setInputValue] = React.useState('');
+  const [inputValue, setInputValue] = useState('');
   const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
     []
   );

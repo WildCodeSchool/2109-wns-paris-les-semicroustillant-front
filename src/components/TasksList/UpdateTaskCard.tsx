@@ -76,7 +76,7 @@ function UpdateTaskCard({
 
   const [selectCreatedBy, setSelectCreatedBy] =
     useState<AllTicketsUsers_allUsers | null>(createdByDetails);
-  const [createdByInputValue, setCreatedByInputValue] = React.useState('');
+  const [createdByInputValue, setCreatedByInputValue] = useState('');
 
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: _subject,
