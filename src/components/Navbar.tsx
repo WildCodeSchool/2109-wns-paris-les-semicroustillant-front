@@ -1,4 +1,8 @@
-import React, { useState, MouseEvent, useContext } from 'react';
+// import React, { useState, MouseEvent, useContext, useEffect } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import jwt_decode from 'jwt-decode';
 import {
   AppBar,
   Box,
@@ -9,18 +13,28 @@ import {
   Menu,
 } from '@mui/material';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { useNavigate } from 'react-router-dom';
 import colors from '../styles/globals';
 import AvatarComponent from '../assets/custom-components/AvatarComponent';
-import LoginContext from '../context/LoginContext';
+// import LoginContext from '../context/LoginContext';
+import { GetOneUser } from '../schemaTypes';
+import { GET_ONE_USER } from '../queries/TasksQueries';
 
 import '../styles/Navbar.css';
 import Logo from '../images/logo_semi.png';
 
+interface IDecodedToken {
+  userId: string;
+  iat: number;
+  exp: number;
+}
+
 export default function PrimarySearchAppBar(): JSX.Element {
   const navigate = useNavigate();
-  const { userFirstname, userLastname, userPosition } =
-    useContext(LoginContext);
+  // const { userFirstname, userLastname, userPosition } =
+  //   useContext(LoginContext);
+
+  const [userId, setUserId] = useState<GetOneUser | unknown>();
+  const location = useLocation();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -38,6 +52,19 @@ export default function PrimarySearchAppBar(): JSX.Element {
     localStorage.removeItem('token');
     navigate('/login');
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const decodedToken: '' | IDecodedToken | null = token && jwt_decode(token);
+    setUserId(decodedToken && decodedToken.userId);
+  }, [location]);
+
+  const { data } = useQuery<GetOneUser>(GET_ONE_USER, {
+    variables: { userId },
+  });
+  const userFirstname = data?.getOneUser.firstname;
+  const userLastname = data?.getOneUser.lastname;
+  const userPosition = data?.getOneUser.position;
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -96,7 +123,9 @@ export default function PrimarySearchAppBar(): JSX.Element {
         }}
       >
         <Toolbar>
-          <img className="logoNav" alt="logo_semi" src={Logo} />
+          <Box onClick={() => navigate('/')}>
+            <img className="logoNav" alt="logo_semi" src={Logo} />
+          </Box>
 
           <Box sx={{ flexGrow: 1 }} />
           <Typography

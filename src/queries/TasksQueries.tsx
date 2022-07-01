@@ -66,6 +66,19 @@ const GET_USERS = gql`
   }
 `;
 
+const GET_ONE_USER = gql`
+  query GetOneUser($userId: String!) {
+    getOneUser(userId: $userId) {
+      _id
+      firstname
+      lastname
+      email
+      position
+      role
+    }
+  }
+`;
+
 const DELETE_USER = gql`
   mutation DeleteUser($userId: String!) {
     deleteUser(UserId: $userId)
@@ -78,5 +91,6 @@ export {
   GET_PROJECTS,
   GET_PROJECT,
   GET_USERS,
+  GET_ONE_USER,
   DELETE_USER,
 };
