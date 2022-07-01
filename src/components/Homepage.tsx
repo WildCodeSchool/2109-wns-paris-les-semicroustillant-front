@@ -34,7 +34,7 @@ export default function Homepage(): JSX.Element {
           label="Projects"
         />
         <HomepageButton onClick={() => navigate('/all-tasks')} label="Tasks" />
-        <HomepageButton onClick={() => navigate('/all-users')} label="Users" />
+        <HomepageButton onClick={() => navigate('/users')} label="Users" />
       </div>
     </div>
   );
