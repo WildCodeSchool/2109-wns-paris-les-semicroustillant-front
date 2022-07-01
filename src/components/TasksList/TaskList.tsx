@@ -28,6 +28,7 @@ function TaskList(): JSX.Element {
             <TaskCard
               key={ticket._id}
               _id={ticket._id}
+              created_by={ticket.created_by}
               subject={ticket.subject}
               status={ticket.status}
               deadline={ticket.deadline}
@@ -35,13 +36,13 @@ function TaskList(): JSX.Element {
               initial_time_estimated={ticket.initial_time_estimated}
               total_time_spent={ticket.total_time_spent}
               advancement={ticket.advancement}
-              projectId={ticket.projectId}
+              project_id={ticket.project_id}
               users={ticket.users}
             />
           ))}
         {error && <p>Error: {error.message}</p>}
       </div>
-      <>
+      <div>
         <Button
           size="large"
           sx={{ color: colors.primary }}
@@ -57,7 +58,7 @@ function TaskList(): JSX.Element {
         >
           <AddTaskCard toggleDisplay={toggleDisplay} />
         </Dialog>
-      </>
+      </div>
     </div>
   );
 }

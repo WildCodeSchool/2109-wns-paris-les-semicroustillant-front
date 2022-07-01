@@ -8,6 +8,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+
 import App from './App';
 
 const httpLink = createHttpLink({

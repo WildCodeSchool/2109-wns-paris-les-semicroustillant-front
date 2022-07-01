@@ -17,52 +17,105 @@ import { toast } from 'react-toastify';
 import {
   GetTicketsProjects,
   AllTicketsUsers,
-  TicketMutation,
+  UpdateTicket,
   AllTicketsUsers_allUsers,
   GetTicketsProjects_getAllProjects,
-  getAllTickets,
+  GetOneProject,
+  getAllUsers,
 } from '../../schemaTypes';
 import {
-  ADD_TICKET,
+  UPDATE_TICKET,
   GET_PROJECTS,
+  GET_USER,
   GET_USERS,
-  GET_TICKETS,
+  GET_PROJECT,
 } from '../../queries/TasksQueries';
 import '../../styles/TaskList.css';
 
-interface IAddTaskCard {
+interface IUpdateTaskCard {
   toggleDisplay: () => void;
+  _id: string;
+  _created_by: string;
+  _status: string | null;
+  _subject: string;
+  _deadline: Date;
+  _description: string | null;
+  _initial_time_estimated: number | null;
+  _total_time_spent: number | null;
+  _project_id: string | null;
+  _users: string[] | null;
 }
-function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
+
+function UpdateTaskCard({
+  toggleDisplay,
+  _id,
+  _created_by,
+  _status,
+  _subject,
+  _deadline,
+  _description,
+  _initial_time_estimated,
+  _total_time_spent,
+  _project_id,
+  _users,
+}: IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = ['In progress', 'To do', 'Done'];
   interface ITicketData {
     subject: string;
-    description: string;
+    description: string | null;
     initial_time_estimated: number | null;
     total_time_spent: number | null;
     project_id: string | null;
   }
 
-  const [selectCreatedBy, setSelectCreatedBy] =
-    useState<AllTicketsUsers_allUsers | null>(null);
-  const [createdByInputValue, setCreatedByInputValue] = useState('');
-  const [ticketData, setTicketData] = useState<ITicketData>({
-    subject: '',
-    description: '',
-    initial_time_estimated: 0,
-    total_time_spent: 0,
-    project_id: '',
+  const getCreatedByDetails = useQuery(GET_USER, {
+    variables: { userId: _created_by },
   });
-  const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
-  const [selectStatus, setSelectStatus] = useState<string>('');
+  const createdByDetails = getCreatedByDetails.data?.getOneUser;
+
+  const [selectCreatedBy, setSelectCreatedBy] =
+    useState<AllTicketsUsers_allUsers | null>(createdByDetails);
+  const [createdByInputValue, setCreatedByInputValue] = useState('');
+
+  const [ticketData, setTicketData] = useState<ITicketData>({
+    subject: _subject,
+    description: _description,
+    initial_time_estimated: _initial_time_estimated,
+    total_time_spent: _total_time_spent,
+    project_id: _project_id,
+  });
+  const [pickDeadline, setPickDeadline] = useState<Date | null>(
+    new Date(_deadline)
+  );
+  const [selectStatus, setSelectStatus] = useState<string>(_status || '');
+
+  const getProjectDetails = useQuery<GetOneProject>(GET_PROJECT, {
+    variables: { projectId: _project_id },
+  });
+  const projectDetails = getProjectDetails.data?.getOneProject;
+
   const [selectProject, setSelectProject] = useState<
     GetTicketsProjects_getAllProjects | null | undefined
-  >(null);
+  >(projectDetails);
+
   const [inputValue, setInputValue] = useState('');
+
+  const getUsersNames = useQuery<getAllUsers>(GET_USERS);
+  const allUsers = getUsersNames.data?.allUsers;
+
+  const usersNames = () => {
+    const result: AllTicketsUsers_allUsers[] = [];
+    allUsers?.map((user) =>
+      _users?.map((userId) => user._id === userId && result.push(user))
+    );
+    return result;
+  };
+
   const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
-    []
+    usersNames()
   );
+
   const [inputError, setInputError] = useState({
     created_by: false,
     status: false,
@@ -90,6 +143,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
+    _id,
     created_by: selectCreatedBy?._id,
     subject: ticketData.subject,
     status: selectStatus,
@@ -101,29 +155,11 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     users: selectUsers.map((user) => user._id),
   };
 
-  const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
-    update(cache, { data }) {
-      const currentTasksList: getAllTickets = cache.readQuery({
-        query: GET_TICKETS,
-      }) ?? {
-        allTickets: [],
-      };
-      const result = {
-        ...data?.addTicket,
-        advancement: 0,
-        _id: 'temporaryId',
-      };
-
-      if (result) {
-        cache.writeQuery({
-          query: GET_TICKETS,
-          data: {
-            allTickets: [...currentTasksList.allTickets, result],
-          },
-        });
-        toast.success('Ticket created!');
-        toggleDisplay();
-      }
+  // TODO: error handling
+  const [updateTicketFunction] = useMutation<UpdateTicket>(UPDATE_TICKET, {
+    onCompleted() {
+      toast.success('Ticket updated!');
+      toggleDisplay();
     },
     onError(error) {
       // eslint-disable-next-line no-console
@@ -134,13 +170,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
 
   return (
     <div className="cardContainer">
-      <Card
-        sx={{
-          minWidth: 600,
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
+      <Card sx={{ minWidth: 600, display: 'flex', justifyContent: 'center' }}>
         <CardContent>
           <FormControl
             sx={{ m: 1, minWidth: 120 }}
@@ -171,6 +201,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                 />
               )}
             />
+
             <TextField
               required
               error={inputError.status}
@@ -222,7 +253,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
             />
             <TextField
               id="initial_time_estimated"
-              error={inputError.initial_time_estimated}
               margin="normal"
               label="Initial time estimated (hours)"
               value={ticketData.initial_time_estimated}
@@ -233,7 +263,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
               }
             />
             <TextField
-              error={inputError.total_time_spent}
               id="total_time_spent"
               margin="normal"
               label="Total time spent (hours)"
@@ -283,7 +312,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                   // eslint-disable-next-line react/jsx-props-no-spreading
                   {...params}
                   label="Users"
-                  placeholder="Users"
+                  placeholder={selectUsers.length !== 0 ? undefined : 'Users'}
                 />
               )}
             />
@@ -305,16 +334,10 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                 onClick={(e) => {
                   e.preventDefault();
                   if (selectStatus && ticketData.subject && selectProject) {
-                    addTicketFunction({
+                    updateTicketFunction({
                       variables: {
-                        ticketInput: ticketVariables,
+                        ticketInputUpdate: ticketVariables,
                       },
-                    });
-                  }
-                  if (!selectCreatedBy) {
-                    setInputError({
-                      ...inputError,
-                      created_by: true,
                     });
                   }
                   if (!selectStatus) {
@@ -362,4 +385,4 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   );
 }
 
-export default AddTaskCard;
+export default UpdateTaskCard;

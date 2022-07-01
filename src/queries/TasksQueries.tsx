@@ -4,6 +4,7 @@ const GET_TICKETS = gql`
   query getAllTickets {
     allTickets {
       _id
+      created_by
       subject
       status
       deadline
@@ -11,7 +12,7 @@ const GET_TICKETS = gql`
       initial_time_estimated
       total_time_spent
       advancement
-      projectId
+      project_id
       users
     }
   }
@@ -20,13 +21,32 @@ const GET_TICKETS = gql`
 const ADD_TICKET = gql`
   mutation TicketMutation($ticketInput: TicketInput!) {
     addTicket(ticketInput: $ticketInput) {
+      created_by
       subject
       status
       deadline
       description
       initial_time_estimated
       total_time_spent
-      projectId
+      project_id
+      users
+    }
+  }
+`;
+
+const UPDATE_TICKET = gql`
+  mutation UpdateTicket($ticketInputUpdate: TicketInputUpdate!) {
+    updateTicket(ticketInputUpdate: $ticketInputUpdate) {
+      _id
+      created_by
+      subject
+      status
+      deadline
+      description
+      initial_time_estimated
+      total_time_spent
+      advancement
+      project_id
       users
     }
   }
@@ -65,11 +85,23 @@ const GET_USERS = gql`
     }
   }
 `;
+
+const GET_USER = gql`
+  query GetOneUser($userId: String!) {
+    getOneUser(userId: $userId) {
+      _id
+      firstname
+      lastname
+    }
+  }
+`;
 export {
   GET_TICKETS,
   ADD_TICKET,
+  UPDATE_TICKET,
   DELETE_TICKET,
   GET_PROJECTS,
   GET_PROJECT,
   GET_USERS,
+  GET_USER,
 };
