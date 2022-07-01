@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 
-import AllUsers from './components/AllUsers';
+import Users from './containers/Users';
 import Login from './components/Login';
 import TaskList from './components/TasksList/TaskList';
 import AllProject from './components/AllProject';
@@ -44,7 +44,7 @@ export default function AppRouter(): JSX.Element {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<ProtectedRoutes />}>
           <Route path="/" element={<Homepage />} />
-          <Route path="/all-users" element={<AllUsers />} />
+          <Route path="/users" element={<Users />} />
           <Route path="/all-tasks" element={<TaskList />} />
           <Route path="/all-projects" element={<AllProject />} />
           <Route path="/project" element={<Project />} />
