@@ -1,46 +1,164 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
+import React, { useState, useMemo } from 'react';
+import Card from '@mui/material/Card';
+import { useQuery } from '@apollo/client';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
+import UpdateTaskCard from './UpdateTaskCard';
 import colors from '../../styles/globals';
+import { AllTicketsUsers_allUsers, getAllUsers } from '../../schemaTypes';
+import { GET_ONE_USER, GET_USERS } from '../../queries/TasksQueries';
 
 interface ITicketDetails {
+  _id: string;
+  created_by: string;
   users: string[] | null;
   span: (content: string) => JSX.Element;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
+  subject: string;
+  status: string | null;
+  deadline: Date;
+  description: string | null;
+  advancement: number | null;
+  project_id: string | null;
+  projectName: string | undefined;
 }
 
 function TaskDetails({
+  _id,
+  created_by,
   users,
   span,
   initial_time_estimated,
   total_time_spent,
+  subject,
+  status,
+  deadline,
+  description,
+  advancement,
+  project_id,
+  projectName,
 }: ITicketDetails): JSX.Element {
   const iconEdit = <FontAwesomeIcon icon={faEdit} />;
+  const [displayUpdate, setDisplayUpdate] = useState(false);
+  const toggleUpdate = () => {
+    setDisplayUpdate(!displayUpdate);
+  };
+
+  const getUsersNames = useQuery<getAllUsers>(GET_USERS);
+  const allUsers = getUsersNames.data?.allUsers;
+  const usersNames = () => {
+    const result: AllTicketsUsers_allUsers[] = [];
+    allUsers?.map((user) =>
+      users?.map((userId) => user._id === userId && result.push(user))
+    );
+    return result;
+  };
+
+  const usersDetails = useMemo(() => usersNames(), []);
+
+  const getCreatedByDetails = useQuery(GET_ONE_USER, {
+    variables: { userId: created_by },
+  });
+  const createdByDetails = getCreatedByDetails.data?.getOneUser;
 
   return (
     <div>
-      <Typography sx={{ mb: 1.5 }} color="text.secondary">
-        Initial time estimated: {initial_time_estimated}
-      </Typography>
-      <Typography sx={{ mb: 1.5 }} color="text.secondary">
-        Total time spent: {total_time_spent}
-      </Typography>
-      <Typography sx={{ mb: 1.5 }} variant="body2">
-        {span('Users')}:
-      </Typography>
-      <ul>
-        {users?.map((user) => (
-          <Typography key={user} variant="body2">
-            {user}
+      <Card sx={{ minWidth: 300, maxWidth: 400 }} elevation={10}>
+        <CardHeader
+          sx={{ pb: 0 }}
+          title={
+            <Typography
+              sx={{ fontSize: 14, color: colors.primary, m: 0 }}
+              gutterBottom
+            >
+              {status}
+            </Typography>
+          }
+        />
+        <CardContent>
+          <Typography variant="h5" sx={{ fontWeight: 'bold' }} component="div">
+            {subject}
           </Typography>
-        ))}
-      </ul>
-      <Button size="medium" sx={{ color: colors.primary }}>
-        {iconEdit}
-      </Button>
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Created by')}:{' '}
+            {createdByDetails && createdByDetails.firstname}{' '}
+            {createdByDetails && createdByDetails.lastname}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Deadline')}: {moment(deadline).format('DD/MM/YYYY')}
+          </Typography>
+          <Paper variant="outlined" sx={{ mb: 1.5 }}>
+            <Typography sx={{ m: 1.5 }} variant="body2">
+              {description}
+            </Typography>
+          </Paper>
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Project')}: {projectName}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Initial time estimated')}: {initial_time_estimated} hours
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Total time spent')}: {total_time_spent} hours
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Advancement')}: {advancement}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} variant="body2">
+            {span('Users')}:
+          </Typography>
+          <ul>
+            {usersDetails.map((user) => (
+              <Typography key={user._id} variant="body2">
+                {user.firstname} {user.lastname}
+              </Typography>
+            ))}
+          </ul>
+        </CardContent>
+        <CardActions
+          className="actions"
+          sx={{ display: 'flex', justifyContent: 'flex-end' }}
+        >
+          <Button
+            size="medium"
+            sx={{ color: colors.primary }}
+            onClick={toggleUpdate}
+          >
+            {iconEdit}
+          </Button>
+        </CardActions>
+      </Card>
+      <div>
+        <Dialog
+          open={displayUpdate}
+          onClose={toggleUpdate}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <UpdateTaskCard
+            toggleDisplay={toggleUpdate}
+            _id={_id}
+            _created_by={created_by}
+            _status={status}
+            _subject={subject}
+            _deadline={deadline}
+            _description={description}
+            _initial_time_estimated={initial_time_estimated}
+            _total_time_spent={total_time_spent}
+            _project_id={project_id}
+            _users={users}
+          />
+        </Dialog>
+      </div>
     </div>
   );
 }

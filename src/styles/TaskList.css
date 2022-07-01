@@ -1,12 +1,12 @@
 .actions {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .cardContainer {
-  display: flex;
-  margin: 1.5rem;
+  height: 100%;
+  width: 100%;
 }
 
 .cardsDisplay {

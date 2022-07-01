@@ -94,6 +94,7 @@ export interface loginVariables {
 export interface getAllTickets_allTickets {
   __typename: "Ticket";
   _id: string;
+  created_by: string;
   subject: string;
   status: string | null;
   deadline: any | null;
@@ -120,6 +121,7 @@ export interface getAllTickets {
 
 export interface TicketMutation_addTicket {
   __typename: "Ticket";
+  created_by: string;
   subject: string;
   status: string | null;
   deadline: any | null;
@@ -136,6 +138,38 @@ export interface TicketMutation {
 
 export interface TicketMutationVariables {
   ticketInput: TicketInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateTicket
+// ====================================================
+
+export interface UpdateTicket_updateTicket {
+  __typename: "Ticket";
+  _id: string;
+  created_by: string;
+  subject: string;
+  status: string | null;
+  deadline: any | null;
+  description: string | null;
+  initial_time_estimated: number | null;
+  total_time_spent: number | null;
+  advancement: number | null;
+  project_id: string;
+  users: string[] | null;
+}
+
+export interface UpdateTicket {
+  updateTicket: UpdateTicket_updateTicket;
+}
+
+export interface UpdateTicketVariables {
+  ticketInputUpdate: TicketInputUpdate;
 }
 
 /* tslint:disable */
@@ -273,6 +307,20 @@ export interface DeleteUserVariables {
 export interface TicketInput {
   created_by: string;
   subject: string;
+  status?: string | null;
+  deadline?: any | null;
+  description?: string | null;
+  initial_time_estimated?: number | null;
+  total_time_spent?: number | null;
+  advancement?: number | null;
+  project_id: string;
+  users?: string[] | null;
+}
+
+export interface TicketInputUpdate {
+  _id: string;
+  created_by?: string | null;
+  subject?: string | null;
   status?: string | null;
   deadline?: any | null;
   description?: string | null;
