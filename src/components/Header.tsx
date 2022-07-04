@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 
 const Header = ({ title }: { title: string }): JSX.Element => {
   const StyledMainBox = styled(Box)(() => ({
+    margin: '2% 0%',
     width: '100%',
     height: '5%',
     display: 'flex',
@@ -15,7 +16,7 @@ const Header = ({ title }: { title: string }): JSX.Element => {
     verticalAlign: 'center',
     textAlign: 'center',
     margin: 'auto',
-    padding: '0.5rem',
+    padding: '0.5rem 3rem',
     border: '2px solid',
     borderColor: 'black',
   }));
