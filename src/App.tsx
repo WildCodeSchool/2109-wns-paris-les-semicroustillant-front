@@ -5,7 +5,7 @@ import jwt_decode from 'jwt-decode';
 import { useQuery } from '@apollo/client';
 // import { useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import AppRouter from './Router';
+import AppRouter from './Router/Router';
 // import LoginContext from './context/LoginContext';
 import { GetOneUser } from './schemaTypes';
 import { GET_ONE_USER } from './queries/TasksQueries';
@@ -80,19 +80,19 @@ function App(): JSX.Element {
       {/* <LoginContext.Provider
         value={{ userFirstname, userLastname, userPosition }}
       > */}
-        <AppRouter />
-        <ToastContainer
-          position="bottom-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
+      <AppRouter />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {/* </LoginContext.Provider> */}
     </>
   );
