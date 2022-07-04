@@ -35,6 +35,7 @@ export default function AppRouter(): JSX.Element {
           element={<PrivateRoute component={AllProject} />}
         />
         <Route path="/project" element={<PrivateRoute component={Project} />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
