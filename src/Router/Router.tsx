@@ -26,18 +26,15 @@ export default function AppRouter(): JSX.Element {
         <Route path="/" element={<PrivateRoute component={Homepage} />} />
         <Route path="/users" element={<PrivateRoute component={AllUsers} />} />
         <Route
-          path="/all-tasks"
-          element={<PrivateRoute component={TaskList} />}
-        />
-        <Route
-          path="/all-projects"
-          element={<PrivateRoute component={AllProject} />}
-        />
-        <Route path="/project" element={<PrivateRoute component={Project} />} />
-        <Route
           path="/add-user"
           element={<PrivateRoute component={AddUserX} />}
         />
+        <Route path="/tasks" element={<PrivateRoute component={TaskList} />} />
+        <Route
+          path="/projects"
+          element={<PrivateRoute component={AllProject} />}
+        />
+        <Route path="/project" element={<PrivateRoute component={Project} />} />
       </Routes>
     </Router>
   );
