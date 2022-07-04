@@ -70,7 +70,6 @@ const AddUserX = (): JSX.Element => {
               firstname,
               lastname,
               email,
-              hash,
               role,
               position,
             },

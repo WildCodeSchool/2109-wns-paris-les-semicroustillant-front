@@ -4,29 +4,6 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetOneUser
-// ====================================================
-
-export interface GetOneUser_getOneUser {
-  __typename: "User";
-  _id: string;
-  firstname: string;
-}
-
-export interface GetOneUser {
-  getOneUser: GetOneUser_getOneUser;
-}
-
-export interface GetOneUserVariables {
-  userId: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL mutation operation: Mutation
 // ====================================================
 
@@ -85,40 +62,6 @@ export interface getAllUsers_allUsers {
 
 export interface getAllUsers {
   allUsers: getAllUsers_allUsers[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteOneUser
-// ====================================================
-
-export interface DeleteOneUser {
-  deleteUser: string;
-}
-
-export interface DeleteOneUserVariables {
-  deleteUserId: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteUser
-// ====================================================
-
-export interface DeleteUser {
-  deleteUser: string;
-}
-
-export interface DeleteUserVariables {
-  deleteUserId: string;
 }
 
 /* tslint:disable */
@@ -306,6 +249,50 @@ export interface AllTicketsUsers_allUsers {
 
 export interface AllTicketsUsers {
   allUsers: AllTicketsUsers_allUsers[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetOneUser
+// ====================================================
+
+export interface GetOneUser_getOneUser {
+  __typename: "User";
+  _id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  position: string;
+  role: string;
+}
+
+export interface GetOneUser {
+  getOneUser: GetOneUser_getOneUser;
+}
+
+export interface GetOneUserVariables {
+  userId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteUser
+// ====================================================
+
+export interface DeleteUser {
+  deleteUser: string;
+}
+
+export interface DeleteUserVariables {
+  userId: string;
 }
 
 /* tslint:disable */

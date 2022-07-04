@@ -26,7 +26,7 @@ import {
 import {
   UPDATE_TICKET,
   GET_PROJECTS,
-  GET_USER,
+  GET_ONE_USER,
   GET_USERS,
   GET_PROJECT,
 } from '../../queries/TasksQueries';
@@ -69,7 +69,7 @@ function UpdateTaskCard({
     project_id: string | null;
   }
 
-  const getCreatedByDetails = useQuery(GET_USER, {
+  const getCreatedByDetails = useQuery(GET_ONE_USER, {
     variables: { userId: _created_by },
   });
   const createdByDetails = getCreatedByDetails.data?.getOneUser;
