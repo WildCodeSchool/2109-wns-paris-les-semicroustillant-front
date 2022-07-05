@@ -6,17 +6,16 @@ import {
   Navigate,
   Outlet,
 } from 'react-router-dom';
-import './App.css';
-
-// import Users from './containers/Users';
-import AllUsers from './components/AllUsers';
 import Login from './components/Login';
+import AllUsers from './components/AllUsers';
 import TaskList from './components/TasksList/TaskList';
 import AllProject from './components/AllProject';
 import Project from './components/Project';
 import AddUserX from './components/AddUserX';
 import Homepage from './components/Homepage';
 import Navbar from './components/Navbar';
+
+import './App.css';
 
 export default function AppRouter(): JSX.Element {
   const useAuth = () => {

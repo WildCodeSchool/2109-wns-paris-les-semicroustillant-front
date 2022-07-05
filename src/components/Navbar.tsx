@@ -1,4 +1,3 @@
-// import React, { useState, MouseEvent, useContext, useEffect } from 'react';
 import React, { useState, MouseEvent, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
@@ -15,7 +14,6 @@ import {
 import MoreIcon from '@mui/icons-material/MoreVert';
 import colors from '../styles/globals';
 import AvatarComponent from '../assets/custom-components/AvatarComponent';
-// import LoginContext from '../context/LoginContext';
 import { GetOneUser } from '../schemaTypes';
 import { GET_ONE_USER } from '../queries/TasksQueries';
 
@@ -30,9 +28,6 @@ interface IDecodedToken {
 
 export default function PrimarySearchAppBar(): JSX.Element {
   const navigate = useNavigate();
-  // const { userFirstname, userLastname, userPosition } =
-  //   useContext(LoginContext);
-
   const [userId, setUserId] = useState<GetOneUser | unknown>();
   const location = useLocation();
 
@@ -62,9 +57,9 @@ export default function PrimarySearchAppBar(): JSX.Element {
   const { data } = useQuery<GetOneUser>(GET_ONE_USER, {
     variables: { userId },
   });
-  const userFirstname = data?.getOneUser.firstname;
-  const userLastname = data?.getOneUser.lastname;
-  const userPosition = data?.getOneUser.position;
+  const userFirstname = data?.getOneUser.firstname || '';
+  const userLastname = data?.getOneUser.lastname || '';
+  const userPosition = data?.getOneUser.position || '';
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
