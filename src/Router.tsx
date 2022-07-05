@@ -20,6 +20,9 @@ import Navbar from './components/Navbar';
 
 export default function AppRouter(): JSX.Element {
   const useAuth = () => {
+
+    // ADD CHECK TOKEN --> CALL NEW RESOLVER
+
     const user = localStorage.getItem('token');
     if (user) return true;
 

@@ -2,13 +2,13 @@ import React from 'react';
 // import React, { useEffect, useState } from 'react';
 import './App.css';
 import jwt_decode from 'jwt-decode';
-import { useQuery } from '@apollo/client';
+// import { useQuery } from '@apollo/client';
 // import { useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import AppRouter from './Router';
-// import LoginContext from './context/LoginContext';
-import { GetOneUser } from './schemaTypes';
-import { GET_ONE_USER } from './queries/TasksQueries';
+import LoginContext from './context/LoginContext';
+// import { GetOneUser } from './schemaTypes';
+// import { GET_ONE_USER } from './queries/TasksQueries';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface IDecodedToken {
@@ -62,14 +62,14 @@ function App(): JSX.Element {
 
   const token = localStorage.getItem('token');
   const decodedToken: '' | IDecodedToken | null = token && jwt_decode(token);
-  const userId = decodedToken && decodedToken.userId;
+  const userId = decodedToken && decodedToken.userId || '';
 
-  const { data } = useQuery<GetOneUser>(GET_ONE_USER, {
-    variables: { userId },
-  });
-  const userFirstname = data?.getOneUser.firstname;
-  const userLastname = data?.getOneUser.lastname;
-  const userPosition = data?.getOneUser.position;
+  // const { data } = useQuery<GetOneUser>(GET_ONE_USER, {
+  //   variables: { userId },
+  // });
+  // const userFirstname = data?.getOneUser.firstname;
+  // const userLastname = data?.getOneUser.lastname;
+  // const userPosition = data?.getOneUser.position;
 
   // if (!data) {
   //   localStorage.removeItem('token');
@@ -77,9 +77,10 @@ function App(): JSX.Element {
 
   return (
     <>
-      {/* <LoginContext.Provider
-        value={{ userFirstname, userLastname, userPosition }}
-      > */}
+      <LoginContext.Provider
+        // value={{ userFirstname, userLastname, userPosition }}
+        value={{ userId }}
+      >
         <AppRouter />
         <ToastContainer
           position="bottom-center"
@@ -93,7 +94,7 @@ function App(): JSX.Element {
           pauseOnHover
           theme="colored"
         />
-      {/* </LoginContext.Provider> */}
+      </LoginContext.Provider>
     </>
   );
 }

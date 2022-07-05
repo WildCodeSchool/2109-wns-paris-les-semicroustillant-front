@@ -117,7 +117,7 @@ export default function PrimarySearchAppBar(): JSX.Element {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="static"
+        position="static" // @FREDY must be "fixed" to have a sticky header
         sx={{
           bgcolor: 'white',
         }}

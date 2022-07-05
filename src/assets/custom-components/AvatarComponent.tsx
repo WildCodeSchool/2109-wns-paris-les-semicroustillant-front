@@ -29,9 +29,9 @@ const AvatarComponent = ({
       case 'Scrum Master':
         return 'red';
       case 'Team Lead':
-        return 'blue';
+        return 'darkgreen';
       case 'Test Engineer':
-        return 'yellow';
+        return 'purple';
       default:
         return 'grey';
     }

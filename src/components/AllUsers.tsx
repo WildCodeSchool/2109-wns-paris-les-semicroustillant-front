@@ -21,6 +21,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { DELETE_USER } from '../queries/TasksQueries';
 import { getAllUsers, DeleteUser } from '../schemaTypes';
 import UserDetailsCard from './UsersComponents/UserDetailsCard';
+import AvatarComponent from '../assets/custom-components/AvatarComponent';
 
 import '../styles/AllUsers.css';
 
@@ -43,6 +44,7 @@ const AllUsers = (): JSX.Element => {
         _id
         firstname
         lastname
+        position
         role
       }
     }
@@ -70,24 +72,31 @@ const AllUsers = (): JSX.Element => {
         >
           <TableHead>
             <TableRow sx={{ bgcolor: 'info.main' }}>
-              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>
-                Firstname{' '}
-              </TableCell>
               <TableCell
                 style={{ color: 'white', fontWeight: 'bold' }}
-                align="right"
+                align="left"
+              />
+              <TableCell
+                style={{ color: 'white', fontWeight: 'bold' }}
+                align="left"
               >
-                Lastname
+                Name
               </TableCell>
               <TableCell
                 style={{ color: 'white', fontWeight: 'bold' }}
-                align="right"
+                align="left"
+              >
+                Position
+              </TableCell>
+              <TableCell
+                style={{ color: 'white', fontWeight: 'bold' }}
+                align="left"
               >
                 Role
               </TableCell>
               <TableCell
                 style={{ color: 'white', fontWeight: 'bold' }}
-                align="right"
+                align="left"
               />
             </TableRow>
           </TableHead>
@@ -100,15 +109,23 @@ const AllUsers = (): JSX.Element => {
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {user.firstname}
+                      <AvatarComponent
+                        position={user?.position || ''}
+                        lastname={user?.lastname || ''}
+                        firstname={user?.firstname || ''}
+                        avatarSize={50}
+                      />
                     </TableCell>
-                    <TableCell align="right">{user.lastname}</TableCell>
-                    <TableCell align="right">{user.role}</TableCell>
-                    <TableCell align="right">
-                      <Button onClick={() => {
-                        toggleUserDetailsCard()
-                        setSelectedUserId(user._id)
-                        }}>
+                    <TableCell align="left">{`${user.firstname} ${user.lastname}`}</TableCell>
+                    <TableCell align="left">{user.position}</TableCell>
+                    <TableCell align="left">{user.role}</TableCell>
+                    <TableCell align="left">
+                      <Button
+                        onClick={() => {
+                          toggleUserDetailsCard();
+                          setSelectedUserId(user._id);
+                        }}
+                      >
                         <ChevronRightIcon
                           sx={{ color: 'var(--primary)', fontSize: 65 }}
                         />
@@ -141,7 +158,7 @@ const AllUsers = (): JSX.Element => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         fullWidth
-        maxWidth='lg'
+        maxWidth="lg"
       >
         <UserDetailsCard userId={selectedUserId} />
       </Dialog>

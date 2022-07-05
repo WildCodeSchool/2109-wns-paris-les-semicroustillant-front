@@ -57,6 +57,7 @@ export interface getAllUsers_allUsers {
   _id: string;
   firstname: string;
   lastname: string;
+  position: string;
   role: string;
 }
 
