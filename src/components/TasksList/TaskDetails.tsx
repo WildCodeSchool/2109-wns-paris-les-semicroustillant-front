@@ -14,7 +14,7 @@ import moment from 'moment';
 import UpdateTaskCard from './UpdateTaskCard';
 import colors from '../../styles/globals';
 import { AllTicketsUsers_allUsers, getAllUsers } from '../../schemaTypes';
-import { GET_USER, GET_USERS } from '../../queries/TasksQueries';
+import { GET_ONE_USER, GET_USERS } from '../../queries/TasksQueries';
 
 interface ITicketDetails {
   _id: string;
@@ -65,7 +65,7 @@ function TaskDetails({
 
   const usersDetails = useMemo(() => usersNames(), []);
 
-  const getCreatedByDetails = useQuery(GET_USER, {
+  const getCreatedByDetails = useQuery(GET_ONE_USER, {
     variables: { userId: created_by },
   });
   const createdByDetails = getCreatedByDetails.data?.getOneUser;
