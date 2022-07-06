@@ -1,5 +1,3 @@
-import { createContext } from 'react';
-
 interface IDefaultState {
   loggedIn?: boolean;
   token?: string;
@@ -7,14 +5,11 @@ interface IDefaultState {
   userLastname?: string;
   userPosition?: string;
 }
-export const defaultState = {
-  loggedIn: false,
+const initialState = {
   token: '',
   userFirstname: '',
   userLastname: '',
   userPosition: '',
 };
 
-const LoginContext = createContext<IDefaultState>(defaultState);
-
-export default LoginContext;
+export default initialState;
