@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Navigate } from 'react-router-dom';
+import NavBar from '../components/Navbar';
 
 const useAuth = () => {
   const user = localStorage.getItem('token');
@@ -14,7 +15,13 @@ interface PropType {
 
 const PrivateRoute: FC<PropType> = ({ component: Component }) => {
   const isAuthenticated = useAuth();
-  if (isAuthenticated) return <Component />;
+  if (isAuthenticated)
+    return (
+      <>
+        <NavBar />
+        <Component />
+      </>
+    );
   return <Navigate to="/login" />;
 };
 
