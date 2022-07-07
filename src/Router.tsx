@@ -5,7 +5,10 @@ import {
   Route,
   Navigate,
   Outlet,
+  useLocation,
 } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { toast } from 'react-toastify';
 import Login from './components/Login';
 import AllUsers from './components/AllUsers';
 import TaskList from './components/TasksList/TaskList';
@@ -15,21 +18,34 @@ import AddUserX from './components/AddUserX';
 import Homepage from './components/Homepage';
 import Navbar from './components/Navbar';
 
+import { CheckUserToken } from './schemaTypes';
+import { CHECK_USER_TOKEN } from './queries/AuthQueries';
+
 import './App.css';
 
 export default function AppRouter(): JSX.Element {
-  const useAuth = () => {
+  const checkUserToken = () => {    
+    const token = localStorage.getItem('token');
 
-    // ADD CHECK TOKEN --> CALL NEW RESOLVER
+    if (!token) {
+      return false;
+    }
 
-    const user = localStorage.getItem('token');
-    if (user) return true;
+    const { data } = useQuery<CheckUserToken>(CHECK_USER_TOKEN, {
+      variables: { token },
+    });
 
-    return false;
+    return data?.checkUserToken ?? [];
   };
 
   const ProtectedRoutes = () => {
-    const auth = useAuth();
+    useLocation();
+    const auth = checkUserToken();
+
+    if (!auth) {
+      localStorage.removeItem('token');
+      toast.error('Please log in again');
+    }
 
     return auth ? (
       <>
@@ -48,10 +64,11 @@ export default function AppRouter(): JSX.Element {
         <Route path="/" element={<ProtectedRoutes />}>
           <Route path="/" element={<Homepage />} />
           <Route path="/users" element={<AllUsers />} />
-          <Route path="/all-tasks" element={<TaskList />} />
-          <Route path="/all-projects" element={<AllProject />} />
-          <Route path="/project" element={<Project />} />
-          <Route path="/add-user" element={<AddUserX />} />
+          <Route path="/tasks" element={<TaskList />} />
+          <Route path="/projects" element={<AllProject />} />
+          <Route path="/project" element={<Project />} /> {/* @FREDY: TO BE DELETED, USELESS */}
+          <Route path="/add-user" element={<AddUserX />} /> {/* @FREDY: TO BE DELETED, SHOULD BE A MODAL */}
+          {/* MISSING ROUTE: USER PROFILE (OR MODAL??) */}
         </Route>
       </Routes>
     </Router>
