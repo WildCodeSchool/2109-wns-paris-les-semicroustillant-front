@@ -30,10 +30,10 @@ export default function Homepage(): JSX.Element {
     <div className="bodyHomepage">
       <div className="buttons">
         <HomepageButton
-          onClick={() => navigate('/all-projects')}
+          onClick={() => navigate('/projects')}
           label="Projects"
         />
-        <HomepageButton onClick={() => navigate('/all-tasks')} label="Tasks" />
+        <HomepageButton onClick={() => navigate('/tasks')} label="Tasks" />
         <HomepageButton onClick={() => navigate('/users')} label="Users" />
       </div>
     </div>
