@@ -13,6 +13,7 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import CustomLoginButton from '../assets/custom-components/CustomLoginButton';
+import { LOGIN } from '../queries/AuthQueries';
 
 import '../styles/Login.css';
 import Logo from '../images/logo_semi.png';
@@ -31,11 +32,6 @@ const Login = (): JSX.Element => {
     event.preventDefault();
   };
 
-  const LOGIN = gql`
-    query login($email: String!, $password: String!) {
-      login(email: $email, password: $password)
-    }
-  `;
   const [getToken, { loading }] = useLazyQuery(LOGIN, {
     onCompleted: (data) => {
       localStorage.setItem('token', data.login);

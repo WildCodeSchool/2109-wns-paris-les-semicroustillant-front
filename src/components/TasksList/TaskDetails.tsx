@@ -14,7 +14,7 @@ import moment from 'moment';
 import UpdateTaskCard from './UpdateTaskCard';
 import colors from '../../styles/globals';
 import { AllTicketsUsers_allUsers, getAllUsers } from '../../schemaTypes';
-import { GET_ONE_USER, GET_USERS } from '../../queries/TasksQueries';
+import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
 
 interface ITicketDetails {
   _id: string;
@@ -53,7 +53,7 @@ function TaskDetails({
     setDisplayUpdate(!displayUpdate);
   };
 
-  const getUsersNames = useQuery<getAllUsers>(GET_USERS);
+  const getUsersNames = useQuery<getAllUsers>(GET_ALL_USERS);
   const allUsers = getUsersNames.data?.allUsers;
   const usersNames = () => {
     const result: AllTicketsUsers_allUsers[] = [];

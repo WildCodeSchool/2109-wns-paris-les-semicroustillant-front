@@ -18,7 +18,7 @@ import {
   Paper,
 } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { DELETE_USER } from '../queries/TasksQueries';
+import { DELETE_USER } from '../queries/UserQueries';
 import { getAllUsers, DeleteUser } from '../schemaTypes';
 import UserDetailsCard from './UsersComponents/UserDetailsCard';
 import AvatarComponent from '../assets/custom-components/AvatarComponent';

@@ -23,11 +23,15 @@ import {
   getAllTickets,
 } from '../../schemaTypes';
 import {
+  GET_ALL_PROJECTS,
+} from '../../queries/ProjectQueries';
+import {
+  GET_ALL_USERS,
+} from '../../queries/UserQueries';
+import {
   ADD_TICKET,
-  GET_PROJECTS,
-  GET_USERS,
-  GET_TICKETS,
-} from '../../queries/TasksQueries';
+  GET_ALL_TICKETS,
+} from '../../queries/TicketQueries';
 import '../../styles/TaskList.css';
 
 interface IAddTaskCard {
@@ -83,10 +87,10 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     setSelectStatus(event.target.value);
   };
 
-  const projectsData = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projectsData = useQuery<GetTicketsProjects>(GET_ALL_PROJECTS);
   const projects = projectsData.data?.getAllProjects;
 
-  const userData = useQuery<AllTicketsUsers>(GET_USERS);
+  const userData = useQuery<AllTicketsUsers>(GET_ALL_USERS);
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
@@ -104,7 +108,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
-        query: GET_TICKETS,
+        query: GET_ALL_TICKETS,
       }) ?? {
         allTickets: [],
       };
@@ -116,7 +120,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
 
       if (result) {
         cache.writeQuery({
-          query: GET_TICKETS,
+          query: GET_ALL_TICKETS,
           data: {
             allTickets: [...currentTasksList.allTickets, result],
           },

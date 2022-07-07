@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { Card, CardHeader, Typography, TextField } from '@mui/material';
 import AvatarComponent from '../../assets/custom-components/AvatarComponent';
 import { GetOneUser } from '../../schemaTypes';
-import { GET_ONE_USER } from '../../queries/TasksQueries';
+import { GET_ONE_USER } from '../../queries/UserQueries';
 import colors from '../../styles/globals';
 
 interface IUserDetails {

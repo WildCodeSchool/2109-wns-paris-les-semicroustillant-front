@@ -24,12 +24,16 @@ import {
   getAllUsers,
 } from '../../schemaTypes';
 import {
-  UPDATE_TICKET,
-  GET_PROJECTS,
   GET_ONE_USER,
-  GET_USERS,
+  GET_ALL_USERS,
+} from '../../queries/UserQueries';
+import {
+  GET_ALL_PROJECTS,
   GET_PROJECT,
-} from '../../queries/TasksQueries';
+} from '../../queries/ProjectQueries';
+import {
+  UPDATE_TICKET,
+} from '../../queries/TicketQueries';
 import '../../styles/TaskList.css';
 
 interface IUpdateTaskCard {
@@ -101,7 +105,7 @@ function UpdateTaskCard({
 
   const [inputValue, setInputValue] = useState('');
 
-  const getUsersNames = useQuery<getAllUsers>(GET_USERS);
+  const getUsersNames = useQuery<getAllUsers>(GET_ALL_USERS);
   const allUsers = getUsersNames.data?.allUsers;
 
   const usersNames = () => {
@@ -136,10 +140,10 @@ function UpdateTaskCard({
     setSelectStatus(event.target.value);
   };
 
-  const projectsData = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projectsData = useQuery<GetTicketsProjects>(GET_ALL_PROJECTS);
   const projects = projectsData.data?.getAllProjects;
 
-  const userData = useQuery<AllTicketsUsers>(GET_USERS);
+  const userData = useQuery<AllTicketsUsers>(GET_ALL_USERS);
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {

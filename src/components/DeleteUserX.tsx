@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
-import { DELETE_USER } from '../queries/TasksQueries';
+import { DELETE_USER } from '../queries/UserQueries';
 import { DeleteUser } from '../schemaTypes';
 
 const DeleteUserX = (): JSX.Element => {

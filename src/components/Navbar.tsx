@@ -15,7 +15,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import colors from '../styles/globals';
 import AvatarComponent from '../assets/custom-components/AvatarComponent';
 import { GetOneUser } from '../schemaTypes';
-import { GET_ONE_USER } from '../queries/TasksQueries';
+import { GET_ONE_USER } from '../queries/UserQueries';
 
 import '../styles/Navbar.css';
 import Logo from '../images/logo_semi.png';
