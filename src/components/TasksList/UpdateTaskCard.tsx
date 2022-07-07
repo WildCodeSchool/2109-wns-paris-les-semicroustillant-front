@@ -16,9 +16,9 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
   GetTicketsProjects,
-  AllTicketsUsers,
+  GetAllUsers,
   UpdateTicket,
-  AllTicketsUsers_allUsers,
+  GetAllUsers_allUsers,
   GetTicketsProjects_getAllProjects,
   GetOneProject,
   getAllUsers,
@@ -79,7 +79,7 @@ function UpdateTaskCard({
   const createdByDetails = getCreatedByDetails.data?.getOneUser;
 
   const [selectCreatedBy, setSelectCreatedBy] =
-    useState<AllTicketsUsers_allUsers | null>(createdByDetails);
+    useState<GetAllUsers_allUsers | null>(createdByDetails);
   const [createdByInputValue, setCreatedByInputValue] = useState('');
 
   const [ticketData, setTicketData] = useState<ITicketData>({
@@ -109,14 +109,14 @@ function UpdateTaskCard({
   const allUsers = getUsersNames.data?.allUsers;
 
   const usersNames = () => {
-    const result: AllTicketsUsers_allUsers[] = [];
+    const result: GetAllUsers_allUsers[] = [];
     allUsers?.map((user) =>
       _users?.map((userId) => user._id === userId && result.push(user))
     );
     return result;
   };
 
-  const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
+  const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>(
     usersNames()
   );
 
@@ -143,7 +143,7 @@ function UpdateTaskCard({
   const projectsData = useQuery<GetTicketsProjects>(GET_ALL_PROJECTS);
   const projects = projectsData.data?.getAllProjects;
 
-  const userData = useQuery<AllTicketsUsers>(GET_ALL_USERS);
+  const userData = useQuery<GetAllUsers>(GET_ALL_USERS);
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {

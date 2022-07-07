@@ -16,9 +16,9 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
   GetTicketsProjects,
-  AllTicketsUsers,
+  GetAllUsers,
   TicketMutation,
-  AllTicketsUsers_allUsers,
+  GetAllUsers_allUsers,
   GetTicketsProjects_getAllProjects,
   getAllTickets,
 } from '../../schemaTypes';
@@ -49,7 +49,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   }
 
   const [selectCreatedBy, setSelectCreatedBy] =
-    useState<AllTicketsUsers_allUsers | null>(null);
+    useState<GetAllUsers_allUsers | null>(null);
   const [createdByInputValue, setCreatedByInputValue] = useState('');
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
@@ -64,7 +64,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     GetTicketsProjects_getAllProjects | null | undefined
   >(null);
   const [inputValue, setInputValue] = useState('');
-  const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
+  const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>(
     []
   );
   const [inputError, setInputError] = useState({
@@ -90,7 +90,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const projectsData = useQuery<GetTicketsProjects>(GET_ALL_PROJECTS);
   const projects = projectsData.data?.getAllProjects;
 
-  const userData = useQuery<AllTicketsUsers>(GET_ALL_USERS);
+  const userData = useQuery<GetAllUsers>(GET_ALL_USERS);
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
