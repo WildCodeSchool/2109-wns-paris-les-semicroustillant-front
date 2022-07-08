@@ -16,20 +16,24 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
   GetTicketsProjects,
-  AllTicketsUsers,
+  GetAllUsers,
   UpdateTicket,
-  AllTicketsUsers_allUsers,
+  GetAllUsers_allUsers,
   GetTicketsProjects_getAllProjects,
   GetOneProject,
   getAllUsers,
 } from '../../schemaTypes';
 import {
-  UPDATE_TICKET,
-  GET_PROJECTS,
-  GET_USER,
-  GET_USERS,
+  GET_ONE_USER,
+  GET_ALL_USERS,
+} from '../../queries/UserQueries';
+import {
+  GET_ALL_PROJECTS,
   GET_PROJECT,
-} from '../../queries/TasksQueries';
+} from '../../queries/ProjectQueries';
+import {
+  UPDATE_TICKET,
+} from '../../queries/TicketQueries';
 import '../../styles/TaskList.css';
 
 interface IUpdateTaskCard {
@@ -69,13 +73,13 @@ function UpdateTaskCard({
     project_id: string | null;
   }
 
-  const getCreatedByDetails = useQuery(GET_USER, {
+  const getCreatedByDetails = useQuery(GET_ONE_USER, {
     variables: { userId: _created_by },
   });
   const createdByDetails = getCreatedByDetails.data?.getOneUser;
 
   const [selectCreatedBy, setSelectCreatedBy] =
-    useState<AllTicketsUsers_allUsers | null>(createdByDetails);
+    useState<GetAllUsers_allUsers | null>(createdByDetails);
   const [createdByInputValue, setCreatedByInputValue] = useState('');
 
   const [ticketData, setTicketData] = useState<ITicketData>({
@@ -101,18 +105,18 @@ function UpdateTaskCard({
 
   const [inputValue, setInputValue] = useState('');
 
-  const getUsersNames = useQuery<getAllUsers>(GET_USERS);
+  const getUsersNames = useQuery<getAllUsers>(GET_ALL_USERS);
   const allUsers = getUsersNames.data?.allUsers;
 
   const usersNames = () => {
-    const result: AllTicketsUsers_allUsers[] = [];
+    const result: GetAllUsers_allUsers[] = [];
     allUsers?.map((user) =>
       _users?.map((userId) => user._id === userId && result.push(user))
     );
     return result;
   };
 
-  const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
+  const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>(
     usersNames()
   );
 
@@ -136,10 +140,10 @@ function UpdateTaskCard({
     setSelectStatus(event.target.value);
   };
 
-  const projectsData = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projectsData = useQuery<GetTicketsProjects>(GET_ALL_PROJECTS);
   const projects = projectsData.data?.getAllProjects;
 
-  const userData = useQuery<AllTicketsUsers>(GET_USERS);
+  const userData = useQuery<GetAllUsers>(GET_ALL_USERS);
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {

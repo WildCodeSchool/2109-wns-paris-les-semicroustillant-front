@@ -4,74 +4,6 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetOneUser
-// ====================================================
-
-export interface GetOneUser_getOneUser {
-  __typename: "User";
-  _id: string;
-  firstname: string;
-}
-
-export interface GetOneUser {
-  getOneUser: GetOneUser_getOneUser;
-}
-
-export interface GetOneUserVariables {
-  userId: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: Mutation
-// ====================================================
-
-export interface Mutation_addUser {
-  __typename: "User";
-  _id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  role: string;
-  position: string;
-}
-
-export interface Mutation {
-  addUser: Mutation_addUser;
-}
-
-export interface MutationVariables {
-  userInput: UserInput;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: getUsers
-// ====================================================
-
-export interface getUsers_allUsers {
-  __typename: "User";
-  email: string;
-}
-
-export interface getUsers {
-  allUsers: getUsers_allUsers[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: getAllUsers
 // ====================================================
 
@@ -80,45 +12,12 @@ export interface getAllUsers_allUsers {
   _id: string;
   firstname: string;
   lastname: string;
+  position: string;
   role: string;
 }
 
 export interface getAllUsers {
   allUsers: getAllUsers_allUsers[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteOneUser
-// ====================================================
-
-export interface DeleteOneUser {
-  deleteUser: string;
-}
-
-export interface DeleteOneUserVariables {
-  deleteUserId: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteUser
-// ====================================================
-
-export interface DeleteUser {
-  deleteUser: string;
-}
-
-export interface DeleteUserVariables {
-  deleteUserId: string;
 }
 
 /* tslint:disable */
@@ -137,6 +36,65 @@ export interface login {
 export interface loginVariables {
   email: string;
   password: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: CheckUserToken
+// ====================================================
+
+export interface CheckUserToken {
+  checkUserToken: boolean;
+}
+
+export interface CheckUserTokenVariables {
+  token: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetTicketsProjects
+// ====================================================
+
+export interface GetTicketsProjects_getAllProjects {
+  __typename: "Project";
+  _id: string;
+  name: string;
+}
+
+export interface GetTicketsProjects {
+  getAllProjects: GetTicketsProjects_getAllProjects[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetOneProject
+// ====================================================
+
+export interface GetOneProject_getOneProject {
+  __typename: "Project";
+  _id: string;
+  name: string;
+}
+
+export interface GetOneProject {
+  getOneProject: GetOneProject_getOneProject;
+}
+
+export interface GetOneProjectVariables {
+  projectId: string;
 }
 
 /* tslint:disable */
@@ -252,60 +210,107 @@ export interface DeleteTicketVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetTicketsProjects
+// GraphQL query operation: GetAllUsers
 // ====================================================
 
-export interface GetTicketsProjects_getAllProjects {
-  __typename: "Project";
-  _id: string;
-  name: string;
-}
-
-export interface GetTicketsProjects {
-  getAllProjects: GetTicketsProjects_getAllProjects[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetOneProject
-// ====================================================
-
-export interface GetOneProject_getOneProject {
-  __typename: "Project";
-  _id: string;
-  name: string;
-}
-
-export interface GetOneProject {
-  getOneProject: GetOneProject_getOneProject;
-}
-
-export interface GetOneProjectVariables {
-  projectId: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: AllTicketsUsers
-// ====================================================
-
-export interface AllTicketsUsers_allUsers {
+export interface GetAllUsers_allUsers {
   __typename: "User";
   _id: string;
   firstname: string;
   lastname: string;
 }
 
-export interface AllTicketsUsers {
-  allUsers: AllTicketsUsers_allUsers[];
+export interface GetAllUsers {
+  allUsers: GetAllUsers_allUsers[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getAllUsersEmail
+// ====================================================
+
+export interface getAllUsersEmail_allUsers {
+  __typename: "User";
+  email: string;
+}
+
+export interface getAllUsersEmail {
+  allUsers: getAllUsersEmail_allUsers[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetOneUser
+// ====================================================
+
+export interface GetOneUser_getOneUser {
+  __typename: "User";
+  _id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  position: string;
+  role: string;
+}
+
+export interface GetOneUser {
+  getOneUser: GetOneUser_getOneUser;
+}
+
+export interface GetOneUserVariables {
+  userId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddOneUser
+// ====================================================
+
+export interface AddOneUser_addUser {
+  __typename: "User";
+  _id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  role: string;
+  position: string;
+}
+
+export interface AddOneUser {
+  addUser: AddOneUser_addUser;
+}
+
+export interface AddOneUserVariables {
+  userInput: UserInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteUser
+// ====================================================
+
+export interface DeleteUser {
+  deleteUser: string;
+}
+
+export interface DeleteUserVariables {
+  userId: string;
 }
 
 /* tslint:disable */

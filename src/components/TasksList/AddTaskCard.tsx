@@ -16,18 +16,22 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
   GetTicketsProjects,
-  AllTicketsUsers,
+  GetAllUsers,
   TicketMutation,
-  AllTicketsUsers_allUsers,
+  GetAllUsers_allUsers,
   GetTicketsProjects_getAllProjects,
   getAllTickets,
 } from '../../schemaTypes';
 import {
+  GET_ALL_PROJECTS,
+} from '../../queries/ProjectQueries';
+import {
+  GET_ALL_USERS,
+} from '../../queries/UserQueries';
+import {
   ADD_TICKET,
-  GET_PROJECTS,
-  GET_USERS,
-  GET_TICKETS,
-} from '../../queries/TasksQueries';
+  GET_ALL_TICKETS,
+} from '../../queries/TicketQueries';
 import '../../styles/TaskList.css';
 
 interface IAddTaskCard {
@@ -45,7 +49,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   }
 
   const [selectCreatedBy, setSelectCreatedBy] =
-    useState<AllTicketsUsers_allUsers | null>(null);
+    useState<GetAllUsers_allUsers | null>(null);
   const [createdByInputValue, setCreatedByInputValue] = useState('');
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
@@ -60,7 +64,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     GetTicketsProjects_getAllProjects | null | undefined
   >(null);
   const [inputValue, setInputValue] = useState('');
-  const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
+  const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>(
     []
   );
   const [inputError, setInputError] = useState({
@@ -83,10 +87,10 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     setSelectStatus(event.target.value);
   };
 
-  const projectsData = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projectsData = useQuery<GetTicketsProjects>(GET_ALL_PROJECTS);
   const projects = projectsData.data?.getAllProjects;
 
-  const userData = useQuery<AllTicketsUsers>(GET_USERS);
+  const userData = useQuery<GetAllUsers>(GET_ALL_USERS);
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
@@ -104,7 +108,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
-        query: GET_TICKETS,
+        query: GET_ALL_TICKETS,
       }) ?? {
         allTickets: [],
       };
@@ -116,7 +120,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
 
       if (result) {
         cache.writeQuery({
-          query: GET_TICKETS,
+          query: GET_ALL_TICKETS,
           data: {
             allTickets: [...currentTasksList.allTickets, result],
           },
