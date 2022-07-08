@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 
 const Project = () => {
   const StyledProjectBox = styled(Box)(() => ({
-    '-webkit-border-radius': '5%',
     backgroundColor: 'blue',
     margin: '3%',
     padding: '0 5%',
