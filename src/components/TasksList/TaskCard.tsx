@@ -39,7 +39,11 @@ interface ITicketCard {
   total_time_spent: number | null;
   advancement: number | null;
   project_id: string | null;
-  users: string[] | null;
+  users: IUserTicket[] | null;
+}
+
+interface IUserTicket {
+  _id: string;
 }
 
 function TicketCard({

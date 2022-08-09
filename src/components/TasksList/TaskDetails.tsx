@@ -19,7 +19,7 @@ import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
 interface ITicketDetails {
   _id: string;
   created_by: string;
-  users: string[] | null;
+  users: IUserTicket[] | null;
   span: (content: string) => JSX.Element;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
@@ -30,6 +30,10 @@ interface ITicketDetails {
   advancement: number | null;
   project_id: string | null;
   projectName: string | undefined;
+}
+
+interface IUserTicket {
+  _id: string;
 }
 
 function TaskDetails({
@@ -58,7 +62,7 @@ function TaskDetails({
   const usersNames = () => {
     const result: GetAllUsers_allUsers[] = [];
     allUsers?.map((user) =>
-      users?.map((userId) => user._id === userId && result.push(user))
+      users?.map((userId) => user._id === userId._id && result.push(user))
     );
     return result;
   };

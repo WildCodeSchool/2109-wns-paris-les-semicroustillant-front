@@ -106,19 +106,29 @@ export interface GetOneProjectVariables {
 // GraphQL query operation: getAllTickets
 // ====================================================
 
+export interface getAllTickets_allTickets_project_id {
+  __typename: "Project";
+  _id: string;
+}
+
+export interface getAllTickets_allTickets_users {
+  __typename: "User";
+  _id: string;
+}
+
 export interface getAllTickets_allTickets {
   __typename: "Ticket";
   _id: string;
   created_by: string;
   subject: string;
-  status: string | null;
+  status: string;
   deadline: any | null;
   description: string | null;
+  project_id: getAllTickets_allTickets_project_id;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   advancement: number | null;
-  project_id: string;
-  users: string[] | null;
+  users: getAllTickets_allTickets_users[] | null;
 }
 
 export interface getAllTickets {
@@ -134,17 +144,27 @@ export interface getAllTickets {
 // GraphQL mutation operation: TicketMutation
 // ====================================================
 
+export interface TicketMutation_addTicket_project_id {
+  __typename: "Project";
+  _id: string;
+}
+
+export interface TicketMutation_addTicket_users {
+  __typename: "User";
+  _id: string;
+}
+
 export interface TicketMutation_addTicket {
   __typename: "Ticket";
   created_by: string;
   subject: string;
-  status: string | null;
+  status: string;
   deadline: any | null;
   description: string | null;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
-  project_id: string;
-  users: string[] | null;
+  project_id: TicketMutation_addTicket_project_id;
+  users: TicketMutation_addTicket_users[] | null;
 }
 
 export interface TicketMutation {
@@ -164,19 +184,29 @@ export interface TicketMutationVariables {
 // GraphQL mutation operation: UpdateTicket
 // ====================================================
 
+export interface UpdateTicket_updateTicket_project_id {
+  __typename: "Project";
+  _id: string;
+}
+
+export interface UpdateTicket_updateTicket_users {
+  __typename: "User";
+  _id: string;
+}
+
 export interface UpdateTicket_updateTicket {
   __typename: "Ticket";
   _id: string;
   created_by: string;
   subject: string;
-  status: string | null;
+  status: string;
   deadline: any | null;
   description: string | null;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   advancement: number | null;
-  project_id: string;
-  users: string[] | null;
+  project_id: UpdateTicket_updateTicket_project_id;
+  users: UpdateTicket_updateTicket_users[] | null;
 }
 
 export interface UpdateTicket {
@@ -325,7 +355,7 @@ export interface DeleteUserVariables {
 export interface TicketInput {
   created_by: string;
   subject: string;
-  status?: string | null;
+  status: string;
   deadline?: any | null;
   description?: string | null;
   initial_time_estimated?: number | null;
@@ -337,9 +367,9 @@ export interface TicketInput {
 
 export interface TicketInputUpdate {
   _id: string;
-  created_by?: string | null;
-  subject?: string | null;
-  status?: string | null;
+  created_by: string;
+  subject: string;
+  status: string;
   deadline?: any | null;
   description?: string | null;
   initial_time_estimated?: number | null;

@@ -47,7 +47,11 @@ interface IUpdateTaskCard {
   _initial_time_estimated: number | null;
   _total_time_spent: number | null;
   _project_id: string | null;
-  _users: string[] | null;
+  _users: IUserTicket[] | null;
+}
+
+interface IUserTicket {
+  _id: string;
 }
 
 function UpdateTaskCard({
@@ -71,7 +75,7 @@ function UpdateTaskCard({
     initial_time_estimated: number | null;
     total_time_spent: number | null;
     project_id: string | null;
-  }
+  }  
 
   const getCreatedByDetails = useQuery(GET_ONE_USER, {
     variables: { userId: _created_by },
@@ -110,8 +114,8 @@ function UpdateTaskCard({
 
   const usersNames = () => {
     const result: GetAllUsers_allUsers[] = [];
-    allUsers?.map((user) =>
-      _users?.map((userId) => user._id === userId && result.push(user))
+    allUsers?.map((user) => 
+      _users?.map((userId) => user._id === userId._id && result.push(user))
     );
     return result;
   };
