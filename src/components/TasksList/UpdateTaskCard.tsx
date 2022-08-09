@@ -1,16 +1,18 @@
 import React, { useState, ChangeEvent } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import Autocomplete from '@mui/material/Autocomplete';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import {
+  Autocomplete,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  TextField,
+  FormControl,
+  MenuItem,
+} from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
@@ -23,17 +25,11 @@ import {
   GetOneProject,
   getAllUsers,
 } from '../../schemaTypes';
-import {
-  GET_ONE_USER,
-  GET_ALL_USERS,
-} from '../../queries/UserQueries';
-import {
-  GET_ALL_PROJECTS,
-  GET_PROJECT,
-} from '../../queries/ProjectQueries';
-import {
-  UPDATE_TICKET,
-} from '../../queries/TicketQueries';
+import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
+import { GET_ALL_PROJECTS, GET_PROJECT } from '../../queries/ProjectQueries';
+import { UPDATE_TICKET } from '../../queries/TicketQueries';
+import commonStatuses from '../../common-values/commonStatuses';
+
 import '../../styles/TaskList.css';
 
 interface IUpdateTaskCard {
@@ -68,7 +64,7 @@ function UpdateTaskCard({
   _users,
 }: IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
-  const statuses = ['In progress', 'To do', 'Done'];
+  const statuses = commonStatuses;
   interface ITicketData {
     subject: string;
     description: string | null;
@@ -82,9 +78,9 @@ function UpdateTaskCard({
   });
   const createdByDetails = getCreatedByDetails.data?.getOneUser;
 
-  const [selectCreatedBy, setSelectCreatedBy] =
-    useState<GetAllUsers_allUsers | null>(createdByDetails);
-  const [createdByInputValue, setCreatedByInputValue] = useState('');
+  // const [selectCreatedBy, setSelectCreatedBy] =
+  //   useState<GetAllUsers_allUsers | null>(createdByDetails);
+  // const [createdByInputValue, setCreatedByInputValue] = useState('');
 
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: _subject,
@@ -152,7 +148,6 @@ function UpdateTaskCard({
 
   const ticketVariables = {
     _id,
-    created_by: selectCreatedBy?._id,
     subject: ticketData.subject,
     status: selectStatus,
     deadline: pickDeadline,
@@ -186,28 +181,11 @@ function UpdateTaskCard({
               e.preventDefault();
             }}
           >
-            <Autocomplete
-              value={selectCreatedBy}
-              onChange={(event, newValue) => {
-                setSelectCreatedBy(newValue);
-              }}
-              inputValue={createdByInputValue}
-              onInputChange={(event, newInputValue) => {
-                setCreatedByInputValue(newInputValue);
-              }}
-              id="controllable-states-demo"
-              options={users || []}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...params}
-                  required
-                  error={inputError.created_by}
-                  label="Created by"
-                />
-              )}
+            <TextField
+              disabled
+              margin="normal"
+              label="Created by"
+              value={createdByDetails && `${createdByDetails.firstname} ${createdByDetails.lastname} - ${createdByDetails.position}`}
             />
 
             <TextField
@@ -313,7 +291,7 @@ function UpdateTaskCard({
               onChange={(event, newValue) => {
                 setSelectUsers(newValue);
               }}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+              getOptionLabel={(user) => `${user.firstname} ${user.lastname} - ${user.position}`}
               filterSelectedOptions
               renderInput={(params) => (
                 <TextField
@@ -331,7 +309,6 @@ function UpdateTaskCard({
                 type="submit"
                 disabled={
                   !selectStatus ||
-                  !selectCreatedBy ||
                   !ticketData.subject ||
                   ticketData.subject.length > 30 ||
                   Number.isNaN(ticketVariables.initial_time_estimated) ===

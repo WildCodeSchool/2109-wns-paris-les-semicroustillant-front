@@ -248,6 +248,7 @@ export interface GetAllUsers_allUsers {
   _id: string;
   firstname: string;
   lastname: string;
+  position: string;
 }
 
 export interface GetAllUsers {
