@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLazyQuery, gql } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import {
   Box,
   CircularProgress,

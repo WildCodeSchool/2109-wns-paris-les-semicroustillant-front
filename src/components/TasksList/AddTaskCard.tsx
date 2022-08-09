@@ -34,18 +34,19 @@ import '../../styles/TaskList.css';
 interface IAddTaskCard {
   toggleDisplay: () => void;
 }
+
+interface ITicketData {
+  subject: string;
+  description: string;
+  initial_time_estimated: number | null;
+  total_time_spent: number | null;
+  project_id: string | null;
+}
+
 function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = commonStatuses;
   const { userId: currentUser} = useContext(LoginContext);
-
-  interface ITicketData {
-    subject: string;
-    description: string;
-    initial_time_estimated: number | null;
-    total_time_spent: number | null;
-    project_id: string | null;
-  }
 
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
@@ -83,7 +84,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const projects = projectsData.data?.getAllProjects;
 
   const userData = useQuery<GetAllUsers>(GET_ALL_USERS);
-  const users = userData?.data?.allUsers;
+  const users = userData?.data?.allUsers.filter(user => user._id !== currentUser);
 
   const ticketVariables = {
     created_by: currentUser,
@@ -267,7 +268,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                 type="submit"
                 disabled={
                   !selectStatus ||
-                  // !selectCreatedBy ||
                   !ticketData.subject ||
                   ticketData.subject.length > 30 ||
                   Number.isNaN(ticketVariables.initial_time_estimated) ===

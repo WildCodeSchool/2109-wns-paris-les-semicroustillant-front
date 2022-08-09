@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import {
   Autocomplete,
@@ -28,10 +28,18 @@ import {
 import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
 import { GET_ALL_PROJECTS, GET_PROJECT } from '../../queries/ProjectQueries';
 import { UPDATE_TICKET } from '../../queries/TicketQueries';
+import LoginContext from '../../context/LoginContext';
 import commonStatuses from '../../common-values/commonStatuses';
 
 import '../../styles/TaskList.css';
 
+interface ITicketData {
+  subject: string;
+  description: string | null;
+  initial_time_estimated: number | null;
+  total_time_spent: number | null;
+  project_id: string | null;
+}  
 interface IUpdateTaskCard {
   toggleDisplay: () => void;
   _id: string;
@@ -65,22 +73,12 @@ function UpdateTaskCard({
 }: IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = commonStatuses;
-  interface ITicketData {
-    subject: string;
-    description: string | null;
-    initial_time_estimated: number | null;
-    total_time_spent: number | null;
-    project_id: string | null;
-  }  
+  const { userId: currentUser} = useContext(LoginContext);
 
   const getCreatedByDetails = useQuery(GET_ONE_USER, {
     variables: { userId: _created_by },
   });
   const createdByDetails = getCreatedByDetails.data?.getOneUser;
-
-  // const [selectCreatedBy, setSelectCreatedBy] =
-  //   useState<GetAllUsers_allUsers | null>(createdByDetails);
-  // const [createdByInputValue, setCreatedByInputValue] = useState('');
 
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: _subject,
@@ -144,7 +142,7 @@ function UpdateTaskCard({
   const projects = projectsData.data?.getAllProjects;
 
   const userData = useQuery<GetAllUsers>(GET_ALL_USERS);
-  const users = userData?.data?.allUsers;
+  const users = userData?.data?.allUsers.filter(user => user._id !== currentUser);
 
   const ticketVariables = {
     _id,

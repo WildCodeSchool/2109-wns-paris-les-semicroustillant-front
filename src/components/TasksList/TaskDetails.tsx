@@ -59,6 +59,7 @@ function TaskDetails({
 
   const getUsersNames = useQuery<getAllUsers>(GET_ALL_USERS);
   const allUsers = getUsersNames.data?.allUsers;
+
   const usersNames = () => {
     const result: GetAllUsers_allUsers[] = [];
     allUsers?.map((user) =>
