@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useContext } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import {
   Autocomplete,
@@ -28,7 +28,6 @@ import {
 import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
 import { GET_ALL_PROJECTS, GET_PROJECT } from '../../queries/ProjectQueries';
 import { UPDATE_TICKET } from '../../queries/TicketQueries';
-import LoginContext from '../../context/LoginContext';
 import commonStatuses from '../../common-values/commonStatuses';
 
 import '../../styles/TaskList.css';
@@ -73,7 +72,6 @@ function UpdateTaskCard({
 }: IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = commonStatuses;
-  const { userId: currentUser} = useContext(LoginContext);
 
   const getCreatedByDetails = useQuery(GET_ONE_USER, {
     variables: { userId: _created_by },
