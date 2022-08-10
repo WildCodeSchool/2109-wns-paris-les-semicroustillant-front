@@ -84,7 +84,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const projects = projectsData.data?.getAllProjects;
 
   const userData = useQuery<GetAllUsers>(GET_ALL_USERS);
-  const users = userData?.data?.allUsers.filter(user => user._id !== currentUser);
+  const users = userData?.data?.allUsers;
 
   const ticketVariables = {
     created_by: currentUser,
