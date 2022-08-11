@@ -14,7 +14,7 @@ import App from './App';
 let url: string | undefined = ''; 
 
 if (process.env.NODE_ENV !== 'production') {
-  if (process.env.REACT_APP_LOCALHOST === 'true') {
+  if (process.env.REACT_APP_DOCKER === 'true') {
     url = 'http://localhost:4000/graphql'
   }  else {
     url = 'http://localhost:5050/graphql'
