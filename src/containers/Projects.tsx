@@ -1,10 +1,7 @@
 import React from 'react';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-
 import Header from '../components/Header';
 import Filters from '../components/Filters';
-import Project from '../components/Project';
+import Project from '../components/ProjectCard';
 import ProjectsFooter from '../components/ProjectsFooter';
 
 const ProjectsContainer = (): JSX.Element => (
