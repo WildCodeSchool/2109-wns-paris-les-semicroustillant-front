@@ -18,9 +18,9 @@ const AddUserX = (): JSX.Element => {
 
   const [addUserFunction, { data, loading, error }] =
     useMutation<AddOneUser>(ADD_ONE_USER);
-  // get All usser
+
   const users = useQuery<getAllUsersEmail>(GET_ALL_USERS_EMAIL).data?.allUsers;
-  // check if email isset in database and stop the submit of the form
+  // check if email is set in database and stop the submit of the form
   const inputEmail = document.getElementById('checkEmail') as HTMLInputElement;
   let inputEmailValue = '';
   if (inputEmail != null) {
