@@ -8,7 +8,7 @@ import { getAllTickets } from '../../schemaTypes';
 import '../../styles/TaskList.css';
 import TaskCard from './TaskCard';
 import AddTaskCard from './AddTaskCard';
-import { GET_TICKETS } from '../../queries/TasksQueries';
+import { GET_ALL_TICKETS } from '../../queries/TicketQueries';
 import colors from '../../styles/globals';
 
 function TaskList(): JSX.Element {
@@ -17,7 +17,7 @@ function TaskList(): JSX.Element {
   const toggleDisplay = () => {
     setDisplayAddCard(!displayAddCard);
   };
-  const { data, error } = useQuery<getAllTickets>(GET_TICKETS);
+  const { data, error } = useQuery<getAllTickets>(GET_ALL_TICKETS);
 
   return (
     <div>
@@ -36,7 +36,7 @@ function TaskList(): JSX.Element {
               initial_time_estimated={ticket.initial_time_estimated}
               total_time_spent={ticket.total_time_spent}
               advancement={ticket.advancement}
-              project_id={ticket.project_id}
+              project_id={ticket.project_id._id}
               users={ticket.users}
             />
           ))}

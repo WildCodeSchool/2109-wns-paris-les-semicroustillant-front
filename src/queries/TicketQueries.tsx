@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const GET_TICKETS = gql`
+const GET_ALL_TICKETS = gql`
   query getAllTickets {
     allTickets {
       _id
@@ -9,11 +9,15 @@ const GET_TICKETS = gql`
       status
       deadline
       description
+      project_id {
+        _id
+      }
       initial_time_estimated
       total_time_spent
       advancement
-      project_id
-      users
+      users {
+        _id
+      }
     }
   }
 `;
@@ -28,8 +32,12 @@ const ADD_TICKET = gql`
       description
       initial_time_estimated
       total_time_spent
-      project_id
-      users
+      project_id {
+        _id
+      }
+      users {
+        _id
+      }
     }
   }
 `;
@@ -46,8 +54,12 @@ const UPDATE_TICKET = gql`
       initial_time_estimated
       total_time_spent
       advancement
-      project_id
-      users
+      project_id {
+        _id
+      }
+      users {
+        _id
+      }
     }
   }
 `;
@@ -58,50 +70,4 @@ const DELETE_TICKET = gql`
   }
 `;
 
-const GET_PROJECTS = gql`
-  query GetTicketsProjects {
-    getAllProjects {
-      _id
-      name
-    }
-  }
-`;
-
-const GET_PROJECT = gql`
-  query GetOneProject($projectId: String!) {
-    getOneProject(projectId: $projectId) {
-      _id
-      name
-    }
-  }
-`;
-
-const GET_USERS = gql`
-  query AllTicketsUsers {
-    allUsers {
-      _id
-      firstname
-      lastname
-    }
-  }
-`;
-
-const GET_USER = gql`
-  query GetOneUser($userId: String!) {
-    getOneUser(userId: $userId) {
-      _id
-      firstname
-      lastname
-    }
-  }
-`;
-export {
-  GET_TICKETS,
-  ADD_TICKET,
-  UPDATE_TICKET,
-  DELETE_TICKET,
-  GET_PROJECTS,
-  GET_PROJECT,
-  GET_USERS,
-  GET_USER,
-};
+export { GET_ALL_TICKETS, ADD_TICKET, UPDATE_TICKET, DELETE_TICKET };

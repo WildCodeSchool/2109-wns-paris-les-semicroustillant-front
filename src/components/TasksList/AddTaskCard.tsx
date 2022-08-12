@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import Autocomplete from '@mui/material/Autocomplete';
 import Card from '@mui/material/Card';
@@ -16,37 +16,38 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
   GetTicketsProjects,
-  AllTicketsUsers,
+  GetAllUsers,
   TicketMutation,
-  AllTicketsUsers_allUsers,
+  GetAllUsers_allUsers,
   GetTicketsProjects_getAllProjects,
   getAllTickets,
 } from '../../schemaTypes';
-import {
-  ADD_TICKET,
-  GET_PROJECTS,
-  GET_USERS,
-  GET_TICKETS,
-} from '../../queries/TasksQueries';
+import { GET_ALL_PROJECTS } from '../../queries/ProjectQueries';
+import { GET_ALL_USERS } from '../../queries/UserQueries';
+import { ADD_TICKET, GET_ALL_TICKETS } from '../../queries/TicketQueries';
+import commonStatuses from '../../common-values/commonStatuses';
+
+import LoginContext from '../../context/LoginContext';
+
 import '../../styles/TaskList.css';
 
 interface IAddTaskCard {
   toggleDisplay: () => void;
 }
+
+interface ITicketData {
+  subject: string;
+  description: string;
+  initial_time_estimated: number | null;
+  total_time_spent: number | null;
+  project_id: string | null;
+}
+
 function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
-  const statuses = ['In progress', 'To do', 'Done'];
-  interface ITicketData {
-    subject: string;
-    description: string;
-    initial_time_estimated: number | null;
-    total_time_spent: number | null;
-    project_id: string | null;
-  }
+  const statuses = commonStatuses;
+  const { userId: currentUser} = useContext(LoginContext);
 
-  const [selectCreatedBy, setSelectCreatedBy] =
-    useState<AllTicketsUsers_allUsers | null>(null);
-  const [createdByInputValue, setCreatedByInputValue] = useState('');
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
     description: '',
@@ -56,13 +57,9 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
   const [selectStatus, setSelectStatus] = useState<string>('');
-  const [selectProject, setSelectProject] = useState<
-    GetTicketsProjects_getAllProjects | null | undefined
-  >(null);
+  const [selectProject, setSelectProject] = useState<GetTicketsProjects_getAllProjects | null | undefined>(null);
   const [inputValue, setInputValue] = useState('');
-  const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
-    []
-  );
+  const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>([]);
   const [inputError, setInputError] = useState({
     created_by: false,
     status: false,
@@ -83,14 +80,14 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     setSelectStatus(event.target.value);
   };
 
-  const projectsData = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projectsData = useQuery<GetTicketsProjects>(GET_ALL_PROJECTS);
   const projects = projectsData.data?.getAllProjects;
 
-  const userData = useQuery<AllTicketsUsers>(GET_USERS);
+  const userData = useQuery<GetAllUsers>(GET_ALL_USERS);
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
-    created_by: selectCreatedBy?._id,
+    created_by: currentUser,
     subject: ticketData.subject,
     status: selectStatus,
     deadline: pickDeadline,
@@ -104,7 +101,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
-        query: GET_TICKETS,
+        query: GET_ALL_TICKETS,
       }) ?? {
         allTickets: [],
       };
@@ -116,7 +113,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
 
       if (result) {
         cache.writeQuery({
-          query: GET_TICKETS,
+          query: GET_ALL_TICKETS,
           data: {
             allTickets: [...currentTasksList.allTickets, result],
           },
@@ -148,29 +145,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
               e.preventDefault();
             }}
           >
-            <Autocomplete
-              value={selectCreatedBy}
-              onChange={(event, newValue) => {
-                setSelectCreatedBy(newValue);
-              }}
-              inputValue={createdByInputValue}
-              onInputChange={(event, newInputValue) => {
-                setCreatedByInputValue(newInputValue);
-              }}
-              id="controllable-states-demo"
-              options={users || []}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...params}
-                  required
-                  error={inputError.created_by}
-                  label="Created by"
-                />
-              )}
-            />
             <TextField
               required
               error={inputError.status}
@@ -276,7 +250,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
               onChange={(event, newValue) => {
                 setSelectUsers(newValue);
               }}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+              getOptionLabel={(user) => `${user.firstname} ${user.lastname} - ${user.position}`}
               filterSelectedOptions
               renderInput={(params) => (
                 <TextField
@@ -294,7 +268,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                 type="submit"
                 disabled={
                   !selectStatus ||
-                  !selectCreatedBy ||
                   !ticketData.subject ||
                   ticketData.subject.length > 30 ||
                   Number.isNaN(ticketVariables.initial_time_estimated) ===
@@ -309,12 +282,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                       variables: {
                         ticketInput: ticketVariables,
                       },
-                    });
-                  }
-                  if (!selectCreatedBy) {
-                    setInputError({
-                      ...inputError,
-                      created_by: true,
                     });
                   }
                   if (!selectStatus) {

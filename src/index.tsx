@@ -11,12 +11,19 @@ import { setContext } from '@apollo/client/link/context';
 
 import App from './App';
 
-const httpLink = createHttpLink({
-  // docker
-  uri: 'http://localhost:5050/graphql',
+let url: string | undefined = ''; 
 
-  // local
-  // uri: 'http://localhost:4000/graphql',
+if (process.env.NODE_ENV !== 'production') {
+  if (process.env.REACT_APP_DOCKER === 'true') {
+    url = 'http://localhost:4000/graphql'
+  }  else {
+    url = 'http://localhost:5050/graphql'
+  }
+} else {
+  url = '/graphql';
+}
+const httpLink = createHttpLink({
+  uri: url,
 });
 
 const authLink = setContext((_, { headers }) => {

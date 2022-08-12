@@ -1,37 +1,44 @@
 import React, { useState, ChangeEvent } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import Autocomplete from '@mui/material/Autocomplete';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import {
+  Autocomplete,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  TextField,
+  FormControl,
+  MenuItem,
+} from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import {
   GetTicketsProjects,
-  AllTicketsUsers,
+  GetAllUsers,
   UpdateTicket,
-  AllTicketsUsers_allUsers,
+  GetAllUsers_allUsers,
   GetTicketsProjects_getAllProjects,
   GetOneProject,
   getAllUsers,
 } from '../../schemaTypes';
-import {
-  UPDATE_TICKET,
-  GET_PROJECTS,
-  GET_USER,
-  GET_USERS,
-  GET_PROJECT,
-} from '../../queries/TasksQueries';
+import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
+import { GET_ALL_PROJECTS, GET_PROJECT } from '../../queries/ProjectQueries';
+import { UPDATE_TICKET } from '../../queries/TicketQueries';
+import commonStatuses from '../../common-values/commonStatuses';
+
 import '../../styles/TaskList.css';
 
+interface ITicketData {
+  subject: string;
+  description: string | null;
+  initial_time_estimated: number | null;
+  total_time_spent: number | null;
+  project_id: string | null;
+}  
 interface IUpdateTaskCard {
   toggleDisplay: () => void;
   _id: string;
@@ -43,7 +50,11 @@ interface IUpdateTaskCard {
   _initial_time_estimated: number | null;
   _total_time_spent: number | null;
   _project_id: string | null;
-  _users: string[] | null;
+  _users: IUserTicket[] | null;
+}
+
+interface IUserTicket {
+  _id: string;
 }
 
 function UpdateTaskCard({
@@ -60,23 +71,12 @@ function UpdateTaskCard({
   _users,
 }: IUpdateTaskCard): JSX.Element {
   const iconCheck = <FontAwesomeIcon icon={faCheck} />;
-  const statuses = ['In progress', 'To do', 'Done'];
-  interface ITicketData {
-    subject: string;
-    description: string | null;
-    initial_time_estimated: number | null;
-    total_time_spent: number | null;
-    project_id: string | null;
-  }
+  const statuses = commonStatuses;
 
-  const getCreatedByDetails = useQuery(GET_USER, {
+  const getCreatedByDetails = useQuery(GET_ONE_USER, {
     variables: { userId: _created_by },
   });
   const createdByDetails = getCreatedByDetails.data?.getOneUser;
-
-  const [selectCreatedBy, setSelectCreatedBy] =
-    useState<AllTicketsUsers_allUsers | null>(createdByDetails);
-  const [createdByInputValue, setCreatedByInputValue] = useState('');
 
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: _subject,
@@ -101,18 +101,18 @@ function UpdateTaskCard({
 
   const [inputValue, setInputValue] = useState('');
 
-  const getUsersNames = useQuery<getAllUsers>(GET_USERS);
+  const getUsersNames = useQuery<getAllUsers>(GET_ALL_USERS);
   const allUsers = getUsersNames.data?.allUsers;
 
   const usersNames = () => {
-    const result: AllTicketsUsers_allUsers[] = [];
-    allUsers?.map((user) =>
-      _users?.map((userId) => user._id === userId && result.push(user))
+    const result: GetAllUsers_allUsers[] = [];
+    allUsers?.map((user) => 
+      _users?.map((userId) => user._id === userId._id && result.push(user))
     );
     return result;
   };
 
-  const [selectUsers, setSelectUsers] = useState<AllTicketsUsers_allUsers[]>(
+  const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>(
     usersNames()
   );
 
@@ -136,15 +136,14 @@ function UpdateTaskCard({
     setSelectStatus(event.target.value);
   };
 
-  const projectsData = useQuery<GetTicketsProjects>(GET_PROJECTS);
+  const projectsData = useQuery<GetTicketsProjects>(GET_ALL_PROJECTS);
   const projects = projectsData.data?.getAllProjects;
 
-  const userData = useQuery<AllTicketsUsers>(GET_USERS);
+  const userData = useQuery<GetAllUsers>(GET_ALL_USERS);
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
     _id,
-    created_by: selectCreatedBy?._id,
     subject: ticketData.subject,
     status: selectStatus,
     deadline: pickDeadline,
@@ -178,28 +177,11 @@ function UpdateTaskCard({
               e.preventDefault();
             }}
           >
-            <Autocomplete
-              value={selectCreatedBy}
-              onChange={(event, newValue) => {
-                setSelectCreatedBy(newValue);
-              }}
-              inputValue={createdByInputValue}
-              onInputChange={(event, newInputValue) => {
-                setCreatedByInputValue(newInputValue);
-              }}
-              id="controllable-states-demo"
-              options={users || []}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...params}
-                  required
-                  error={inputError.created_by}
-                  label="Created by"
-                />
-              )}
+            <TextField
+              disabled
+              margin="normal"
+              label="Created by"
+              value={createdByDetails && `${createdByDetails.firstname} ${createdByDetails.lastname} - ${createdByDetails.position}`}
             />
 
             <TextField
@@ -305,7 +287,7 @@ function UpdateTaskCard({
               onChange={(event, newValue) => {
                 setSelectUsers(newValue);
               }}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname}`}
+              getOptionLabel={(user) => `${user.firstname} ${user.lastname} - ${user.position}`}
               filterSelectedOptions
               renderInput={(params) => (
                 <TextField
@@ -323,7 +305,6 @@ function UpdateTaskCard({
                 type="submit"
                 disabled={
                   !selectStatus ||
-                  !selectCreatedBy ||
                   !ticketData.subject ||
                   ticketData.subject.length > 30 ||
                   Number.isNaN(ticketVariables.initial_time_estimated) ===

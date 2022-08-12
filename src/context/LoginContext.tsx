@@ -3,12 +3,12 @@ import { createContext } from 'react';
 interface IDefaultState {
   loggedIn?: boolean;
   token?: string;
-  username?: string;
+  userId: string;
 }
 export const defaultState = {
   loggedIn: false,
   token: '',
-  username: '',
+  userId: '',
 };
 
 const LoginContext = createContext<IDefaultState>(defaultState);
