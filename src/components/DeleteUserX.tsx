@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { DELETE_USER } from '../queries/UserQueries';
 import { DeleteUser } from '../schemaTypes';
 
 const DeleteUserX = (): JSX.Element => {
@@ -7,11 +8,6 @@ const DeleteUserX = (): JSX.Element => {
 
   let input: any;
 
-  const DELETE_USER = gql`
-    mutation DeleteUser($deleteUserId: String!) {
-      deleteUser(id: $deleteUserId)
-    }
-  `;
   const [deleteUserFunction, { data, loading, error }] =
     useMutation<DeleteUser>(DELETE_USER);
 
@@ -23,7 +19,7 @@ const DeleteUserX = (): JSX.Element => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          deleteUserFunction({ variables: { deleteUserId: input.value } });
+          deleteUserFunction({ variables: { userId: input.value } });
           input.value = '';
         }}
       >

@@ -18,10 +18,12 @@ import moment from 'moment';
 import { useMutation, useQuery } from '@apollo/client';
 import { DeleteTicket, GetOneProject } from '../../schemaTypes';
 import {
-  GET_TICKETS,
-  DELETE_TICKET,
   GET_PROJECT,
-} from '../../queries/TasksQueries';
+} from '../../queries/ProjectQueries';
+import {
+  GET_ALL_TICKETS,
+  DELETE_TICKET,
+} from '../../queries/TicketQueries';
 import colors from '../../styles/globals';
 import TaskDetails from './TaskDetails';
 import UpdateTaskCard from './UpdateTaskCard';
@@ -37,7 +39,11 @@ interface ITicketCard {
   total_time_spent: number | null;
   advancement: number | null;
   project_id: string | null;
-  users: string[] | null;
+  users: IUserTicket[] | null;
+}
+
+interface IUserTicket {
+  _id: string;
 }
 
 function TicketCard({
@@ -74,13 +80,13 @@ function TicketCard({
   const [deleteTicket] = useMutation<DeleteTicket>(DELETE_TICKET, {
     update(cache) {
       const existingTickets: IExistingTickets | null = cache.readQuery({
-        query: GET_TICKETS,
+        query: GET_ALL_TICKETS,
       });
       const newTickets = existingTickets?.allTickets.filter(
         (t: ITicketCard) => t._id !== _id
       );
       cache.writeQuery({
-        query: GET_TICKETS,
+        query: GET_ALL_TICKETS,
         data: { allTickets: newTickets },
       });
     },

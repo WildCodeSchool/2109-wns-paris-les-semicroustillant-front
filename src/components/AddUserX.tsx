@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { useMutation, gql, useQuery } from '@apollo/client';
-import { Mutation_addUser, getUsers } from '../schemaTypes';
+import { ADD_ONE_USER, GET_ALL_USERS_EMAIL } from '../queries/UserQueries';
+import { AddOneUser, getAllUsersEmail } from '../schemaTypes';
 import '../styles/AddUsers.css';
 
 const AddUserX = (): JSX.Element => {
@@ -15,32 +16,11 @@ const AddUserX = (): JSX.Element => {
 
   let input: any;
 
-  const ADD_USER = gql`
-    mutation Mutation($userInput: UserInput!) {
-      addUser(userInput: $userInput) {
-        _id
-        firstname
-        lastname
-        email
-        role
-        position
-      }
-    }
-  `;
-
-  const GET_USERS = gql`
-    query getUsers {
-      allUsers {
-        email
-      }
-    }
-  `;
-
   const [addUserFunction, { data, loading, error }] =
-    useMutation<Mutation_addUser>(ADD_USER);
-  // get All usser
-  const users = useQuery<getUsers>(GET_USERS).data?.allUsers;
-  // check if email isset in database and stop the submit of the form
+    useMutation<AddOneUser>(ADD_ONE_USER);
+
+  const users = useQuery<getAllUsersEmail>(GET_ALL_USERS_EMAIL).data?.allUsers;
+  // check if email is set in database and stop the submit of the form
   const inputEmail = document.getElementById('checkEmail') as HTMLInputElement;
   let inputEmailValue = '';
   if (inputEmail != null) {
@@ -70,7 +50,6 @@ const AddUserX = (): JSX.Element => {
               firstname,
               lastname,
               email,
-              hash,
               role,
               position,
             },
