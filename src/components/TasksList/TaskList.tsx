@@ -1,30 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useQuery } from '@apollo/client';
-import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import Dialog from '@mui/material/Dialog';
-import { getAllTickets } from '../../schemaTypes';
-import '../../styles/TaskList.css';
-import TaskCard from './TaskCard';
+import { Button, Checkbox, Dialog } from '@mui/material';
 import AddTaskCard from './AddTaskCard';
+import TaskCard from './TaskCard';
 import { GET_ALL_TICKETS } from '../../queries/TicketQueries';
+import LoginContext from '../../context/LoginContext';
+
+import CustomFilterCheckBox from '../../assets/custom-components/CustomCheckBox';
+import { getAllTickets } from '../../schemaTypes';
+
 import colors from '../../styles/globals';
+import '../../styles/TaskList.css';
 
 function TaskList(): JSX.Element {
+  const { userId: currentUser} = useContext(LoginContext);
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
   const [displayAddCard, setDisplayAddCard] = useState(false);
   const toggleDisplay = () => {
     setDisplayAddCard(!displayAddCard);
+  };
+  const [myProjectFilter, setMyProjectFilter] = useState(false);
+  const toggleMyProjectFilter = () => {
+    setMyProjectFilter(!myProjectFilter);
   };
   const { data, error } = useQuery<getAllTickets>(GET_ALL_TICKETS);
 
   return (
     <div>
       <h1 className="tasksTitle">Tasks</h1>
+        <div>
+          <CustomFilterCheckBox control={<Checkbox onClick={toggleMyProjectFilter} />} label="Assigned to me" />
+        </div>
       <div className="cardsDisplay">
         {data &&
-          data.allTickets.map((ticket) => (
+          data.allTickets
+          .filter(t => myProjectFilter ? t.users?.some(u => u._id === currentUser) : true)
+          .map((ticket) => (
             <TaskCard
               key={ticket._id}
               _id={ticket._id}

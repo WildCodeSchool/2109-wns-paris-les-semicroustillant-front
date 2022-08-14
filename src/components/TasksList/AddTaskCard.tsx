@@ -98,6 +98,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     users: selectUsers.map((user) => user._id),
   };
 
+  // @FREDY must be reworked to reload cache with new value from ticket added
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
