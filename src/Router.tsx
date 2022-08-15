@@ -15,7 +15,6 @@ import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
 import UsersList from './components/users/UsersList';
-import AddUserX from './components/AddUserX';
 import TaskList from './components/tasks/TaskList';
 import ProjectList from './components/projects/ProjectList';
 import Project from './components/Project';
@@ -80,9 +79,8 @@ export default function AppRouter(): JSX.Element {
           <Route path="/users" element={<UsersList />} />
           <Route path="/tasks" element={<TaskList />} />
           <Route path="/projects" element={<ProjectList />} />
-          <Route path="/project" element={<Project />} />{' '}
+          <Route path="/project" element={<Project />} />
           {/* @FREDY: TO BE DELETED, USELESS */}
-          <Route path="/add-user" element={<AddUserX />} />{' '}
           {/* @FREDY: TO BE DELETED, SHOULD BE A MODAL */}
           {/* MISSING ROUTE: USER PROFILE (OR MODAL??) */}
         </Route>
