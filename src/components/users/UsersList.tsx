@@ -18,19 +18,19 @@ import {
   Paper,
 } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { DELETE_USER } from '../queries/UserQueries';
-import { getAllUsers, DeleteUser } from '../schemaTypes';
-import UserDetailsCard from './UsersComponents/UserDetailsCard';
-import AvatarComponent from '../assets/custom-components/AvatarComponent';
+import { DELETE_USER } from '../../queries/UserQueries';
+import { getAllUsers, DeleteUser } from '../../schemaTypes';
+import UserDetailsCard from './UserDetailsCard';
+import AvatarComponent from '../../assets/custom-components/AvatarComponent';
 
-import '../styles/AllUsers.css';
+import '../../styles/UsersList.css';
 
 // icone fontAwesome
 // const iconTrash = <FontAwesomeIcon icon={faTrash} />;
 // const iconEdit = <FontAwesomeIcon icon={faEdit} />;
 const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
 
-const AllUsers = (): JSX.Element => {
+const UsersList = (): JSX.Element => {
   const [displayUserDetailsCard, setDisplayUserDetailsCard] = useState(false);
   const toggleUserDetailsCard = () => {
     setDisplayUserDetailsCard(!displayUserDetailsCard);
@@ -174,4 +174,4 @@ const AllUsers = (): JSX.Element => {
   );
 };
 
-export default AllUsers;
+export default UsersList;

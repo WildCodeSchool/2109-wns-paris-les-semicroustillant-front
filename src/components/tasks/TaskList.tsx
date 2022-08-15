@@ -4,8 +4,8 @@ import { Dialog } from '@mui/material';
 
 import AddTaskCard from './AddTaskCard';
 import TaskCard from './TaskCard';
-import CustomFilterCheckBox from '../../assets/custom-components/CustomFilterCheckBox';
 import TitleBar from '../../assets/custom-components/TitleBar';
+import CustomFilterCheckBox from '../../assets/custom-components/CustomFilterCheckBox';
 import LoginContext from '../../context/LoginContext';
 import { GET_ALL_TICKETS } from '../../queries/TicketQueries';
 import { getAllTickets } from '../../schemaTypes';

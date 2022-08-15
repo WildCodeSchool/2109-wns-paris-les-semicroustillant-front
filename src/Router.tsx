@@ -14,10 +14,10 @@ import { toast } from 'react-toastify';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
-import AllUsers from './components/AllUsers';
+import UsersList from './components/users/UsersList';
 import AddUserX from './components/AddUserX';
-import TaskList from './components/TasksList/TaskList';
-import AllProject from './components/AllProject';
+import TaskList from './components/tasks/TaskList';
+import ProjectList from './components/projects/ProjectList';
 import Project from './components/Project';
 
 import LoginContext from './context/LoginContext';
@@ -77,9 +77,9 @@ export default function AppRouter(): JSX.Element {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<ProtectedRoutes />}>
           <Route path="/" element={<Homepage />} />
-          <Route path="/users" element={<AllUsers />} />
+          <Route path="/users" element={<UsersList />} />
           <Route path="/tasks" element={<TaskList />} />
-          <Route path="/projects" element={<AllProject />} />
+          <Route path="/projects" element={<ProjectList />} />
           <Route path="/project" element={<Project />} />{' '}
           {/* @FREDY: TO BE DELETED, USELESS */}
           <Route path="/add-user" element={<AddUserX />} />{' '}
