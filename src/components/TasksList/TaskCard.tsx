@@ -1,50 +1,29 @@
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faTrash,
-  faPlusCircle,
-  faPen,
-} from '@fortawesome/free-solid-svg-icons';
-import moment from 'moment';
 import { useMutation, useQuery } from '@apollo/client';
-import { DeleteTicket, GetOneProject } from '../../schemaTypes';
+import moment from 'moment';
 import {
-  GET_PROJECT,
-} from '../../queries/ProjectQueries';
-import {
-  GET_ALL_TICKETS,
-  DELETE_TICKET,
-} from '../../queries/TicketQueries';
-import colors from '../../styles/globals';
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Dialog,
+  Paper,
+  Typography,
+} from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 import TaskDetails from './TaskDetails';
 import UpdateTaskCard from './UpdateTaskCard';
+import CustomActionButton from '../../assets/custom-components/CustomActionButton';
+import statusColor from '../../utils/statusColor';
 
-interface ITicketCard {
-  _id: string;
-  created_by: string;
-  subject: string;
-  status: string | null;
-  deadline: Date;
-  description: string | null;
-  initial_time_estimated: number | null;
-  total_time_spent: number | null;
-  advancement: number | null;
-  project_id: string | null;
-  users: IUserTicket[] | null;
-}
+import { GET_ALL_TICKETS, DELETE_TICKET } from '../../queries/TicketQueries';
+import { GET_PROJECT } from '../../queries/ProjectQueries';
+import { DeleteTicket, GetOneProject } from '../../schemaTypes';
+import { ITicketCard, IExistingTickets } from '../../types/custom-types';
 
-interface IUserTicket {
-  _id: string;
-}
+import colors from '../../styles/globals';
 
 function TicketCard({
   _id,
@@ -60,8 +39,8 @@ function TicketCard({
   users,
 }: ITicketCard): JSX.Element {
   const iconTrash = <FontAwesomeIcon icon={faTrash} />;
-  const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
-  const iconPen = <FontAwesomeIcon icon={faPen} />;
+  const iconPlus = <FontAwesomeIcon icon={faEye} />;
+  const iconEdit = <FontAwesomeIcon icon={faEdit} />;
 
   const [displaySeeTicket, setDisplaySeeTicket] = useState(false);
   const toggleDisplay = () => {
@@ -72,10 +51,6 @@ function TicketCard({
   const toggleUpdate = () => {
     setDisplayUpdate(!displayUpdate);
   };
-
-  interface IExistingTickets {
-    allTickets: ITicketCard[];
-  }
 
   const [deleteTicket] = useMutation<DeleteTicket>(DELETE_TICKET, {
     update(cache) {
@@ -116,20 +91,21 @@ function TicketCard({
           sx={{ pb: 0 }}
           title={
             <Typography
-              sx={{ fontSize: 14, color: colors.primary, m: 0 }}
+              sx={{
+                fontSize: 14,
+                fontWeight: 'bold',
+                color: statusColor(status || ''),
+                m: 0,
+              }}
               gutterBottom
             >
               {status}
             </Typography>
           }
           action={
-            <Button
-              size="large"
-              sx={{ color: colors.primary }}
-              onClick={toggleDisplay}
-            >
+            <CustomActionButton onClick={toggleDisplay}>
               {iconPlus}
-            </Button>
+            </CustomActionButton>
           }
         />
         <CardContent>
@@ -154,20 +130,15 @@ function TicketCard({
           </Typography>
         </CardContent>
         <CardActions className="actions">
-          <Button
-            size="medium"
-            sx={{ color: colors.primary }}
-            onClick={toggleUpdate}
-          >
-            {iconPen}
-          </Button>
-          <Button
-            size="medium"
-            sx={{ color: colors.primary }}
+          <CustomActionButton onClick={toggleUpdate}>
+            {iconEdit}
+          </CustomActionButton>
+
+          <CustomActionButton
             onClick={() => deleteTicket({ variables: { deleteTicketId: _id } })}
           >
             {iconTrash}
-          </Button>
+          </CustomActionButton>
         </CardActions>
       </Card>
       <div>

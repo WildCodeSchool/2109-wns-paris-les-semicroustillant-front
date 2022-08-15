@@ -63,11 +63,12 @@ const AllUsers = (): JSX.Element => {
         sx={{
           display: 'flex',
           justifyContent: 'center',
+          backgroundColor: 'transparent',
         }}
         component={Paper}
       >
         <Table
-          sx={{ maxWidth: 1200, m: 8, border: 1 }}
+          sx={{ maxWidth: 1200, mt: 3, border: 1, backgroundColor: '#fff' }}
           aria-label="simple table"
         >
           <TableHead>
@@ -119,7 +120,7 @@ const AllUsers = (): JSX.Element => {
                     <TableCell align="left">{`${user.firstname} ${user.lastname}`}</TableCell>
                     <TableCell align="left">{user.position}</TableCell>
                     <TableCell align="left">{user.role}</TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" width={15}>
                       <Button
                         onClick={() => {
                           toggleUserDetailsCard();
