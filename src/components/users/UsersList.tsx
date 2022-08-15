@@ -18,10 +18,13 @@ import {
   Paper,
 } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { DELETE_USER } from '../../queries/UserQueries';
-import { getAllUsers, DeleteUser } from '../../schemaTypes';
+
 import UserDetailsCard from './UserDetailsCard';
+import TitleBar from '../../assets/custom-components/TitleBar';
 import AvatarComponent from '../../assets/custom-components/AvatarComponent';
+
+import { GET_ALL_USERS, DELETE_USER } from '../../queries/UserQueries';
+import { GetAllUsers, DeleteUser } from '../../schemaTypes';
 
 import '../../styles/UsersList.css';
 
@@ -29,6 +32,12 @@ import '../../styles/UsersList.css';
 // const iconTrash = <FontAwesomeIcon icon={faTrash} />;
 // const iconEdit = <FontAwesomeIcon icon={faEdit} />;
 const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
+const tableCellStyle = {
+  color: 'white',
+  fontWeight: 'bold',
+  fontSize: '1.2rem',
+  backgroundColor: 'var(--secondary-red)',
+};
 
 const UsersList = (): JSX.Element => {
   const [displayUserDetailsCard, setDisplayUserDetailsCard] = useState(false);
@@ -38,19 +47,7 @@ const UsersList = (): JSX.Element => {
 
   const [selectedUserId, setSelectedUserId] = useState('');
 
-  const GET_USERS = gql`
-    query getAllUsers {
-      allUsers {
-        _id
-        firstname
-        lastname
-        position
-        role
-      }
-    }
-  `;
-
-  const { loading, data } = useQuery<getAllUsers>(GET_USERS);
+  const { loading, data } = useQuery<GetAllUsers>(GET_ALL_USERS);
 
   const [deleteId, setDeleteId] = useState('');
 
@@ -58,12 +55,18 @@ const UsersList = (): JSX.Element => {
 
   const [mutateFunction] = useMutation<DeleteUser>(DELETE_USER);
   return (
-    <div>
+    <div style={{ margin: '2rem 3rem 0 3rem' }}>
+      <TitleBar
+        title="Users"
+        onClickRigthBtn={() => console.log('click click')}
+        displayRightBtn
+      />
       <TableContainer
         sx={{
           display: 'flex',
           justifyContent: 'center',
           backgroundColor: 'transparent',
+          boxShadow: 'none',
         }}
         component={Paper}
       >
@@ -74,31 +77,19 @@ const UsersList = (): JSX.Element => {
           <TableHead>
             <TableRow sx={{ bgcolor: 'info.main' }}>
               <TableCell
-                style={{ color: 'white', fontWeight: 'bold' }}
+                style={tableCellStyle}
                 align="left"
               />
-              <TableCell
-                style={{ color: 'white', fontWeight: 'bold' }}
-                align="left"
-              >
-                Name
+              <TableCell style={tableCellStyle} align="left">
+                NAME
               </TableCell>
-              <TableCell
-                style={{ color: 'white', fontWeight: 'bold' }}
-                align="left"
-              >
-                Position
+              <TableCell style={tableCellStyle} align="left">
+                POSITION
               </TableCell>
-              <TableCell
-                style={{ color: 'white', fontWeight: 'bold' }}
-                align="left"
-              >
-                Role
+              <TableCell style={tableCellStyle} align="left">
+                ROLE
               </TableCell>
-              <TableCell
-                style={{ color: 'white', fontWeight: 'bold' }}
-                align="left"
-              />
+              <TableCell style={tableCellStyle} align="left" />
             </TableRow>
           </TableHead>
           <TableBody>
