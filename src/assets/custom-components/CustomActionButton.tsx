@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { ComponentActionBtnProps } from '../../types/custom-types';
+import { IComponentActionBtnProps } from '../../types/custom-types';
 
 import colors from '../../styles/globals';
 
 
-const CustomActionButton: React.FC<ComponentActionBtnProps> = ({children, onClick}) => (
+const CustomActionButton: React.FC<IComponentActionBtnProps> = ({children, onClick}) => (
   <Button
     size="large"
     variant="contained"

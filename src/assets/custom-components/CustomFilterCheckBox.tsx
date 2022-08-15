@@ -2,9 +2,9 @@ import React from 'react';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { pink } from '@mui/material/colors';
 
-import { ComponentCustomFilterChechBoxProps } from '../../types/custom-types';
+import { IComponentCustomFilterChechBoxProps } from '../../types/custom-types';
 
-const CustomFilterCheckBox: React.FC<ComponentCustomFilterChechBoxProps> = ({
+const CustomFilterCheckBox: React.FC<IComponentCustomFilterChechBoxProps> = ({
   label,
   onClick,
 }) => (

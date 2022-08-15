@@ -11,25 +11,25 @@ export interface IDecodedToken {
 // ====================================================
 // CUSTOM COMPONENTS
 // ====================================================
-export interface ComponentActionBtnProps {
+export interface IComponentActionBtnProps {
   children: React.ReactNode;
   onClick: () => void;
 };
 
-export interface ComponentTitleBarProps {
+export interface IComponentTitleBarProps {
   title: string;
   onClickRigthBtn: () => void;
   displayRightBtn?: boolean;
 };
 
-export interface ComponentCustomFilterChechBoxProps {
+export interface IComponentCustomFilterChechBoxProps {
   label: string;
   onClick: () => void;
 };
 
 
 // ====================================================
-// TASK CARD
+// TASKS CARD
 // ====================================================
 export interface ITicketCard {
   _id: string;
@@ -51,4 +51,12 @@ export interface IExistingTickets {
 
 export interface IUserTicket {
   _id: string;
+}
+
+
+// ====================================================
+// USERS CARD
+// ====================================================
+export interface IAddUserModal {
+  toggleDisplay: () => void;
 }

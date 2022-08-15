@@ -6,11 +6,11 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
-import { ComponentTitleBarProps } from '../../types/custom-types';
+import { IComponentTitleBarProps } from '../../types/custom-types';
 
 import colors from '../../styles/globals';
 
-const TitleBar: React.FC<ComponentTitleBarProps> = ({
+const TitleBar: React.FC<IComponentTitleBarProps> = ({
   title,
   onClickRigthBtn,
   displayRightBtn = false,
