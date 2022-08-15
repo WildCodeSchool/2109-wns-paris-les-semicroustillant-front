@@ -27,6 +27,11 @@ function TaskList(): JSX.Element {
   };
   const { data, error } = useQuery<getAllTickets>(GET_ALL_TICKETS);
 
+
+  // @FREDY
+  // PB PERFORMANCES AND RELOAD --> Add project name + user firstname + lastname
+  // Add icons for pending / blocked / in progress / done
+    
   return (
     <div>
       <h1 className="tasksTitle">Tasks</h1>
