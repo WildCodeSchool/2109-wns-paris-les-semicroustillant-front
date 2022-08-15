@@ -4,28 +4,6 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getAllUsers
-// ====================================================
-
-export interface getAllUsers_allUsers {
-  __typename: "User";
-  _id: string;
-  firstname: string;
-  lastname: string;
-  position: string;
-  role: string;
-}
-
-export interface getAllUsers {
-  allUsers: getAllUsers_allUsers[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: login
 // ====================================================
 
@@ -249,6 +227,7 @@ export interface GetAllUsers_allUsers {
   firstname: string;
   lastname: string;
   position: string;
+  role: string;
 }
 
 export interface GetAllUsers {

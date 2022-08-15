@@ -23,7 +23,6 @@ import {
   GetAllUsers_allUsers,
   GetTicketsProjects_getAllProjects,
   GetOneProject,
-  getAllUsers,
 } from '../../schemaTypes';
 import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
 import { GET_ALL_PROJECTS, GET_PROJECT } from '../../queries/ProjectQueries';
@@ -101,7 +100,7 @@ function UpdateTaskCard({
 
   const [inputValue, setInputValue] = useState('');
 
-  const getUsersNames = useQuery<getAllUsers>(GET_ALL_USERS);
+  const getUsersNames = useQuery<GetAllUsers>(GET_ALL_USERS);
   const allUsers = getUsersNames.data?.allUsers;
 
   const usersNames = () => {

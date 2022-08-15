@@ -7,6 +7,7 @@ const GET_ALL_USERS = gql`
       firstname
       lastname
       position
+      role
     }
   }
 `;

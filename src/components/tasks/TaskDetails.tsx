@@ -13,7 +13,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import UpdateTaskCard from './UpdateTaskCard';
 import colors from '../../styles/globals';
-import { GetAllUsers_allUsers, getAllUsers } from '../../schemaTypes';
+import { GetAllUsers_allUsers, GetAllUsers } from '../../schemaTypes';
 import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
 
 interface ITicketDetails {
@@ -57,7 +57,7 @@ function TaskDetails({
     setDisplayUpdate(!displayUpdate);
   };
 
-  const getUsersNames = useQuery<getAllUsers>(GET_ALL_USERS);
+  const getUsersNames = useQuery<GetAllUsers>(GET_ALL_USERS);
   const allUsers = getUsersNames.data?.allUsers;
 
   const usersNames = () => {
