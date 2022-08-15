@@ -144,6 +144,7 @@ function UpdateTaskCard({
 
   const ticketVariables = {
     _id,
+    created_by: _created_by,
     subject: ticketData.subject,
     status: selectStatus,
     deadline: pickDeadline,
