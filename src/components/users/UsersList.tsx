@@ -90,7 +90,6 @@ const UsersList = (): JSX.Element => {
           <TableBody>
             {data &&
               data.allUsers.map((user) => (
-                <>
                   <TableRow
                     key={user._id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -134,7 +133,6 @@ const UsersList = (): JSX.Element => {
                       </Button>
                     </TableCell>
                   </TableRow>
-                </>
               ))}
           </TableBody>
         </Table>
