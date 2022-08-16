@@ -84,7 +84,7 @@ function TicketCard({
   return (
     <div>
       <Card
-        sx={{ marginTop: 5, marginBottom: 5, minWidth: 275, maxWidth: 300 }}
+        sx={{ margin: 5, minWidth: 275, maxWidth: 300 }}
         elevation={10}
       >
         <CardHeader
@@ -122,7 +122,7 @@ function TicketCard({
           </Paper>
 
           <Typography sx={{ mb: 1.5 }} variant="body2">
-            {span('Advancement')}: {advancement}
+            {span('Advancement')}: {advancement} %
           </Typography>
 
           <Typography sx={{ mb: 1.5 }} variant="body2">

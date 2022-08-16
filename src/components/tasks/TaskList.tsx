@@ -59,7 +59,7 @@ function TaskList(): JSX.Element {
                 description={ticket.description}
                 initial_time_estimated={ticket.initial_time_estimated}
                 total_time_spent={ticket.total_time_spent}
-                advancement={ticket.advancement}
+                advancement={ticket.advancement && Math.floor(ticket.advancement)}
                 project_id={ticket.project_id._id}
                 users={ticket.users}
               />

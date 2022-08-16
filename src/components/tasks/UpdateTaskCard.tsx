@@ -16,6 +16,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
+import ModalTitle from '../../assets/custom-components/ModalTitle';
 import {
   GetTicketsProjects,
   GetAllUsers,
@@ -27,7 +28,7 @@ import {
 import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
 import { GET_ALL_PROJECTS, GET_PROJECT } from '../../queries/ProjectQueries';
 import { UPDATE_TICKET } from '../../queries/TicketQueries';
-import commonStatuses from '../../common-values/commonStatuses';
+import { commonStatuses } from '../../common-values/commonStatuses';
 
 import '../../styles/TaskList.css';
 
@@ -37,7 +38,7 @@ interface ITicketData {
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   project_id: string | null;
-}  
+}
 interface IUpdateTaskCard {
   toggleDisplay: () => void;
   _id: string;
@@ -105,7 +106,7 @@ function UpdateTaskCard({
 
   const usersNames = () => {
     const result: GetAllUsers_allUsers[] = [];
-    allUsers?.map((user) => 
+    allUsers?.map((user) =>
       _users?.map((userId) => user._id === userId._id && result.push(user))
     );
     return result;
@@ -169,6 +170,7 @@ function UpdateTaskCard({
 
   return (
     <div className="cardContainer">
+      <ModalTitle title="Edit a task" />
       <Card sx={{ minWidth: 600, display: 'flex', justifyContent: 'center' }}>
         <CardContent>
           <FormControl
@@ -181,7 +183,10 @@ function UpdateTaskCard({
               disabled
               margin="normal"
               label="Created by"
-              value={createdByDetails && `${createdByDetails.firstname} ${createdByDetails.lastname} - ${createdByDetails.position}`}
+              value={
+                createdByDetails &&
+                `${createdByDetails.firstname} ${createdByDetails.lastname} - ${createdByDetails.position}`
+              }
             />
 
             <TextField
@@ -287,7 +292,9 @@ function UpdateTaskCard({
               onChange={(event, newValue) => {
                 setSelectUsers(newValue);
               }}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname} - ${user.position}`}
+              getOptionLabel={(user) =>
+                `${user.firstname} ${user.lastname} - ${user.position}`
+              }
               filterSelectedOptions
               renderInput={(params) => (
                 <TextField

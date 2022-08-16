@@ -1,19 +1,23 @@
 import React, { useState, ChangeEvent, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import Autocomplete from '@mui/material/Autocomplete';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {
+  Autocomplete,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  FormControl,
+  MenuItem,
+  TextField,
+} from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
+
+import ModalTitle from '../../assets/custom-components/ModalTitle';
+import { GET_ALL_PROJECTS } from '../../queries/ProjectQueries';
+import { GET_ALL_USERS } from '../../queries/UserQueries';
+import { ADD_TICKET, GET_ALL_TICKETS } from '../../queries/TicketQueries';
 import {
   GetTicketsProjects,
   GetAllUsers,
@@ -22,11 +26,7 @@ import {
   GetTicketsProjects_getAllProjects,
   getAllTickets,
 } from '../../schemaTypes';
-import { GET_ALL_PROJECTS } from '../../queries/ProjectQueries';
-import { GET_ALL_USERS } from '../../queries/UserQueries';
-import { ADD_TICKET, GET_ALL_TICKETS } from '../../queries/TicketQueries';
-import commonStatuses from '../../common-values/commonStatuses';
-
+import { commonStatuses } from '../../common-values/commonStatuses';
 import LoginContext from '../../context/LoginContext';
 
 import '../../styles/TaskList.css';
@@ -44,9 +44,8 @@ interface ITicketData {
 }
 
 function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
-  const iconCheck = <FontAwesomeIcon icon={faCheck} />;
   const statuses = commonStatuses;
-  const { userId: currentUser} = useContext(LoginContext);
+  const { userId: currentUser } = useContext(LoginContext);
 
   const [ticketData, setTicketData] = useState<ITicketData>({
     subject: '',
@@ -57,7 +56,9 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   });
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
   const [selectStatus, setSelectStatus] = useState<string>('');
-  const [selectProject, setSelectProject] = useState<GetTicketsProjects_getAllProjects | null | undefined>(null);
+  const [selectProject, setSelectProject] = useState<
+    GetTicketsProjects_getAllProjects | null | undefined
+  >(null);
   const [inputValue, setInputValue] = useState('');
   const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>([]);
   const [inputError, setInputError] = useState({
@@ -98,7 +99,6 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
     users: selectUsers.map((user) => user._id),
   };
 
-  // @FREDY must be reworked to reload cache with new value from ticket added
   const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
     update(cache, { data }) {
       const currentTasksList: getAllTickets = cache.readQuery({
@@ -132,6 +132,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
 
   return (
     <div className="cardContainer">
+      <ModalTitle title="Add a new task" />
       <Card
         sx={{
           minWidth: 600,
@@ -251,7 +252,9 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
               onChange={(event, newValue) => {
                 setSelectUsers(newValue);
               }}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname} - ${user.position}`}
+              getOptionLabel={(user) =>
+                `${user.firstname} ${user.lastname} - ${user.position}`
+              }
               filterSelectedOptions
               renderInput={(params) => (
                 <TextField
@@ -267,6 +270,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
               <Button
                 size="large"
                 type="submit"
+                color="error" 
                 disabled={
                   !selectStatus ||
                   !ticketData.subject ||
@@ -320,7 +324,7 @@ function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
                   }
                 }}
               >
-                {iconCheck}
+                SUBMIT
               </Button>
             </CardActions>
           </FormControl>
