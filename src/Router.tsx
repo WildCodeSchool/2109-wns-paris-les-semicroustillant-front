@@ -88,7 +88,6 @@ export default function AppRouter(): JSX.Element {
           <Route path="/projects" element={<ProjectList />} />
           <Route path="/project" element={<Project />} />
           {/* @FREDY: TO BE DELETED, USELESS */}
-          {/* @FREDY: TO BE DELETED, SHOULD BE A MODAL */}
           {/* MISSING ROUTE: USER PROFILE (OR MODAL??) */}
         </Route>
       </Routes>
