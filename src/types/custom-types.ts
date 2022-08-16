@@ -1,13 +1,19 @@
+import { JwtPayload } from 'jwt-decode';
+
 // ====================================================
 // JWT DECODE TOKEN
 // ====================================================
 
 export interface IDecodedToken {
-  userId: string | unknown;
-  userRole: string | unknown;
+  userId: string;
+  userRole: string;
   iat: number;
   exp: number;
 }
+
+export type InsideToken = string | null;
+
+export type CustomJwtPayload = JwtPayload & IDecodedToken;
 
 // ====================================================
 // CUSTOM COMPONENTS

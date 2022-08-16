@@ -3,8 +3,8 @@ import { createContext } from 'react';
 interface IDefaultState {
   loggedIn?: boolean;
   token?: string;
-  userId: string | unknown;
-  userRole: string | unknown;
+  userId: string;
+  userRole: string;
 }
 export const defaultState = {
   loggedIn: false,

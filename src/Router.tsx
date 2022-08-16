@@ -22,13 +22,13 @@ import Project from './components/Project';
 import LoginContext from './context/LoginContext';
 import { CHECK_USER_TOKEN } from './queries/AuthQueries';
 import { CheckUserToken } from './schemaTypes';
-import { IDecodedToken } from './types/custom-types';
+import { InsideToken, CustomJwtPayload } from './types/custom-types';
 
 import './App.css';
 
 export default function AppRouter(): JSX.Element {
-  const [userId, setUserId] = useState<string | unknown>();
-  const [userRole, setUserRole] = useState<string | unknown>();
+  const [userId, setUserId] = useState<InsideToken>(null);
+  const [userRole, setUserRole] = useState<InsideToken>(null);
 
   const checkUserToken = () => {
     const token = localStorage.getItem('token');
@@ -55,14 +55,17 @@ export default function AppRouter(): JSX.Element {
 
     useEffect(() => {
       const token = localStorage.getItem('token');
-      const decodedToken: '' | IDecodedToken | null =
-        token && jwt_decode(token);
 
-      setUserId(decodedToken && decodedToken.userId);
-      setUserRole(decodedToken && decodedToken.userRole);
+      if (!token) return;
+      const decodedToken: CustomJwtPayload = jwt_decode(token);
+
+      if (decodedToken?.userId && decodedToken?.userRole) {
+        setUserId(decodedToken.userId);
+        setUserRole(decodedToken.userRole);
+      }
     }, []);
 
-    return auth ? (
+    return auth && userId && userRole ? (
       <>
         <LoginContext.Provider value={{ userId, userRole }}>
           <Navbar />
