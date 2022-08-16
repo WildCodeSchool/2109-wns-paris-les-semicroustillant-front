@@ -4,6 +4,7 @@
 
 export interface IDecodedToken {
   userId: string | unknown;
+  userRole: string | unknown;
   iat: number;
   exp: number;
 }

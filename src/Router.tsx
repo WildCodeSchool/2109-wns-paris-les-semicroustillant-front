@@ -28,6 +28,7 @@ import './App.css';
 
 export default function AppRouter(): JSX.Element {
   const [userId, setUserId] = useState<string | unknown>();
+  const [userRole, setUserRole] = useState<string | unknown>();
 
   const checkUserToken = () => {
     const token = localStorage.getItem('token');
@@ -54,13 +55,16 @@ export default function AppRouter(): JSX.Element {
 
     useEffect(() => {
       const token = localStorage.getItem('token');
-      const decodedToken: '' | IDecodedToken | null = token && jwt_decode(token);
+      const decodedToken: '' | IDecodedToken | null =
+        token && jwt_decode(token);
+
       setUserId(decodedToken && decodedToken.userId);
+      setUserRole(decodedToken && decodedToken.userRole);
     }, []);
-  
+
     return auth ? (
       <>
-        <LoginContext.Provider value={{ userId }}>
+        <LoginContext.Provider value={{ userId, userRole }}>
           <Navbar />
           <Outlet />
         </LoginContext.Provider>
