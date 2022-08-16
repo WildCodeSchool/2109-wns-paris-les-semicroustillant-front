@@ -1,22 +1,50 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { Card, CardHeader, Typography, TextField } from '@mui/material';
+import { Card, CardHeader, Typography, TextField, Box } from '@mui/material';
 import AvatarComponent from '../../assets/custom-components/AvatarComponent';
-import { GetOneUser } from '../../schemaTypes';
-import { GET_ONE_USER } from '../../queries/UserQueries';
-import colors from '../../styles/globals';
 
-interface IUserDetails {
-  userId: string;
-}
+import { GET_ONE_USER } from '../../queries/UserQueries';
+import { COUNT_TICKETS_BY_USER_ID } from '../../queries/TicketQueries';
+import {
+  CountProjectsByUserId,
+  CountTicketByUserId,
+  GetOneUser,
+} from '../../schemaTypes';
+import { IUserDetails } from '../../types/custom-types';
+
+import colors from '../../styles/globals';
+import { COUNT_PROJECTS_BY_USER_ID } from '../../queries/ProjectQueries';
 
 const UserDetailsCard = ({ userId }: IUserDetails): JSX.Element => {
-  const { data } = useQuery<GetOneUser>(GET_ONE_USER, {
+  const { data: userData } = useQuery<GetOneUser>(GET_ONE_USER, {
     variables: { userId },
   });
+  const { data: countTicketsData } = useQuery<CountTicketByUserId>(
+    COUNT_TICKETS_BY_USER_ID,
+    {
+      variables: { countTicketsByUserIdId: userId },
+    }
+  );
+  const { data: countProjectsData } = useQuery<CountProjectsByUserId>(
+    COUNT_PROJECTS_BY_USER_ID,
+    {
+      variables: { countProjectsByUserIdId: userId },
+    }
+  );
 
-  const user = data?.getOneUser;
+  const user = userData?.getOneUser;
+  const ticketNb = countTicketsData?.countTicketsByUserId;
+  const projectNb = countProjectsData?.countProjectsByUserId;
   const lock = false;
+
+  const span = (content: string) => (
+    <Box
+      component="span"
+      sx={{ display: 'inline-block', ml: '15px', mb: '15px', color: colors.primary }}
+    >
+      {content}
+    </Box>
+  );
 
   const EditField = ({
     edit,
@@ -75,7 +103,15 @@ const UserDetailsCard = ({ userId }: IUserDetails): JSX.Element => {
           }
         />
       </div>
-      <div style={{ display: 'flex', padding: '15px', paddingTop: '30px', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+      <div
+        style={{
+          display: 'flex',
+          padding: '15px',
+          paddingTop: '30px',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+        }}
+      >
         {EditField({
           edit: lock,
           content: user?.firstname,
@@ -84,6 +120,22 @@ const UserDetailsCard = ({ userId }: IUserDetails): JSX.Element => {
         {EditField({ edit: lock, content: user?.lastname, title: 'LASTNAME' })}
         {EditField({ edit: lock, content: user?.position, title: 'POSITION' })}
         {EditField({ edit: lock, content: user?.email, title: 'EMAIL' })}
+      </div>
+      <div
+        style={{
+          // display: 'flex',
+          padding: '15px',
+          paddingTop: '30px',
+          flexWrap: 'wrap',
+          // justifyContent: 'space-between',
+        }}
+      >
+        <Typography sx={{ mb: 1.5 }} variant="body2">
+          {span('Total number of assigned projects')}: {projectNb}
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} variant="body2">
+          {span('Total number of assigned tickets')}: {ticketNb}
+        </Typography>
       </div>
     </Card>
   );
