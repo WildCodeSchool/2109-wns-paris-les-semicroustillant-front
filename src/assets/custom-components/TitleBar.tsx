@@ -13,7 +13,7 @@ import colors from '../../styles/globals';
 const TitleBar: React.FC<IComponentTitleBarProps> = ({
   title,
   onClickRigthBtn,
-  displayRightBtn = false,
+  hideRightBtn = false,
 }) => {
   const navigate = useNavigate();
   const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
@@ -59,9 +59,9 @@ const TitleBar: React.FC<IComponentTitleBarProps> = ({
           borderRadius: '50px',
           bgcolor: colors.primary,
           minWidth: 'auto',
-          display: displayRightBtn ? 'block' : 'none',
         }}
         onClick={onClickRigthBtn}
+        disabled={hideRightBtn}
       >
         {iconPlus}
       </Button>

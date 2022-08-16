@@ -33,7 +33,7 @@ function TaskList(): JSX.Element {
 
   return (
     <div style={{ margin: '2rem 3rem 0 3rem' }}>
-      <TitleBar title="Tasks" onClickRigthBtn={toggleDisplay} displayRightBtn />
+      <TitleBar title="Tasks" onClickRigthBtn={toggleDisplay} />
       <div>
         <CustomFilterCheckBox
           label="Assigned to me"

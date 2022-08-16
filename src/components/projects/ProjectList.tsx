@@ -7,7 +7,7 @@ import CustomFilterCheckBox from '../../assets/custom-components/CustomFilterChe
 function ProjectList(): JSX.Element {
   return (
     <div style={{ margin: '2rem 3rem 0 3rem' }}>
-      <TitleBar title="Projects" onClickRigthBtn={() => console.log('click click')} displayRightBtn />
+      <TitleBar title="Projects" onClickRigthBtn={() => console.log('click click')} />
       <div>
         <CustomFilterCheckBox
           label="Assigned to me"

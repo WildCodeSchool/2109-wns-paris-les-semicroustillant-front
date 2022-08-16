@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useQuery } from '@apollo/client';
 import {
   Button,
@@ -17,6 +17,7 @@ import UserDetailsCard from './UserDetailsCard';
 import AddUserModal from './AddUserModal';
 import TitleBar from '../../assets/custom-components/TitleBar';
 import AvatarComponent from '../../assets/custom-components/AvatarComponent';
+import LoginContext from '../../context/LoginContext';
 
 import { GET_ALL_USERS } from '../../queries/UserQueries';
 import { GetAllUsers } from '../../schemaTypes';
@@ -32,6 +33,7 @@ const tableCellStyle = {
 };
 
 const UsersList = (): JSX.Element => {
+  const { userRole } = useContext(LoginContext);
   const [displayAddUserModal, setDisplayAddUserModal] = useState(false);
   const toggleDisplayAddUserModal = () => {
     setDisplayAddUserModal(!displayAddUserModal);
@@ -51,7 +53,7 @@ const UsersList = (): JSX.Element => {
       <TitleBar
         title="Users"
         onClickRigthBtn={toggleDisplayAddUserModal}
-        displayRightBtn
+        hideRightBtn={userRole === 'users'}
       />
       <TableContainer
         sx={{
@@ -90,49 +92,49 @@ const UsersList = (): JSX.Element => {
           <TableBody>
             {data &&
               data.allUsers.map((user) => (
-                  <TableRow
-                    key={user._id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      <AvatarComponent
-                        position={user?.position || ''}
-                        lastname={user?.lastname || ''}
-                        firstname={user?.firstname || ''}
-                        avatarSize={50}
-                      />
-                    </TableCell>
-                    <TableCell align="left">{`${user.firstname} ${user.lastname}`}</TableCell>
-                    <TableCell align="left">{user.position}</TableCell>
-                    <TableCell align="left">{user.role}</TableCell>
-                    <TableCell align="left" width={15}>
-                      <Button
-                        size="small"
-                        color="error"
+                <TableRow
+                  key={user._id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    <AvatarComponent
+                      position={user?.position || ''}
+                      lastname={user?.lastname || ''}
+                      firstname={user?.firstname || ''}
+                      avatarSize={50}
+                    />
+                  </TableCell>
+                  <TableCell align="left">{`${user.firstname} ${user.lastname}`}</TableCell>
+                  <TableCell align="left">{user.position}</TableCell>
+                  <TableCell align="left">{user.role}</TableCell>
+                  <TableCell align="left" width={15}>
+                    <Button
+                      size="small"
+                      color="error"
+                      sx={{
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50px',
+                        minWidth: 'auto',
+                      }}
+                      onClick={() => {
+                        toggleUserDetailsCard();
+                        setSelectedUserId(user._id);
+                      }}
+                    >
+                      <ChevronRightIcon
                         sx={{
-                          width: '50px',
-                          height: '50px',
-                          borderRadius: '50px',
-                          minWidth: 'auto',
+                          color: colors.primary,
+                          fontSize: 65,
+                          '&:hover': {
+                            color: 'var(--primary-hover)',
+                            boxShadow: 'none',
+                          },
                         }}
-                        onClick={() => {
-                          toggleUserDetailsCard();
-                          setSelectedUserId(user._id);
-                        }}
-                      >
-                        <ChevronRightIcon
-                          sx={{
-                            color: colors.primary,
-                            fontSize: 65,
-                            '&:hover': {
-                              color: 'var(--primary-hover)',
-                              boxShadow: 'none',
-                            },
-                          }}
-                        />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                      />
+                    </Button>
+                  </TableCell>
+                </TableRow>
               ))}
           </TableBody>
         </Table>

@@ -20,7 +20,7 @@ export interface IComponentActionBtnProps {
 export interface IComponentTitleBarProps {
   title: string;
   onClickRigthBtn: () => void;
-  displayRightBtn?: boolean;
+  hideRightBtn?: boolean;
 };
 
 export interface IComponentCustomFilterChechBoxProps {
