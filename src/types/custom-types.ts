@@ -80,3 +80,7 @@ export interface IAddUserInputValues {
   role: string;
   position: string;
 }
+
+export interface IUserDetails {
+  userId: string;
+}

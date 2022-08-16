@@ -70,4 +70,16 @@ const DELETE_TICKET = gql`
   }
 `;
 
-export { GET_ALL_TICKETS, ADD_TICKET, UPDATE_TICKET, DELETE_TICKET };
+const COUNT_TICKETS_BY_USER_ID = gql`
+  query CountTicketByUserId($countTicketsByUserIdId: String!) {
+    countTicketsByUserId(id: $countTicketsByUserIdId)
+  }
+`;
+
+export {
+  GET_ALL_TICKETS,
+  ADD_TICKET,
+  UPDATE_TICKET,
+  DELETE_TICKET,
+  COUNT_TICKETS_BY_USER_ID,
+};

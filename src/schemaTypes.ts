@@ -81,6 +81,23 @@ export interface GetOneProjectVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: CountProjectsByUserId
+// ====================================================
+
+export interface CountProjectsByUserId {
+  countProjectsByUserId: number;
+}
+
+export interface CountProjectsByUserIdVariables {
+  countProjectsByUserIdId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: getAllTickets
 // ====================================================
 
@@ -210,6 +227,23 @@ export interface DeleteTicket {
 
 export interface DeleteTicketVariables {
   deleteTicketId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: CountTicketByUserId
+// ====================================================
+
+export interface CountTicketByUserId {
+  countTicketsByUserId: number;
+}
+
+export interface CountTicketByUserIdVariables {
+  countTicketsByUserIdId: string;
 }
 
 /* tslint:disable */
