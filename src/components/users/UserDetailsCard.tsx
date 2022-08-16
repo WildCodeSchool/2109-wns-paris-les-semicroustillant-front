@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import { Card, CardHeader, Typography, TextField } from '@mui/material';
 import AvatarComponent from '../../assets/custom-components/AvatarComponent';
@@ -11,7 +11,6 @@ interface IUserDetails {
 }
 
 const UserDetailsCard = ({ userId }: IUserDetails): JSX.Element => {
-  // console.log('USER DI', userId);
   const { data } = useQuery<GetOneUser>(GET_ONE_USER, {
     variables: { userId },
   });
@@ -55,7 +54,6 @@ const UserDetailsCard = ({ userId }: IUserDetails): JSX.Element => {
     return <span>{content}</span>;
   };
 
-  // console.log('DATA', user && user);
   return (
     <Card sx={{ minWidth: 300, p: 5, pt: 0 }} elevation={10}>
       <div style={{ display: 'flex', padding: '15px', paddingTop: '30px' }}>

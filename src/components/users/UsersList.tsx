@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, gql, useMutation } from '@apollo/client';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  // faTrash,
-  // faEdit,
-  faPlusCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { useQuery } from '@apollo/client';
 import {
   Button,
   Dialog,
@@ -20,18 +14,16 @@ import {
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import UserDetailsCard from './UserDetailsCard';
+import AddUserModal from './AddUserModal';
 import TitleBar from '../../assets/custom-components/TitleBar';
 import AvatarComponent from '../../assets/custom-components/AvatarComponent';
 
-import { GET_ALL_USERS, DELETE_USER } from '../../queries/UserQueries';
-import { GetAllUsers, DeleteUser } from '../../schemaTypes';
+import { GET_ALL_USERS } from '../../queries/UserQueries';
+import { GetAllUsers } from '../../schemaTypes';
 
+import colors from '../../styles/globals';
 import '../../styles/UsersList.css';
 
-// icone fontAwesome
-// const iconTrash = <FontAwesomeIcon icon={faTrash} />;
-// const iconEdit = <FontAwesomeIcon icon={faEdit} />;
-const iconPlus = <FontAwesomeIcon icon={faPlusCircle} />;
 const tableCellStyle = {
   color: 'white',
   fontWeight: 'bold',
@@ -40,6 +32,11 @@ const tableCellStyle = {
 };
 
 const UsersList = (): JSX.Element => {
+  const [displayAddUserModal, setDisplayAddUserModal] = useState(false);
+  const toggleDisplayAddUserModal = () => {
+    setDisplayAddUserModal(!displayAddUserModal);
+  };
+
   const [displayUserDetailsCard, setDisplayUserDetailsCard] = useState(false);
   const toggleUserDetailsCard = () => {
     setDisplayUserDetailsCard(!displayUserDetailsCard);
@@ -47,18 +44,13 @@ const UsersList = (): JSX.Element => {
 
   const [selectedUserId, setSelectedUserId] = useState('');
 
-  const { loading, data } = useQuery<GetAllUsers>(GET_ALL_USERS);
+  const { data } = useQuery<GetAllUsers>(GET_ALL_USERS);
 
-  const [deleteId, setDeleteId] = useState('');
-
-  let input: any;
-
-  const [mutateFunction] = useMutation<DeleteUser>(DELETE_USER);
   return (
     <div style={{ margin: '2rem 3rem 0 3rem' }}>
       <TitleBar
         title="Users"
-        onClickRigthBtn={() => console.log('click click')}
+        onClickRigthBtn={toggleDisplayAddUserModal}
         displayRightBtn
       />
       <TableContainer
@@ -71,15 +63,18 @@ const UsersList = (): JSX.Element => {
         component={Paper}
       >
         <Table
-          sx={{ maxWidth: 1200, mt: 3, border: 1, backgroundColor: '#fff' }}
+          sx={{
+            maxWidth: 1000,
+            mt: 3,
+            mb: 3,
+            border: 1,
+            backgroundColor: '#fff',
+          }}
           aria-label="simple table"
         >
           <TableHead>
             <TableRow sx={{ bgcolor: 'info.main' }}>
-              <TableCell
-                style={tableCellStyle}
-                align="left"
-              />
+              <TableCell style={tableCellStyle} align="left" />
               <TableCell style={tableCellStyle} align="left">
                 NAME
               </TableCell>
@@ -97,7 +92,7 @@ const UsersList = (): JSX.Element => {
               data.allUsers.map((user) => (
                 <>
                   <TableRow
-                    key={user.firstname}
+                    key={user._id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
@@ -113,30 +108,30 @@ const UsersList = (): JSX.Element => {
                     <TableCell align="left">{user.role}</TableCell>
                     <TableCell align="left" width={15}>
                       <Button
+                        size="small"
+                        color="error"
+                        sx={{
+                          width: '50px',
+                          height: '50px',
+                          borderRadius: '50px',
+                          minWidth: 'auto',
+                        }}
                         onClick={() => {
                           toggleUserDetailsCard();
                           setSelectedUserId(user._id);
                         }}
                       >
                         <ChevronRightIcon
-                          sx={{ color: 'var(--primary)', fontSize: 65 }}
+                          sx={{
+                            color: colors.primary,
+                            fontSize: 65,
+                            '&:hover': {
+                              color: 'var(--primary-hover)',
+                              boxShadow: 'none',
+                            },
+                          }}
                         />
                       </Button>
-                      {/* <button className="edit" type="submit">
-                      {ChevronRightIcon}
-                    </button> */}
-                      {/* <button
-                      className="delete"
-                      onClick={(e) => {
-                        mutateFunction({
-                          variables: { deleteUserId: user._id },
-                        });
-                        window.location.reload();
-                      }}
-                      type="submit"
-                    >
-                      {iconTrash}
-                    </button> */}
                     </TableCell>
                   </TableRow>
                 </>
@@ -144,6 +139,7 @@ const UsersList = (): JSX.Element => {
           </TableBody>
         </Table>
       </TableContainer>
+
       <Dialog
         open={displayUserDetailsCard}
         onClose={toggleUserDetailsCard}
@@ -154,13 +150,15 @@ const UsersList = (): JSX.Element => {
       >
         <UserDetailsCard userId={selectedUserId} />
       </Dialog>
-      <div className="containerAddUser">
-        <button id="addUser" type="submit">
-          <a id="linkAddUser" href="/add-user">
-            {iconPlus} Add a user
-          </a>
-        </button>
-      </div>
+
+      <Dialog
+        open={displayAddUserModal}
+        onClose={toggleDisplayAddUserModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <AddUserModal toggleDisplay={toggleDisplayAddUserModal} />
+      </Dialog>
     </div>
   );
 };
