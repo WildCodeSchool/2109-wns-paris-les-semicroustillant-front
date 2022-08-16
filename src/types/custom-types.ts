@@ -27,6 +27,9 @@ export interface IComponentCustomFilterChechBoxProps {
   onClick: () => void;
 };
 
+export interface IComponentModalTitleBarProps {
+  title: string;
+};
 
 // ====================================================
 // TASKS CARD
@@ -59,4 +62,14 @@ export interface IUserTicket {
 // ====================================================
 export interface IAddUserModal {
   toggleDisplay: () => void;
+}
+
+export interface IAddUserInputValues {
+  firstname: string;
+  lastname: string;
+  email: string;
+  hash: string;
+  confirmHash?: string;
+  role: string;
+  position: string;
 }
