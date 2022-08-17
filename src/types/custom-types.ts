@@ -83,4 +83,5 @@ export interface IAddUserInputValues {
 
 export interface IUserDetails {
   userId: string;
+  toggleDisplay: () => void;
 }

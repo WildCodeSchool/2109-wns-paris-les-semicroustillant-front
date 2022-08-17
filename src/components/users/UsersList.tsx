@@ -148,7 +148,7 @@ const UsersList = (): JSX.Element => {
         fullWidth
         maxWidth="lg"
       >
-        <UserDetailsCard userId={selectedUserId} />
+        <UserDetailsCard userId={selectedUserId} toggleDisplay={toggleUserDetailsCard} />
       </Dialog>
 
       <Dialog

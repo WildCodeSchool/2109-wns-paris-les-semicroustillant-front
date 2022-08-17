@@ -1,21 +1,33 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
-import { Card, CardHeader, Typography, TextField, Box } from '@mui/material';
-import AvatarComponent from '../../assets/custom-components/AvatarComponent';
+import { useMutation, useQuery } from '@apollo/client';
+import { toast } from 'react-toastify';
+import { Card, CardHeader, Typography, TextField, Box, CardActions } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { GET_ONE_USER } from '../../queries/UserQueries';
+import AvatarComponent from '../../assets/custom-components/AvatarComponent';
+import CustomActionButton from '../../assets/custom-components/CustomActionButton';
+import {
+  GET_ALL_USERS,
+  GET_ONE_USER,
+  DELETE_USER,
+} from '../../queries/UserQueries';
+import { COUNT_PROJECTS_BY_USER_ID } from '../../queries/ProjectQueries';
 import { COUNT_TICKETS_BY_USER_ID } from '../../queries/TicketQueries';
 import {
   CountProjectsByUserId,
   CountTicketByUserId,
+  DeleteUser,
+  GetAllUsers,
   GetOneUser,
+  GetAllUsers_allUsers,
 } from '../../schemaTypes';
 import { IUserDetails } from '../../types/custom-types';
 
 import colors from '../../styles/globals';
-import { COUNT_PROJECTS_BY_USER_ID } from '../../queries/ProjectQueries';
 
-const UserDetailsCard = ({ userId }: IUserDetails): JSX.Element => {
+const UserDetailsCard = ({ userId, toggleDisplay }: IUserDetails): JSX.Element => {
+  const iconTrash = <FontAwesomeIcon icon={faTrash} />;
   const { data: userData } = useQuery<GetOneUser>(GET_ONE_USER, {
     variables: { userId },
   });
@@ -40,10 +52,47 @@ const UserDetailsCard = ({ userId }: IUserDetails): JSX.Element => {
   const span = (content: string) => (
     <Box
       component="span"
-      sx={{ display: 'inline-block', ml: '15px', mb: '15px', color: colors.primary }}
+      sx={{
+        display: 'inline-block',
+        ml: '15px',
+        mb: '15px',
+        color: colors.primary,
+      }}
     >
       {content}
     </Box>
+  );
+
+  const [deleteUserFunction] = useMutation<DeleteUser>(
+    DELETE_USER,
+
+    {
+      update(cache) {
+        const currentUserList: GetAllUsers = cache.readQuery({
+          query: GET_ALL_USERS,
+        }) ?? {
+          allUsers: [],
+        };
+
+        const updatedUserList = currentUserList?.allUsers.filter(
+          (u: GetAllUsers_allUsers) => u._id !== userId
+        );
+
+        cache.writeQuery({
+          query: GET_ALL_USERS,
+          data: {
+            allUsers: updatedUserList,
+          },
+        });
+        toast.success('User successfully deleted!');
+        toggleDisplay();
+      },
+      onError(error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+        toast.error(`${error.message}`);
+      },
+    }
   );
 
   const EditField = ({
@@ -137,6 +186,13 @@ const UserDetailsCard = ({ userId }: IUserDetails): JSX.Element => {
           {span('Total number of assigned tickets')}: {ticketNb}
         </Typography>
       </div>
+      <CardActions sx={{ float: 'right' }}>
+          <CustomActionButton
+            onClick={() => deleteUserFunction({ variables: { userId } })}
+          >
+            {iconTrash}
+          </CustomActionButton>
+        </CardActions>
     </Card>
   );
 };
