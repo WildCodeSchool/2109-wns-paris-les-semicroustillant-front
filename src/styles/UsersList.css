@@ -1,24 +1,5 @@
-.containerAddUser {
-  display: flex;
-  justify-content: center;
-}
-#addUser {
-  background: #1c76d2;
-  border: none;
-  color: white;
-  padding: 15px;
-  margin-bottom: 15px;
-  margin-right: 50px;
-}
-
 #addUser:hover {
   background: #155ca2;
-}
-
-#linkAddUser {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
 }
 
 .edit {

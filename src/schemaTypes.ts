@@ -4,28 +4,6 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getAllUsers
-// ====================================================
-
-export interface getAllUsers_allUsers {
-  __typename: "User";
-  _id: string;
-  firstname: string;
-  lastname: string;
-  position: string;
-  role: string;
-}
-
-export interface getAllUsers {
-  allUsers: getAllUsers_allUsers[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: login
 // ====================================================
 
@@ -95,6 +73,23 @@ export interface GetOneProject {
 
 export interface GetOneProjectVariables {
   projectId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: CountProjectsByUserId
+// ====================================================
+
+export interface CountProjectsByUserId {
+  countProjectsByUserId: number;
+}
+
+export interface CountProjectsByUserIdVariables {
+  countProjectsByUserIdId: string;
 }
 
 /* tslint:disable */
@@ -240,6 +235,23 @@ export interface DeleteTicketVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: CountTicketByUserId
+// ====================================================
+
+export interface CountTicketByUserId {
+  countTicketsByUserId: number;
+}
+
+export interface CountTicketByUserIdVariables {
+  countTicketsByUserIdId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetAllUsers
 // ====================================================
 
@@ -249,6 +261,7 @@ export interface GetAllUsers_allUsers {
   firstname: string;
   lastname: string;
   position: string;
+  role: string;
 }
 
 export interface GetAllUsers {

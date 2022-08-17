@@ -14,17 +14,13 @@ import {
 import MoreIcon from '@mui/icons-material/MoreVert';
 import colors from '../styles/globals';
 import AvatarComponent from '../assets/custom-components/AvatarComponent';
-import { GetOneUser } from '../schemaTypes';
+
 import { GET_ONE_USER } from '../queries/UserQueries';
+import { GetOneUser } from '../schemaTypes';
+import { IDecodedToken } from '../types/custom-types';
 
 import '../styles/Navbar.css';
 import Logo from '../images/logo_semi.png';
-
-interface IDecodedToken {
-  userId: string;
-  iat: number;
-  exp: number;
-}
 
 export default function PrimarySearchAppBar(): JSX.Element {
   const navigate = useNavigate();

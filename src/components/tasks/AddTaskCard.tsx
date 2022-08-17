@@ -1,121 +1,66 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import {
   Autocomplete,
+  Button,
   Card,
   CardActions,
   CardContent,
-  Button,
-  TextField,
   FormControl,
   MenuItem,
+  TextField,
 } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
+
+import ModalTitle from '../../assets/custom-components/ModalTitle';
+import { GET_ALL_PROJECTS } from '../../queries/ProjectQueries';
+import { GET_ALL_USERS } from '../../queries/UserQueries';
+import { ADD_TICKET, GET_ALL_TICKETS } from '../../queries/TicketQueries';
 import {
   GetTicketsProjects,
   GetAllUsers,
-  UpdateTicket,
+  TicketMutation,
   GetAllUsers_allUsers,
   GetTicketsProjects_getAllProjects,
-  GetOneProject,
-  getAllUsers,
+  getAllTickets,
 } from '../../schemaTypes';
-import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
-import { GET_ALL_PROJECTS, GET_PROJECT } from '../../queries/ProjectQueries';
-import { UPDATE_TICKET } from '../../queries/TicketQueries';
-import commonStatuses from '../../common-values/commonStatuses';
+import { commonStatuses } from '../../common-values/commonStatuses';
+import LoginContext from '../../context/LoginContext';
 
 import '../../styles/TaskList.css';
 
+interface IAddTaskCard {
+  toggleDisplay: () => void;
+}
+
 interface ITicketData {
   subject: string;
-  description: string | null;
+  description: string;
   initial_time_estimated: number | null;
   total_time_spent: number | null;
   project_id: string | null;
-}  
-interface IUpdateTaskCard {
-  toggleDisplay: () => void;
-  _id: string;
-  _created_by: string;
-  _status: string | null;
-  _subject: string;
-  _deadline: Date;
-  _description: string | null;
-  _initial_time_estimated: number | null;
-  _total_time_spent: number | null;
-  _project_id: string | null;
-  _users: IUserTicket[] | null;
 }
 
-interface IUserTicket {
-  _id: string;
-}
-
-function UpdateTaskCard({
-  toggleDisplay,
-  _id,
-  _created_by,
-  _status,
-  _subject,
-  _deadline,
-  _description,
-  _initial_time_estimated,
-  _total_time_spent,
-  _project_id,
-  _users,
-}: IUpdateTaskCard): JSX.Element {
-  const iconCheck = <FontAwesomeIcon icon={faCheck} />;
+function AddTaskCard({ toggleDisplay }: IAddTaskCard): JSX.Element {
   const statuses = commonStatuses;
-
-  const getCreatedByDetails = useQuery(GET_ONE_USER, {
-    variables: { userId: _created_by },
-  });
-  const createdByDetails = getCreatedByDetails.data?.getOneUser;
+  const { userId: currentUser } = useContext(LoginContext);
 
   const [ticketData, setTicketData] = useState<ITicketData>({
-    subject: _subject,
-    description: _description,
-    initial_time_estimated: _initial_time_estimated,
-    total_time_spent: _total_time_spent,
-    project_id: _project_id,
+    subject: '',
+    description: '',
+    initial_time_estimated: 0,
+    total_time_spent: 0,
+    project_id: '',
   });
-  const [pickDeadline, setPickDeadline] = useState<Date | null>(
-    new Date(_deadline)
-  );
-  const [selectStatus, setSelectStatus] = useState<string>(_status || '');
-
-  const getProjectDetails = useQuery<GetOneProject>(GET_PROJECT, {
-    variables: { projectId: _project_id },
-  });
-  const projectDetails = getProjectDetails.data?.getOneProject;
-
+  const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
+  const [selectStatus, setSelectStatus] = useState<string>('');
   const [selectProject, setSelectProject] = useState<
     GetTicketsProjects_getAllProjects | null | undefined
-  >(projectDetails);
-
+  >(null);
   const [inputValue, setInputValue] = useState('');
-
-  const getUsersNames = useQuery<getAllUsers>(GET_ALL_USERS);
-  const allUsers = getUsersNames.data?.allUsers;
-
-  const usersNames = () => {
-    const result: GetAllUsers_allUsers[] = [];
-    allUsers?.map((user) => 
-      _users?.map((userId) => user._id === userId._id && result.push(user))
-    );
-    return result;
-  };
-
-  const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>(
-    usersNames()
-  );
-
+  const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>([]);
   const [inputError, setInputError] = useState({
     created_by: false,
     status: false,
@@ -143,7 +88,7 @@ function UpdateTaskCard({
   const users = userData?.data?.allUsers;
 
   const ticketVariables = {
-    _id,
+    created_by: currentUser,
     subject: ticketData.subject,
     status: selectStatus,
     deadline: pickDeadline,
@@ -154,11 +99,29 @@ function UpdateTaskCard({
     users: selectUsers.map((user) => user._id),
   };
 
-  // TODO: error handling
-  const [updateTicketFunction] = useMutation<UpdateTicket>(UPDATE_TICKET, {
-    onCompleted() {
-      toast.success('Ticket updated!');
-      toggleDisplay();
+  const [addTicketFunction] = useMutation<TicketMutation>(ADD_TICKET, {
+    update(cache, { data }) {
+      const currentTasksList: getAllTickets = cache.readQuery({
+        query: GET_ALL_TICKETS,
+      }) ?? {
+        allTickets: [],
+      };
+      const result = {
+        ...data?.addTicket,
+        advancement: 0,
+        _id: 'temporaryId',
+      };
+
+      if (result) {
+        cache.writeQuery({
+          query: GET_ALL_TICKETS,
+          data: {
+            allTickets: [...currentTasksList.allTickets, result],
+          },
+        });
+        toast.success('Ticket created!');
+        toggleDisplay();
+      }
     },
     onError(error) {
       // eslint-disable-next-line no-console
@@ -169,7 +132,14 @@ function UpdateTaskCard({
 
   return (
     <div className="cardContainer">
-      <Card sx={{ minWidth: 600, display: 'flex', justifyContent: 'center' }}>
+      <ModalTitle title="Add a new task" />
+      <Card
+        sx={{
+          minWidth: 600,
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <CardContent>
           <FormControl
             sx={{ m: 1, minWidth: 120 }}
@@ -177,13 +147,6 @@ function UpdateTaskCard({
               e.preventDefault();
             }}
           >
-            <TextField
-              disabled
-              margin="normal"
-              label="Created by"
-              value={createdByDetails && `${createdByDetails.firstname} ${createdByDetails.lastname} - ${createdByDetails.position}`}
-            />
-
             <TextField
               required
               error={inputError.status}
@@ -235,6 +198,7 @@ function UpdateTaskCard({
             />
             <TextField
               id="initial_time_estimated"
+              error={inputError.initial_time_estimated}
               margin="normal"
               label="Initial time estimated (hours)"
               value={ticketData.initial_time_estimated}
@@ -245,6 +209,7 @@ function UpdateTaskCard({
               }
             />
             <TextField
+              error={inputError.total_time_spent}
               id="total_time_spent"
               margin="normal"
               label="Total time spent (hours)"
@@ -287,14 +252,16 @@ function UpdateTaskCard({
               onChange={(event, newValue) => {
                 setSelectUsers(newValue);
               }}
-              getOptionLabel={(user) => `${user.firstname} ${user.lastname} - ${user.position}`}
+              getOptionLabel={(user) =>
+                `${user.firstname} ${user.lastname} - ${user.position}`
+              }
               filterSelectedOptions
               renderInput={(params) => (
                 <TextField
                   // eslint-disable-next-line react/jsx-props-no-spreading
                   {...params}
                   label="Users"
-                  placeholder={selectUsers.length !== 0 ? undefined : 'Users'}
+                  placeholder="Users"
                 />
               )}
             />
@@ -303,6 +270,7 @@ function UpdateTaskCard({
               <Button
                 size="large"
                 type="submit"
+                color="error" 
                 disabled={
                   !selectStatus ||
                   !ticketData.subject ||
@@ -315,9 +283,9 @@ function UpdateTaskCard({
                 onClick={(e) => {
                   e.preventDefault();
                   if (selectStatus && ticketData.subject && selectProject) {
-                    updateTicketFunction({
+                    addTicketFunction({
                       variables: {
-                        ticketInputUpdate: ticketVariables,
+                        ticketInput: ticketVariables,
                       },
                     });
                   }
@@ -356,7 +324,7 @@ function UpdateTaskCard({
                   }
                 }}
               >
-                {iconCheck}
+                SUBMIT
               </Button>
             </CardActions>
           </FormControl>
@@ -366,4 +334,4 @@ function UpdateTaskCard({
   );
 }
 
-export default UpdateTaskCard;
+export default AddTaskCard;

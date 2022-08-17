@@ -1,8 +1,9 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import '../styles/Homepage.css';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
+
 import colors from '../styles/globals';
+import '../styles/Homepage.css';
 
 export default function Homepage(): JSX.Element {
   const navigate = useNavigate();

@@ -1,20 +1,25 @@
 import React, { useState, useMemo } from 'react';
-import Card from '@mui/material/Card';
 import { useQuery } from '@apollo/client';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Dialog,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
+
 import UpdateTaskCard from './UpdateTaskCard';
-import colors from '../../styles/globals';
-import { GetAllUsers_allUsers, getAllUsers } from '../../schemaTypes';
 import { GET_ONE_USER, GET_ALL_USERS } from '../../queries/UserQueries';
+import { GetAllUsers_allUsers, GetAllUsers } from '../../schemaTypes';
+import statusColor from '../../utils/statusColor';
+
+import colors from '../../styles/globals';
 
 interface ITicketDetails {
   _id: string;
@@ -57,7 +62,7 @@ function TaskDetails({
     setDisplayUpdate(!displayUpdate);
   };
 
-  const getUsersNames = useQuery<getAllUsers>(GET_ALL_USERS);
+  const getUsersNames = useQuery<GetAllUsers>(GET_ALL_USERS);
   const allUsers = getUsersNames.data?.allUsers;
 
   const usersNames = () => {
@@ -82,7 +87,12 @@ function TaskDetails({
           sx={{ pb: 0 }}
           title={
             <Typography
-              sx={{ fontSize: 14, color: colors.primary, m: 0 }}
+              sx={{
+                fontSize: 14,
+                fontWeight: 'bold',
+                color: statusColor(status || ''),
+                m: 0,
+              }}
               gutterBottom
             >
               {status}
@@ -116,7 +126,7 @@ function TaskDetails({
             {span('Total time spent')}: {total_time_spent} hours
           </Typography>
           <Typography sx={{ mb: 1.5 }} variant="body2">
-            {span('Advancement')}: {advancement}
+            {span('Advancement')}: {advancement} %
           </Typography>
           <Typography sx={{ mb: 1.5 }} variant="body2">
             {span('Users')}:
