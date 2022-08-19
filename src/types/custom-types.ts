@@ -55,12 +55,29 @@ export interface ITicketCard {
   users: IUserTicket[] | null;
 }
 
+export interface IAddTicketInputValues {
+  created_by: string;
+  subject: string;
+  status: string;
+  deadline?: Date;
+  description?: string;
+  initial_time_estimated?: number;
+  total_time_spent?: number;
+  advancement?: number;
+  project_id: string;
+  users?: IUserTicket[];
+}
+
 export interface IExistingTickets {
   allTickets: ITicketCard[];
 }
 
 export interface IUserTicket {
   _id: string;
+}
+
+export interface IAddTaskCard {
+  toggleDisplay: () => void;
 }
 
 

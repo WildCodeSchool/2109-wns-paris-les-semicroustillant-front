@@ -174,7 +174,7 @@ const AddUserForm = ({ toggleDisplay }: IAddUserModal): JSX.Element => {
             allUsers: [...currentUserList.allUsers, data?.addUser],
           },
         });
-        toast.success('Ticket created!');
+        toast.success('User created!');
         toggleDisplay();
       },
       onError(error) {
