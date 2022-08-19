@@ -21,7 +21,7 @@ import Project from './components/Project';
 
 import LoginContext from './context/LoginContext';
 import { CHECK_USER_TOKEN } from './queries/AuthQueries';
-import { CheckUserToken } from './schemaTypes';
+import { ICheckUserToken } from './schemaTypes';
 import { InsideToken, CustomJwtPayload } from './types/custom-types';
 
 import './App.css';
@@ -30,23 +30,24 @@ export default function AppRouter(): JSX.Element {
   const [userId, setUserId] = useState<InsideToken>(null);
   const [userRole, setUserRole] = useState<InsideToken>(null);
 
-  const checkUserToken = () => {
+  const CheckUserToken = () => {
     const token = localStorage.getItem('token');
+
+    const { data } = useQuery<ICheckUserToken>(CHECK_USER_TOKEN, {
+      skip: !token,
+      variables: { token },
+    });
 
     if (!token) {
       return false;
     }
-
-    const { data } = useQuery<CheckUserToken>(CHECK_USER_TOKEN, {
-      variables: { token },
-    });
 
     return data?.checkUserToken ?? [];
   };
 
   const ProtectedRoutes = () => {
     useLocation();
-    const auth = checkUserToken();
+    const auth = CheckUserToken();
 
     if (!auth) {
       localStorage.removeItem('token');

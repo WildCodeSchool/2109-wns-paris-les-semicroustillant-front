@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import { useFormik, FormikProps } from 'formik';
@@ -19,7 +20,7 @@ import { AddOneUser, GetAllUsers } from '../schemaTypes';
 import { IAddUserInputValues, IAddUserModal } from '../types/custom-types';
 import LoginContext from '../context/LoginContext';
 
-const form = (formik: FormikProps<IAddUserInputValues>) => {
+const Form = (formik: FormikProps<IAddUserInputValues>) => {
   const { userRole } = useContext(LoginContext);
 
   return (
@@ -209,7 +210,7 @@ const AddUserForm = ({ toggleDisplay }: IAddUserModal): JSX.Element => {
       },
     });
 
-  return form(formik);
+  return Form(formik);
 };
 
 export default AddUserForm;

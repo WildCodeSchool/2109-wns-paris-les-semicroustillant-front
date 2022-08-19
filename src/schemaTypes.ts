@@ -25,7 +25,7 @@ export interface loginVariables {
 // GraphQL query operation: CheckUserToken
 // ====================================================
 
-export interface CheckUserToken {
+export interface ICheckUserToken {
   checkUserToken: boolean;
 }
 
@@ -43,7 +43,7 @@ export interface CheckUserTokenVariables {
 // ====================================================
 
 export interface GetTicketsProjects_getAllProjects {
-  __typename: "Project";
+  __typename: 'Project';
   _id: string;
   name: string;
 }
@@ -62,7 +62,7 @@ export interface GetTicketsProjects {
 // ====================================================
 
 export interface GetOneProject_getOneProject {
-  __typename: "Project";
+  __typename: 'Project';
   _id: string;
   name: string;
 }
@@ -102,17 +102,17 @@ export interface CountProjectsByUserIdVariables {
 // ====================================================
 
 export interface getAllTickets_allTickets_project_id {
-  __typename: "Project";
+  __typename: 'Project';
   _id: string;
 }
 
 export interface getAllTickets_allTickets_users {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
 }
 
 export interface getAllTickets_allTickets {
-  __typename: "Ticket";
+  __typename: 'Ticket';
   _id: string;
   created_by: string;
   subject: string;
@@ -140,17 +140,17 @@ export interface getAllTickets {
 // ====================================================
 
 export interface TicketMutation_addTicket_project_id {
-  __typename: "Project";
+  __typename: 'Project';
   _id: string;
 }
 
 export interface TicketMutation_addTicket_users {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
 }
 
 export interface TicketMutation_addTicket {
-  __typename: "Ticket";
+  __typename: 'Ticket';
   created_by: string;
   subject: string;
   status: string;
@@ -180,17 +180,17 @@ export interface TicketMutationVariables {
 // ====================================================
 
 export interface UpdateTicket_updateTicket_project_id {
-  __typename: "Project";
+  __typename: 'Project';
   _id: string;
 }
 
 export interface UpdateTicket_updateTicket_users {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
 }
 
 export interface UpdateTicket_updateTicket {
-  __typename: "Ticket";
+  __typename: 'Ticket';
   _id: string;
   created_by: string;
   subject: string;
@@ -256,7 +256,7 @@ export interface CountTicketByUserIdVariables {
 // ====================================================
 
 export interface GetAllUsers_allUsers {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   firstname: string;
   lastname: string;
@@ -278,7 +278,7 @@ export interface GetAllUsers {
 // ====================================================
 
 export interface getAllUsersEmail_allUsers {
-  __typename: "User";
+  __typename: 'User';
   email: string;
 }
 
@@ -296,7 +296,7 @@ export interface getAllUsersEmail {
 // ====================================================
 
 export interface GetOneUser_getOneUser {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   firstname: string;
   lastname: string;
@@ -323,7 +323,7 @@ export interface GetOneUserVariables {
 // ====================================================
 
 export interface AddOneUser_addUser {
-  __typename: "User";
+  __typename: 'User';
   _id: string;
   firstname: string;
   lastname: string;
