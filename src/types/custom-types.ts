@@ -21,22 +21,22 @@ export type CustomJwtPayload = JwtPayload & IDecodedToken;
 export interface IComponentActionBtnProps {
   children: React.ReactNode;
   onClick: () => void;
-};
+}
 
 export interface IComponentTitleBarProps {
   title: string;
   onClickRigthBtn: () => void;
   hideRightBtn?: boolean;
-};
+}
 
 export interface IComponentCustomFilterChechBoxProps {
   label: string;
   onClick: () => void;
-};
+}
 
 export interface IComponentModalTitleBarProps {
   title: string;
-};
+}
 
 // ====================================================
 // TASKS CARD
@@ -62,7 +62,6 @@ export interface IExistingTickets {
 export interface IUserTicket {
   _id: string;
 }
-
 
 // ====================================================
 // USERS CARD
