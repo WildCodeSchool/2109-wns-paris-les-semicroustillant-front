@@ -88,6 +88,10 @@ export interface IAddUserModal {
   toggleDisplay: () => void;
 }
 
+export interface IAddUserForm {
+  addUserFunction: ({variables}: any) => void;
+}
+
 export interface IAddUserInputValues {
   firstname: string;
   lastname: string;
