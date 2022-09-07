@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { useMutation } from '@apollo/client';
 import { useFormik, FormikProps } from 'formik';
 import {
   Card,
@@ -9,14 +8,11 @@ import {
   MenuItem,
   Button,
 } from '@mui/material';
-import { toast } from 'react-toastify';
 import ModalTitle from '../assets/custom-components/ModalTitle';
 import addUserFormValidationSchema from '../validations/addUserFormValidationSchema';
 import commonPositions from '../common-values/commonPositions';
 import rolesList from '../utils/rolesList';
-import { ADD_ONE_USER, GET_ALL_USERS } from '../queries/UserQueries';
-import { AddOneUser, GetAllUsers } from '../schemaTypes';
-import { IAddUserInputValues, IAddUserModal } from '../types/custom-types';
+import { IAddUserForm, IAddUserInputValues } from '../types/custom-types';
 import LoginContext from '../context/LoginContext';
 
 const form = (formik: FormikProps<IAddUserInputValues>) => {
@@ -156,35 +152,7 @@ const form = (formik: FormikProps<IAddUserInputValues>) => {
   );
 };
 
-const AddUserForm = ({ toggleDisplay }: IAddUserModal): JSX.Element => {
-  const [addUserFunction] = useMutation<AddOneUser>(
-    ADD_ONE_USER,
-
-    {
-      update(cache, { data }) {
-        const currentUserList: GetAllUsers = cache.readQuery({
-          query: GET_ALL_USERS,
-        }) ?? {
-          allUsers: [],
-        };
-
-        cache.writeQuery({
-          query: GET_ALL_USERS,
-          data: {
-            allUsers: [...currentUserList.allUsers, data?.addUser],
-          },
-        });
-        toast.success('Ticket created!');
-        toggleDisplay();
-      },
-      onError(error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-        toast.error(`${error.message}`);
-      },
-    }
-  );
-
+const AddUserForm = ({ addUserFunction }: IAddUserForm): JSX.Element => {
   const formik: FormikProps<IAddUserInputValues> =
     useFormik<IAddUserInputValues>({
       initialValues: {

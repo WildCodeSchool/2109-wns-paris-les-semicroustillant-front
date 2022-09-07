@@ -8,5 +8,3 @@ const Users = (): JSX.Element => (
   </Container>
 );
 export default Users;
-
-// @FREDY / LORRIS / SOPHIE: to be deleted if never used

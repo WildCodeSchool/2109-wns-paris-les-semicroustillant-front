@@ -25,12 +25,6 @@ function TaskList(): JSX.Element {
   };
   const { data, error } = useQuery<getAllTickets>(GET_ALL_TICKETS);
 
-  // @FREDY
-  /**
-   * PB PERFORMANCES AND RELOAD --> Add project name + user firstname + lastname
-   * Add icons for pending / blocked / in progress / done --> sablier (grey) / warning (orange) / casque chantier (blue) / check (green)
-   */
-
   return (
     <div style={{ margin: '2rem 3rem 0 3rem' }}>
       <TitleBar title="Tasks" onClickRigthBtn={toggleDisplay} />
