@@ -155,7 +155,6 @@ function UpdateTaskCard({
     users: selectUsers.map((user) => user._id),
   };
 
-  // TODO: error handling
   const [updateTicketFunction] = useMutation<UpdateTicket>(UPDATE_TICKET, {
     onCompleted() {
       toast.success('Ticket updated!');

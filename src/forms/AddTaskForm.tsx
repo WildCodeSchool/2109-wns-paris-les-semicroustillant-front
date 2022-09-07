@@ -29,10 +29,6 @@ import { GET_ALL_PROJECTS } from '../queries/ProjectQueries';
 
 const form = (formik: FormikProps<IAddTicketInputValues>) => {
   const [pickDeadline, setPickDeadline] = useState<Date | null>(new Date());
-//   const [selectUsers, setSelectUsers] = useState<GetAllUsers_allUsers[]>([]);
-//   const [selectProject, setSelectProject] = useState<
-//   GetTicketsProjects_getAllProjects | null | undefined
-// >(null);
 
   const projectsData = useQuery<GetTicketsProjects>(GET_ALL_PROJECTS);
   const projects = projectsData.data?.getAllProjects;
@@ -307,12 +303,12 @@ const AddTaskForm = ({ toggleDisplay }: IAddTaskCard): JSX.Element => {
         created_by: currentUser,
         subject: '',
         status: '',
-        deadline: new Date(),// use useState values
+        deadline: new Date(),
         description: '',
         initial_time_estimated: 0,
         total_time_spent: 0,
-        project_id: '', // use useState values
-        users: [],// use useState values
+        project_id: '',
+        users: [],
       },
       validationSchema: addTaskFormValidationSchema,
       onSubmit: (values: IAddTicketInputValues) => {

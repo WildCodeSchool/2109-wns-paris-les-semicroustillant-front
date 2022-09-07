@@ -11,8 +11,6 @@ const DeleteUserX = (): JSX.Element => {
   const [deleteUserFunction, { data, loading, error }] =
     useMutation<DeleteUser>(DELETE_USER);
 
-  //   console.log('data : ', data);
-
   console.log('hello');
   return (
     <div>

@@ -172,11 +172,9 @@ const UserDetailsCard = ({ userId, toggleDisplay }: IUserDetails): JSX.Element =
       </div>
       <div
         style={{
-          // display: 'flex',
           padding: '15px',
           paddingTop: '30px',
           flexWrap: 'wrap',
-          // justifyContent: 'space-between',
         }}
       >
         <Typography sx={{ mb: 1.5 }} variant="body2">
